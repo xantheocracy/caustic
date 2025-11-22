@@ -255,7 +255,7 @@ calculateBtn.addEventListener('click', async () => {
     try {
         resultDiv.textContent = 'Calculating...';
 
-        const response = await fetch('http://localhost:8000/square', {
+        const response = await fetch('http://localhost:8000/cube', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -268,9 +268,9 @@ calculateBtn.addEventListener('click', async () => {
         }
 
         const data = await response.json();
-        resultDiv.textContent = `${data.number}² = ${data.square}`;
+        resultDiv.textContent = `${data.number}³ = ${data.cube}`;
     } catch (error) {
         console.error('Error:', error);
-        resultDiv.textContent = 'Error calculating square. Is the backend running?';
+        resultDiv.textContent = 'Error calculating cube. Is the backend running?';
     }
 });

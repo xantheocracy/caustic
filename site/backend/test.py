@@ -22,13 +22,13 @@ class NumberInput(BaseModel):
 def read_root():
     return {"message": "Hello, World!"}
 
-@app.post("/square")
-def square_number(input_data: NumberInput):
+@app.post("/cube")
+def cube_number(input_data: NumberInput):
     """
-    Receives a number and returns its square
+    Receives a number and returns its cube
     """
-    result = input_data.number ** 2
-    return {"number": input_data.number, "square": result}
+    result = input_data.number ** 3
+    return {"number": input_data.number, "cube": result}
 
 # Mount static files - serve the frontend directory
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
