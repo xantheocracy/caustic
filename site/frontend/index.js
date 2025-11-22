@@ -34,14 +34,104 @@ controls.dampingFactor = 0.05;
 controls.enableZoom = true;
 controls.zoomSpeed = 1.0;
 
-// Load room triangles (static)
-const roomResponse = await fetch('/static/room.json');
-const roomData = await roomResponse.json();
-const triangleData = roomData.triangles;
+// Initialize room data
+let triangleData = [];
+let roomMesh = null;
+let roomEdges = null;
+let roomBounds = { min: { x: 0, y: 0, z: 0 }, max: { x: 10, y: 10, z: 10 } };
 
 // Initialize lights array and simulation results
 let lights = [];
 let points = [];
+
+// Calculate bounding box from triangles
+function calculateBounds(triangles) {
+    if (!triangles || triangles.length === 0) {
+        return { min: { x: 0, y: 0, z: 0 }, max: { x: 10, y: 10, z: 10 } };
+    }
+
+    let minX = Infinity, minY = Infinity, minZ = Infinity;
+    let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+
+    triangles.forEach(triangle => {
+        // Check all three vertices
+        [triangle.v0, triangle.v1, triangle.v2].forEach(v => {
+            if (v.x < minX) minX = v.x;
+            if (v.x > maxX) maxX = v.x;
+            if (v.y < minY) minY = v.y;
+            if (v.y > maxY) maxY = v.y;
+            if (v.z < minZ) minZ = v.z;
+            if (v.z > maxZ) maxZ = v.z;
+        });
+    });
+
+    return {
+        min: { x: minX, y: minY, z: minZ },
+        max: { x: maxX, y: maxY, z: maxZ }
+    };
+}
+
+// Update light input bounds based on room geometry
+function updateLightInputBounds() {
+    const lightX = document.getElementById('light-x');
+    const lightY = document.getElementById('light-y');
+    const lightZ = document.getElementById('light-z');
+
+    if (!lightX || !lightY || !lightZ) return;
+
+    lightX.min = roomBounds.min.x;
+    lightX.max = roomBounds.max.x;
+    lightX.step = (roomBounds.max.x - roomBounds.min.x) / 20;
+    lightX.value = (roomBounds.min.x + roomBounds.max.x) / 2;
+
+    lightY.min = roomBounds.min.y;
+    lightY.max = roomBounds.max.y;
+    lightY.step = (roomBounds.max.y - roomBounds.min.y) / 20;
+    lightY.value = roomBounds.max.y * 0.95; // Near the top
+
+    lightZ.min = roomBounds.min.z;
+    lightZ.max = roomBounds.max.z;
+    lightZ.step = (roomBounds.max.z - roomBounds.min.z) / 20;
+    lightZ.value = (roomBounds.min.z + roomBounds.max.z) / 2;
+
+    // Update labels
+    const labelX = document.querySelector('label[for="light-x"]');
+    const labelY = document.querySelector('label[for="light-y"]');
+    const labelZ = document.querySelector('label[for="light-z"]');
+
+    if (labelX) labelX.textContent = `Position X (${roomBounds.min.x.toFixed(1)}-${roomBounds.max.x.toFixed(1)}):`;
+    if (labelY) labelY.textContent = `Position Y (${roomBounds.min.y.toFixed(1)}-${roomBounds.max.y.toFixed(1)}):`;
+    if (labelZ) labelZ.textContent = `Position Z (${roomBounds.min.z.toFixed(1)}-${roomBounds.max.z.toFixed(1)}):`;
+}
+
+// Load room triangles from settings file
+async function loadRoomSettings(settingsFile) {
+    try {
+        const roomResponse = await fetch(`/static/settings/${settingsFile}`);
+        const roomData = await roomResponse.json();
+        triangleData = roomData.triangles;
+
+        // Calculate bounds from geometry
+        roomBounds = calculateBounds(triangleData);
+        console.log('Room bounds:', roomBounds);
+
+        // Update input field bounds
+        updateLightInputBounds();
+
+        // Clear previous room visualization
+        if (roomMesh) scene.remove(roomMesh);
+        if (roomEdges) scene.remove(roomEdges);
+
+        // Visualize the new room
+        visualizeTriangles();
+
+        console.log(`Loaded settings from ${settingsFile}`);
+        return true;
+    } catch (error) {
+        console.error(`Error loading settings file ${settingsFile}:`, error);
+        return false;
+    }
+}
 
 // Color map utility for total_intensity (green for low, yellow for mid, red for high)
 function getColorForIntensity(intensity, minI, maxI) {
@@ -97,8 +187,8 @@ function visualizeTriangles() {
         side: THREE.DoubleSide
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    roomMesh = new THREE.Mesh(geometry, material);
+    scene.add(roomMesh);
 
     // Create edges
     const edges = new THREE.EdgesGeometry(geometry);
@@ -106,11 +196,11 @@ function visualizeTriangles() {
         color: 0xff69b4,
         linewidth: 2
     });
-    const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
-    scene.add(edgeLines);
+    roomEdges = new THREE.LineSegments(edges, edgeMaterial);
+    scene.add(roomEdges);
 
     // Center camera on the geometry
-    const box = new THREE.Box3().setFromObject(mesh);
+    const box = new THREE.Box3().setFromObject(roomMesh);
     const center = box.getCenter(new THREE.Vector3());
     controls.target.copy(center);
     controls.update();
@@ -225,9 +315,6 @@ function visualizeLights() {
     console.log(`Plotted ${plotted} lights as yellow spheres`);
 }
 
-// Render the triangles initially
-visualizeTriangles();
-
 // Handle window resize
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -250,6 +337,7 @@ const lightMeshes = [];
 const pointMeshes = [];
 
 // UI elements
+const settingsSelect = document.getElementById('settings-select');
 const lightX = document.getElementById('light-x');
 const lightY = document.getElementById('light-y');
 const lightZ = document.getElementById('light-z');
@@ -372,7 +460,10 @@ runSimulationBtn.addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ lights: lightsArray })
+            body: JSON.stringify({
+                lights: lightsArray,
+                settings_file: settingsSelect.value
+            })
         });
 
         if (!response.ok) {
@@ -452,5 +543,41 @@ runSimulationBtn.addEventListener('click', async () => {
     }
 });
 
-// Initialize display
-updateLightsDisplay();
+// Handle settings change
+settingsSelect.addEventListener('change', async () => {
+    const settingsFile = settingsSelect.value;
+    resultDiv.textContent = 'Loading settings...';
+    resultDiv.style.color = '#2196F3';
+
+    const success = await loadRoomSettings(settingsFile);
+    if (success) {
+        resultDiv.textContent = `Settings loaded: ${settingsFile}`;
+        resultDiv.style.color = '#4CAF50';
+    } else {
+        resultDiv.textContent = `Error loading settings: ${settingsFile}`;
+        resultDiv.style.color = '#ff4444';
+    }
+});
+
+// Load available settings files
+async function loadAvailableSettings() {
+    try {
+        const response = await fetch('http://localhost:8000/settings');
+        const data = await response.json();
+
+        if (data.settings && data.settings.length > 0) {
+            settingsSelect.innerHTML = data.settings
+                .map(file => `<option value="${file}">${file.replace('.json', '')}</option>`)
+                .join('');
+        }
+    } catch (error) {
+        console.log('Could not load settings list, using default:', error);
+    }
+}
+
+// Initialize
+(async () => {
+    await loadAvailableSettings();
+    await loadRoomSettings(settingsSelect.value);
+    updateLightsDisplay();
+})();
