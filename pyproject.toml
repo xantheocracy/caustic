@@ -7,7 +7,9 @@ authors = [
     { name = "xantheocracy", email = "101575540+xantheocracy@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.121.3",
+]
 
 [build-system]
 requires = ["hatchling"]
