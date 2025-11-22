@@ -38,10 +38,71 @@ controls.zoomSpeed = 1.0;
 let triangleData = [];
 let roomMesh = null;
 let roomEdges = null;
+let roomBounds = { min: { x: 0, y: 0, z: 0 }, max: { x: 10, y: 10, z: 10 } };
 
 // Initialize lights array and simulation results
 let lights = [];
 let points = [];
+
+// Calculate bounding box from triangles
+function calculateBounds(triangles) {
+    if (!triangles || triangles.length === 0) {
+        return { min: { x: 0, y: 0, z: 0 }, max: { x: 10, y: 10, z: 10 } };
+    }
+
+    let minX = Infinity, minY = Infinity, minZ = Infinity;
+    let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+
+    triangles.forEach(triangle => {
+        // Check all three vertices
+        [triangle.v0, triangle.v1, triangle.v2].forEach(v => {
+            if (v.x < minX) minX = v.x;
+            if (v.x > maxX) maxX = v.x;
+            if (v.y < minY) minY = v.y;
+            if (v.y > maxY) maxY = v.y;
+            if (v.z < minZ) minZ = v.z;
+            if (v.z > maxZ) maxZ = v.z;
+        });
+    });
+
+    return {
+        min: { x: minX, y: minY, z: minZ },
+        max: { x: maxX, y: maxY, z: maxZ }
+    };
+}
+
+// Update light input bounds based on room geometry
+function updateLightInputBounds() {
+    const lightX = document.getElementById('light-x');
+    const lightY = document.getElementById('light-y');
+    const lightZ = document.getElementById('light-z');
+
+    if (!lightX || !lightY || !lightZ) return;
+
+    lightX.min = roomBounds.min.x;
+    lightX.max = roomBounds.max.x;
+    lightX.step = (roomBounds.max.x - roomBounds.min.x) / 20;
+    lightX.value = (roomBounds.min.x + roomBounds.max.x) / 2;
+
+    lightY.min = roomBounds.min.y;
+    lightY.max = roomBounds.max.y;
+    lightY.step = (roomBounds.max.y - roomBounds.min.y) / 20;
+    lightY.value = roomBounds.max.y * 0.95; // Near the top
+
+    lightZ.min = roomBounds.min.z;
+    lightZ.max = roomBounds.max.z;
+    lightZ.step = (roomBounds.max.z - roomBounds.min.z) / 20;
+    lightZ.value = (roomBounds.min.z + roomBounds.max.z) / 2;
+
+    // Update labels
+    const labelX = document.querySelector('label[for="light-x"]');
+    const labelY = document.querySelector('label[for="light-y"]');
+    const labelZ = document.querySelector('label[for="light-z"]');
+
+    if (labelX) labelX.textContent = `Position X (${roomBounds.min.x.toFixed(1)}-${roomBounds.max.x.toFixed(1)}):`;
+    if (labelY) labelY.textContent = `Position Y (${roomBounds.min.y.toFixed(1)}-${roomBounds.max.y.toFixed(1)}):`;
+    if (labelZ) labelZ.textContent = `Position Z (${roomBounds.min.z.toFixed(1)}-${roomBounds.max.z.toFixed(1)}):`;
+}
 
 // Load room triangles from settings file
 async function loadRoomSettings(settingsFile) {
@@ -49,6 +110,13 @@ async function loadRoomSettings(settingsFile) {
         const roomResponse = await fetch(`/static/settings/${settingsFile}`);
         const roomData = await roomResponse.json();
         triangleData = roomData.triangles;
+
+        // Calculate bounds from geometry
+        roomBounds = calculateBounds(triangleData);
+        console.log('Room bounds:', roomBounds);
+
+        // Update input field bounds
+        updateLightInputBounds();
 
         // Clear previous room visualization
         if (roomMesh) scene.remove(roomMesh);
