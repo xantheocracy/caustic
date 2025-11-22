@@ -17,6 +17,7 @@ if src_path not in sys.path:
 from caustic import UVLightSimulator, IntensityConfig
 from caustic.core import Vector3, Light, Triangle
 from caustic.data import get_pathogen_database
+from caustic.spatial.mesh_sampler import MeshSampler
 
 app = FastAPI()
 
@@ -40,10 +41,25 @@ class LightInput(BaseModel):
 
 class SimulationRequest(BaseModel):
     lights: List[LightInput]
+    settings_file: str = "room.json"
 
 @app.get("/")
 def read_root():
     return {"message": "UV Light Simulator API", "frontend_url": "/static/index.html"}
+
+@app.get("/settings")
+def list_settings():
+    """
+    Returns list of available settings files
+    """
+    frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+    settings_path = os.path.join(frontend_path, "settings")
+
+    try:
+        files = [f for f in os.listdir(settings_path) if f.endswith('.json')]
+        return {"settings": sorted(files)}
+    except Exception as e:
+        return {"settings": ["room.json"], "error": str(e)}
 
 @app.post("/cube")
 def cube_number(input_data: BaseModel):
@@ -59,9 +75,9 @@ def run_simulation(request: SimulationRequest):
     """
     Runs UV light simulation with user-provided lights
     """
-    # Load room triangles from JSON file
+    # Load room triangles from JSON file in settings directory
     frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
-    room_json_path = os.path.join(frontend_path, "room.json")
+    room_json_path = os.path.join(frontend_path, "settings", request.settings_file)
 
     with open(room_json_path, 'r') as f:
         room_data = json.load(f)
@@ -95,10 +111,11 @@ def run_simulation(request: SimulationRequest):
 
     # Generate test points on the floor
     test_points = []
-    floor_y = 0.1
-    for x in range(1, 20, 1):
-        for z in range(1, 20, 1):
-            test_points.append(Vector3(x/2, floor_y, z/2))
+    # floor_y = 0.1
+    # for x in range(1, 20, 1):
+    #     for z in range(1, 20, 1):
+    #         test_points.append(Vector3(x/2, floor_y, z/2))
+    test_points = MeshSampler.generate_measurement_points(triangles, 500, 0.5, 0.9, 10)
 
     # Run simulation with 60 second exposure
     exposure_time = 60
