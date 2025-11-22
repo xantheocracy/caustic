@@ -34,12 +34,14 @@ controls.dampingFactor = 0.05;
 controls.enableZoom = true;
 controls.zoomSpeed = 1.0;
 
-// Load simulation results
-const response = await fetch('simulation_results.json');
-const simulationResults = await response.json();
-const triangleData = simulationResults.triangles;
-const points = simulationResults.points;
-const lights = simulationResults.lights;
+// Load room triangles (static)
+const roomResponse = await fetch('/static/room.json');
+const roomData = await roomResponse.json();
+const triangleData = roomData.triangles;
+
+// Initialize lights array and simulation results
+let lights = [];
+let points = [];
 
 // Color map utility for total_intensity (green for low, yellow for mid, red for high)
 function getColorForIntensity(intensity, minI, maxI) {
@@ -223,10 +225,8 @@ function visualizeLights() {
     console.log(`Plotted ${plotted} lights as yellow spheres`);
 }
 
-// Render the triangles, points, and lights
+// Render the triangles initially
 visualizeTriangles();
-visualizePoints();
-visualizeLights();
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -244,23 +244,135 @@ function animate() {
 
 animate();
 
-// Backend communication for square calculator
-const calculateBtn = document.getElementById('calculate-btn');
-const numberSelect = document.getElementById('number-select');
+// UI state management
+const lightsArray = [];
+const lightMeshes = [];
+const pointMeshes = [];
+
+// UI elements
+const lightX = document.getElementById('light-x');
+const lightY = document.getElementById('light-y');
+const lightZ = document.getElementById('light-z');
+const lightIntensity = document.getElementById('light-intensity');
+const addLightBtn = document.getElementById('add-light-btn');
+const runSimulationBtn = document.getElementById('run-simulation-btn');
+const clearLightsBtn = document.getElementById('clear-lights-btn');
+const lightsList = document.getElementById('lights-list');
+const lightCount = document.getElementById('light-count');
 const resultDiv = document.getElementById('result');
 
-calculateBtn.addEventListener('click', async () => {
-    const selectedNumber = parseInt(numberSelect.value);
+// Update lights display
+function updateLightsDisplay() {
+    lightCount.textContent = lightsArray.length;
+
+    if (lightsArray.length === 0) {
+        lightsList.innerHTML = '<div style="color: #999;">No lights added yet</div>';
+    } else {
+        lightsList.innerHTML = lightsArray.map((light, index) => `
+            <div style="padding: 5px; margin: 3px 0; background: rgba(255,255,255,0.1); border-radius: 3px;">
+                Light ${index + 1}: (${light.position.x}, ${light.position.y}, ${light.position.z}) - ${light.intensity}W
+                <button onclick="removeLight(${index})" style="float: right; padding: 2px 6px; font-size: 11px;">Remove</button>
+            </div>
+        `).join('');
+    }
+}
+
+// Add light to the scene
+addLightBtn.addEventListener('click', () => {
+    const x = parseFloat(lightX.value);
+    const y = parseFloat(lightY.value);
+    const z = parseFloat(lightZ.value);
+    const intensity = parseFloat(lightIntensity.value);
+
+    if (isNaN(x) || isNaN(y) || isNaN(z) || isNaN(intensity)) {
+        resultDiv.textContent = 'Please enter valid numbers for all fields';
+        resultDiv.style.color = '#ff4444';
+        return;
+    }
+
+    // Add to lights array
+    const newLight = {
+        position: { x, y, z },
+        intensity
+    };
+    lightsArray.push(newLight);
+
+    // Visualize the light
+    const lightGeometry = new THREE.SphereGeometry(0.4, 32, 32);
+    const color = new THREE.Color(0xFFFF00);
+    const lightMaterial = new THREE.MeshStandardMaterial({
+        color: color,
+        emissive: color.clone().multiplyScalar(0.7),
+        roughness: 0.1,
+        metalness: 0.5
+    });
+
+    const sphere = new THREE.Mesh(lightGeometry, lightMaterial);
+    sphere.position.set(x, y, z);
+    scene.add(sphere);
+    lightMeshes.push(sphere);
+
+    // Add point light for visual effect
+    const lightObj = new THREE.PointLight(0xFFFF00, 0.5, 10);
+    lightObj.position.copy(sphere.position);
+    scene.add(lightObj);
+    lightMeshes.push(lightObj);
+
+    updateLightsDisplay();
+    resultDiv.textContent = `Light added at (${x}, ${y}, ${z}) with ${intensity}W`;
+    resultDiv.style.color = '#4CAF50';
+});
+
+// Remove light
+window.removeLight = (index) => {
+    lightsArray.splice(index, 1);
+
+    // Remove visual representation (sphere and point light)
+    const meshIndex = index * 2;
+    if (lightMeshes[meshIndex]) scene.remove(lightMeshes[meshIndex]);
+    if (lightMeshes[meshIndex + 1]) scene.remove(lightMeshes[meshIndex + 1]);
+    lightMeshes.splice(meshIndex, 2);
+
+    updateLightsDisplay();
+    resultDiv.textContent = 'Light removed';
+    resultDiv.style.color = '#ff9800';
+};
+
+// Clear all lights
+clearLightsBtn.addEventListener('click', () => {
+    lightsArray.length = 0;
+
+    // Remove all light meshes
+    lightMeshes.forEach(mesh => scene.remove(mesh));
+    lightMeshes.length = 0;
+
+    // Remove all point meshes from previous simulation
+    pointMeshes.forEach(mesh => scene.remove(mesh));
+    pointMeshes.length = 0;
+
+    updateLightsDisplay();
+    resultDiv.textContent = 'All lights cleared';
+    resultDiv.style.color = '#ff9800';
+});
+
+// Run simulation
+runSimulationBtn.addEventListener('click', async () => {
+    if (lightsArray.length === 0) {
+        resultDiv.textContent = 'Please add at least one light before running simulation';
+        resultDiv.style.color = '#ff4444';
+        return;
+    }
 
     try {
-        resultDiv.textContent = 'Calculating...';
+        resultDiv.textContent = 'Running simulation...';
+        resultDiv.style.color = '#2196F3';
 
-        const response = await fetch('http://localhost:8000/cube', {
+        const response = await fetch('http://localhost:8000/simulate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ number: selectedNumber })
+            body: JSON.stringify({ lights: lightsArray })
         });
 
         if (!response.ok) {
@@ -268,9 +380,77 @@ calculateBtn.addEventListener('click', async () => {
         }
 
         const data = await response.json();
-        resultDiv.textContent = `${data.number}³ = ${data.cube}`;
+
+        // Clear previous simulation results
+        pointMeshes.forEach(mesh => scene.remove(mesh));
+        pointMeshes.length = 0;
+
+        // Visualize new results
+        if (data.points && data.points.length > 0) {
+            points = data.points;
+
+            // Determine min and max intensity for color scaling
+            let minIntensity = Infinity, maxIntensity = -Infinity;
+            points.forEach(point => {
+                if (point.intensity && typeof point.intensity.total_intensity === 'number') {
+                    const value = point.intensity.total_intensity;
+                    if (value < minIntensity) minIntensity = value;
+                    if (value > maxIntensity) maxIntensity = value;
+                }
+            });
+
+            if (!isFinite(minIntensity) || !isFinite(maxIntensity) || minIntensity === maxIntensity) {
+                minIntensity = 0;
+                maxIntensity = 1;
+            }
+
+            const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+
+            points.forEach((point) => {
+                if (
+                    point &&
+                    point.position &&
+                    typeof point.position.x === 'number' &&
+                    typeof point.position.y === 'number' &&
+                    typeof point.position.z === 'number'
+                ) {
+                    let color;
+                    if (point.intensity && typeof point.intensity.total_intensity === 'number') {
+                        color = getColorForIntensity(point.intensity.total_intensity, minIntensity, maxIntensity);
+                    } else {
+                        color = new THREE.Color(0x00ff8a);
+                    }
+
+                    const sphereMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        emissive: color.clone().multiplyScalar(0.1),
+                        roughness: 0.3,
+                        metalness: 0.2
+                    });
+
+                    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                    sphere.position.set(
+                        point.position.x,
+                        point.position.y,
+                        point.position.z
+                    );
+                    scene.add(sphere);
+                    pointMeshes.push(sphere);
+                }
+            });
+
+            resultDiv.textContent = `Simulation complete! Plotted ${pointMeshes.length} intensity points`;
+            resultDiv.style.color = '#4CAF50';
+        } else {
+            resultDiv.textContent = 'Simulation complete but no results returned';
+            resultDiv.style.color = '#ff9800';
+        }
     } catch (error) {
         console.error('Error:', error);
-        resultDiv.textContent = 'Error calculating cube. Is the backend running?';
+        resultDiv.textContent = 'Error running simulation. Is the backend running?';
+        resultDiv.style.color = '#ff4444';
     }
 });
+
+// Initialize display
+updateLightsDisplay();
