@@ -1,0 +1,14 @@
+[project]
+name = "caustic"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "xantheocracy", email = "101575540+xantheocracy@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
