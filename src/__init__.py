@@ -44,11 +44,15 @@ class UVLightSimulator:
         Simulate UV exposure at specified points over a given time period.
         """
         results = []
-        for point in points:
-            # Stage 1: Calculate intensity
-            intensity = self.intensity_calculator.calculate_intensity(point, self.lights)
 
-            # Stage 2: Calculate pathogen survival
+        # Stage 1: Calculate intensity for all points
+        # Use batch calculation for efficiency when indirect lighting is enabled
+        intensities = self.intensity_calculator.calculate_intensity_batch(points, self.lights)
+
+        # Stage 2: Calculate pathogen survival for each point
+        for i, point in enumerate(points):
+            intensity = intensities[i]
+
             pathogen_survival = self.pathogen_calculator.calculate_multiple_survivals(
                 intensity.total_intensity, exposure_time, pathogens
             )
