@@ -43,7 +43,7 @@ class SimulationRequest(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"message": "UV Light Simulator API", "frontend_url": "/static/triangles.html"}
+    return {"message": "UV Light Simulator API", "frontend_url": "/static/index.html"}
 
 @app.post("/cube")
 def cube_number(input_data: BaseModel):
