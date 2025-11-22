@@ -1,29 +1,32 @@
 """Pathogen survival calculation using Chick-Watson model (Stage 2)"""
 
-import math
 from typing import List, NamedTuple
 
 
 class Pathogen(NamedTuple):
-    """Represents a pathogen with its Chick-Watson model parameters"""
+    """Represents a pathogen with its UV inactivation model parameters"""
 
     name: str
-    k_value: float  # Chick-Watson k value (resistance to UV, higher = more resistant)
+    k1: float  # Primary inactivation rate constant (cm²/mJ)
+    k2: float  # Secondary inactivation rate constant for resistant subpopulation (cm²/mJ)
+    percent_resistant: float  # Percentage of resistant subpopulation (0-100)
 
 
 class PathogenSurvivalResult(NamedTuple):
     """Results of pathogen survival calculation"""
 
     pathogen_name: str
-    k_value: float
-    dose: float  # Irradiance × time (J/m²)
-    survival_rate: float  # Fraction of pathogens surviving (0-1)
-    log_reduction: float  # Log₁₀ reduction (useful for microbiology)
+    k1: float
+    k2: float
+    percent_resistant: float
+    fluence: float  # Irradiance × time (J/m²)
+    survival_rate: float  # 10^(-k1 × fluence)
+    ech_uv: float  # Effective Cumulative Hydrogen peroxide Equivalent-UV (%)
 
 
 class PathogenCalculator:
     """
-    Calculates pathogen survival rates using the Chick-Watson empirical model.
+    Calculates pathogen survival rates and eACH-UV metrics.
     This is Stage 2 of the simulation.
     """
 
@@ -34,27 +37,40 @@ class PathogenCalculator:
         pathogen: Pathogen,
     ) -> PathogenSurvivalResult:
         """
-        Calculate survival rate for a pathogen exposed to UV dose.
+        Calculate survival rate and eACH-UV for a pathogen exposed to UV fluence.
 
-        Chick-Watson Model:
-        N(t) / N₀ = exp(-k × dose)
+        Metrics calculated:
+        1. Survival Rate: 10^(-k1 × fluence)
+        2. eACH-UV: (k1 × (1-f) + k2 × f) × fluence × 3.6
+           where f = percent_resistant / 100
 
         Where:
-        - N(t) / N₀ = survival rate (fraction remaining)
-        - k = pathogen-specific resistance parameter
-        - dose = irradiance × time (J/m²)
+        - fluence = irradiance × time (J/m²)
+        - k1, k2 = inactivation rate constants
+        - percent_resistant = percentage of resistant population
         """
-        # Calculate dose: irradiance × time
-        dose = intensity * exposure_time
+        # Calculate fluence: irradiance × time
+        fluence = intensity * exposure_time
 
-        # Chick-Watson model: survival = exp(-k × dose)
-        survival_rate = math.exp(-pathogen.k_value * dose)
+        # Survival rate: 10^(-k1 × fluence)
+        survival_rate = 10 ** (-pathogen.k1 * fluence)
 
-        # Log reduction: -log₁₀(N/N₀) = k × dose / ln(10)
-        log_reduction = pathogen.k_value * dose / math.log(10)
+        # Calculate eACH-UV
+        # f = percent_resistant / 100
+        f = pathogen.percent_resistant / 100
+        # effective k = k1 × (1-f) + k2 × f
+        effective_k = pathogen.k1 * (1 - f) + pathogen.k2 * f
+        # eACH-UV = effective_k × fluence × 3.6
+        ech_uv = effective_k * fluence * 3.6
 
         return PathogenSurvivalResult(
-            pathogen.name, pathogen.k_value, dose, survival_rate, log_reduction
+            pathogen.name,
+            pathogen.k1,
+            pathogen.k2,
+            pathogen.percent_resistant,
+            fluence,
+            survival_rate,
+            ech_uv,
         )
 
     def calculate_multiple_survivals(

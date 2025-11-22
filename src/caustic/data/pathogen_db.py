@@ -57,7 +57,12 @@ class PathogenDatabase:
             )
 
         data = self._pathogens[name]
-        return Pathogen(name=data["name"], k_value=data["k_value"])
+        return Pathogen(
+            name=data["name"],
+            k1=data["k1"],
+            k2=data["k2"],
+            percent_resistant=data["percent_resistant"],
+        )
 
     def get_pathogens_by_names(self, names: List[str]) -> List[Pathogen]:
         """
@@ -82,7 +87,12 @@ class PathogenDatabase:
             List of all Pathogen objects in the database
         """
         return [
-            Pathogen(name=data["name"], k_value=data["k_value"])
+            Pathogen(
+                name=data["name"],
+                k1=data["k1"],
+                k2=data["k2"],
+                percent_resistant=data["percent_resistant"],
+            )
             for data in self._pathogens.values()
         ]
 
@@ -114,8 +124,10 @@ class PathogenDatabase:
         print("-" * 80)
         for name, data in self._pathogens.items():
             print(f"{name}")
-            print(f"  k-value: {data['k_value']}")
-            print(f"  Description: {data['description']}")
+            print(f"  Category: {data.get('category', 'Unknown')}")
+            print(f"  k1 (primary rate): {data['k1']}")
+            print(f"  k2 (resistant rate): {data['k2']}")
+            print(f"  Percent resistant: {data['percent_resistant']}%")
             print()
 
 

@@ -42,29 +42,66 @@ const triangleData = roomData.triangles;
 // Initialize lights array and simulation results
 let lights = [];
 let points = [];
+let pathogens = [];
+let selectedPathogen = null;
+let selectedMetric = 'uv_dose';
 
-// Color map utility for total_intensity (green for low, yellow for mid, red for high)
+// Color map utility for total_intensity using log scale (black to pink)
 function getColorForIntensity(intensity, minI, maxI) {
     // Clamp between minI and maxI
     if (intensity < minI) intensity = minI;
     if (intensity > maxI) intensity = maxI;
 
-    // Normalize 0 ... 1
-    let norm = (intensity - minI) / (maxI - minI);
+    // Use log scale: log(intensity + 1) to handle zero values
+    const logMin = Math.log(minI + 1);
+    const logMax = Math.log(maxI + 1);
+    const logIntensity = Math.log(intensity + 1);
 
-    // Interpolate green (0,1,0)->yellow(1,1,0)->red(1,0,0)
-    let r = 0, g = 0, b = 0;
-    if (norm <= 0.5) {
-        // green to yellow (0,1,0) to (1,1,0)
-        r = norm * 2;
-        g = 1.0;
-        b = 0.0;
-    } else {
-        // yellow to red (1,1,0) to (1,0,0)
-        r = 1.0;
-        g = 1.0 - (norm - 0.5) * 2;
-        b = 0.0;
-    }
+    // Normalize 0 ... 1 on log scale
+    let norm = (logIntensity - logMin) / (logMax - logMin);
+    norm = Math.max(0, Math.min(1, norm)); // Clamp to [0, 1]
+
+    // Interpolate black (0,0,0) to pink (1,0.75,1)
+    let r = norm;      // Black to full red
+    let g = norm * 0.75;  // Black to 75% green
+    let b = norm;      // Black to full blue
+
+    return new THREE.Color(r, g, b);
+}
+
+// Color map utility for survival rate (black for low survival, red for high survival)
+function getColorForSurvivalRate(survivalRate, minRate, maxRate) {
+    // Clamp between minRate and maxRate
+    if (survivalRate < minRate) survivalRate = minRate;
+    if (survivalRate > maxRate) survivalRate = maxRate;
+
+    // Normalize 0 ... 1 (linear scale)
+    let norm = (survivalRate - minRate) / (maxRate - minRate);
+
+    // Interpolate black (0,0,0) to red (1,0,0)
+    // High survival (1.0) = red (bad - pathogens survive)
+    // Low survival (0.0) = black (good - pathogens killed)
+    let r = norm;  // Black to red
+    let g = 0.0;
+    let b = 0.0;
+
+    return new THREE.Color(r, g, b);
+}
+
+// Color map utility for eACH-UV (brown for low, bright blue for high)
+function getColorForEchUV(echUV, minUV, maxUV) {
+    // Clamp between minUV and maxUV
+    if (echUV < minUV) echUV = minUV;
+    if (echUV > maxUV) echUV = maxUV;
+
+    // Normalize 0 ... 1 (linear scale)
+    let norm = (echUV - minUV) / (maxUV - minUV);
+
+    // Interpolate brown (0.6, 0.3, 0.0) to bright blue (0.0, 0.7, 1.0)
+    let r = 0.6 * (1.0 - norm);      // Brown red component fades
+    let g = 0.3 + 0.4 * norm;        // Green increases slightly
+    let b = norm;                     // Blue increases
+
     return new THREE.Color(r, g, b);
 }
 
@@ -260,6 +297,10 @@ const clearLightsBtn = document.getElementById('clear-lights-btn');
 const lightsList = document.getElementById('lights-list');
 const lightCount = document.getElementById('light-count');
 const resultDiv = document.getElementById('result');
+const metricSelect = document.getElementById('metric-select');
+const pathogenSelect = document.getElementById('pathogen-select');
+const pathogenMessage = document.getElementById('pathogen-message');
+const colorLegend = document.getElementById('color-legend');
 
 // Update lights display
 function updateLightsDisplay() {
@@ -338,6 +379,248 @@ window.removeLight = (index) => {
     resultDiv.style.color = '#ff9800';
 };
 
+// Update pathogen dropdown
+function updatePathogenDropdown() {
+    if (pathogens.length === 0) {
+        metricSelect.style.display = 'none';
+        pathogenSelect.style.display = 'none';
+        pathogenMessage.textContent = 'Run a simulation to see available pathogens';
+        pathogenMessage.style.color = '#999';
+    } else {
+        metricSelect.style.display = 'block';
+        pathogenSelect.style.display = 'block';
+        pathogenSelect.innerHTML = '<option value="">-- Select a pathogen --</option>';
+        pathogens.forEach(pathogen => {
+            const option = document.createElement('option');
+            option.value = pathogen.name;
+            option.textContent = pathogen.name;
+            pathogenSelect.appendChild(option);
+        });
+        pathogenMessage.textContent = `${pathogens.length} pathogen(s) available`;
+        pathogenMessage.style.color = '#4CAF50';
+    }
+}
+
+// Update color legend based on selected metric and data range
+function updateColorLegend(metric, minValue, maxValue) {
+    let html = '<div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">';
+
+    let title = '';
+    let isLogScale = false;
+    let colorStops = [];
+
+    if (metric === 'uv_dose') {
+        title = 'UV Light Dose';
+        isLogScale = true;
+        // Log scale: black to pink
+        colorStops = [
+            { pos: 0, color: 'rgb(0, 0, 0)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(128, 96, 128)', label: 'Mid' },
+            { pos: 1, color: 'rgb(255, 191, 255)', label: 'High' }
+        ];
+    } else if (metric === 'survival_rate') {
+        title = 'Survival Rate';
+        isLogScale = false;
+        // Linear scale: black to red
+        colorStops = [
+            { pos: 0, color: 'rgb(0, 0, 0)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(128, 0, 0)', label: 'Mid' },
+            { pos: 1, color: 'rgb(255, 0, 0)', label: 'High' }
+        ];
+    } else if (metric === 'ech_uv') {
+        title = 'eACH-UV';
+        isLogScale = false;
+        // Linear scale: brown to blue
+        colorStops = [
+            { pos: 0, color: 'rgb(153, 76, 0)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(76, 115, 128)', label: 'Mid' },
+            { pos: 1, color: 'rgb(0, 179, 255)', label: 'High' }
+        ];
+    }
+
+    html += title;
+    if (isLogScale) html += ' (log scale)';
+    html += '</div>';
+
+    // Create color bar
+    html += '<div style="height: 200px; background: linear-gradient(to top, ';
+
+    // Create gradient stops
+    const gradientStops = [];
+    for (let i = 0; i <= 100; i += 10) {
+        const percent = i / 100;
+        let color;
+
+        if (metric === 'uv_dose') {
+            // Log scale
+            const logMin = Math.log(minValue + 1);
+            const logMax = Math.log(maxValue + 1);
+            const logValue = logMin + percent * (logMax - logMin);
+            const value = Math.exp(logValue) - 1;
+            color = getColorForIntensity(value, minValue, maxValue);
+        } else if (metric === 'survival_rate') {
+            const value = minValue + percent * (maxValue - minValue);
+            color = getColorForSurvivalRate(value, minValue, maxValue);
+        } else if (metric === 'ech_uv') {
+            const value = minValue + percent * (maxValue - minValue);
+            color = getColorForEchUV(value, minValue, maxValue);
+        }
+
+        const hex = '#' + color.getHexString();
+        gradientStops.push(`${hex} ${i}%`);
+    }
+    html += gradientStops.join(', ');
+    html += '); border: 1px solid #666; margin-bottom: 8px;"></div>';
+
+    // Value range display
+    html += '<div style="font-size: 11px; color: #ccc;">';
+    html += '<div style="text-align: right; margin-bottom: 2px;">' + (isLogScale ? 'log(' + maxValue.toFixed(2) + ')' : maxValue.toFixed(3)) + '</div>';
+    html += '<div style="text-align: right;">' + (isLogScale ? 'log(' + minValue.toFixed(2) + ')' : minValue.toFixed(3)) + '</div>';
+    html += '</div>';
+
+    colorLegend.innerHTML = html;
+}
+
+// Visualize points by metric (UV dose, survival rate, or eACH-UV)
+function visualizePointsByPathogen(pathogenName, metric) {
+    // Remove previous point meshes
+    pointMeshes.forEach(mesh => scene.remove(mesh));
+    pointMeshes.length = 0;
+
+    // Handle UV dose metric (doesn't require pathogen selection)
+    if (metric === 'uv_dose') {
+        // Determine min and max intensity for UV dose
+        let minValue = Infinity, maxValue = -Infinity;
+        points.forEach(point => {
+            if (point.intensity && typeof point.intensity.total_intensity === 'number') {
+                const value = point.intensity.total_intensity;
+                if (value < minValue) minValue = value;
+                if (value > maxValue) maxValue = value;
+            }
+        });
+
+        if (!isFinite(minValue) || !isFinite(maxValue) || minValue === maxValue) {
+            minValue = 0;
+            maxValue = 1;
+        }
+
+        const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+        let plotted = 0;
+
+        points.forEach((point) => {
+            if (
+                point &&
+                point.position &&
+                typeof point.position.x === 'number' &&
+                typeof point.position.y === 'number' &&
+                typeof point.position.z === 'number'
+            ) {
+                let color;
+                if (point.intensity && typeof point.intensity.total_intensity === 'number') {
+                    color = getColorForIntensity(point.intensity.total_intensity, minValue, maxValue);
+                } else {
+                    color = new THREE.Color(0x000000);
+                }
+
+                const sphereMaterial = new THREE.MeshStandardMaterial({
+                    color: color,
+                    emissive: color.clone().multiplyScalar(0.1),
+                    roughness: 0.3,
+                    metalness: 0.2
+                });
+
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                sphere.position.set(
+                    point.position.x,
+                    point.position.y,
+                    point.position.z
+                );
+                scene.add(sphere);
+                pointMeshes.push(sphere);
+                plotted++;
+            }
+        });
+
+        console.log(`Plotted ${plotted} points colored by UV dose (fluence)`);
+        updateColorLegend('uv_dose', minValue, maxValue);
+        return;
+    }
+
+    // For pathogen-based metrics, require pathogen selection
+    if (!pathogenName || pathogenName === '') {
+        return;
+    }
+
+    // Find the pathogen data
+    const pathogenData = points[0]?.pathogen_survival.find(p => p.pathogen_name === pathogenName);
+    if (!pathogenData) {
+        console.warn(`Pathogen ${pathogenName} not found in results`);
+        return;
+    }
+
+    // Determine min and max values for color scaling based on selected metric
+    let minValue = Infinity, maxValue = -Infinity;
+    const metricKey = metric === 'survival_rate' ? 'survival_rate' : 'ech_uv';
+
+    points.forEach(point => {
+        const survivalData = point.pathogen_survival.find(p => p.pathogen_name === pathogenName);
+        if (survivalData && typeof survivalData[metricKey] === 'number') {
+            const value = survivalData[metricKey];
+            if (value < minValue) minValue = value;
+            if (value > maxValue) maxValue = value;
+        }
+    });
+
+    // Fallback if all values are the same
+    if (!isFinite(minValue) || !isFinite(maxValue) || minValue === maxValue) {
+        minValue = 0;
+        maxValue = 1;
+    }
+
+    const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+    let plotted = 0;
+
+    points.forEach((point) => {
+        if (
+            point &&
+            point.position &&
+            typeof point.position.x === 'number' &&
+            typeof point.position.y === 'number' &&
+            typeof point.position.z === 'number'
+        ) {
+            const survivalData = point.pathogen_survival.find(p => p.pathogen_name === pathogenName);
+            if (survivalData) {
+                let color;
+                if (metric === 'survival_rate') {
+                    color = getColorForSurvivalRate(survivalData.survival_rate, minValue, maxValue);
+                } else {
+                    color = getColorForEchUV(survivalData.ech_uv, minValue, maxValue);
+                }
+
+                const sphereMaterial = new THREE.MeshStandardMaterial({
+                    color: color,
+                    emissive: color.clone().multiplyScalar(0.1),
+                    roughness: 0.3,
+                    metalness: 0.2
+                });
+
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                sphere.position.set(
+                    point.position.x,
+                    point.position.y,
+                    point.position.z
+                );
+                scene.add(sphere);
+                pointMeshes.push(sphere);
+                plotted++;
+            }
+        }
+    });
+
+    console.log(`Plotted ${plotted} points colored by ${pathogenName} ${metric}`);
+    updateColorLegend(metric, minValue, maxValue);
+}
+
 // Clear all lights
 clearLightsBtn.addEventListener('click', () => {
     lightsArray.length = 0;
@@ -353,6 +636,18 @@ clearLightsBtn.addEventListener('click', () => {
     updateLightsDisplay();
     resultDiv.textContent = 'All lights cleared';
     resultDiv.style.color = '#ff9800';
+});
+
+// Handle metric selection
+metricSelect.addEventListener('change', (event) => {
+    selectedMetric = event.target.value;
+    visualizePointsByPathogen(selectedPathogen, selectedMetric);
+});
+
+// Handle pathogen selection
+pathogenSelect.addEventListener('change', (event) => {
+    selectedPathogen = event.target.value;
+    visualizePointsByPathogen(selectedPathogen, selectedMetric);
 });
 
 // Run simulation
@@ -388,6 +683,21 @@ runSimulationBtn.addEventListener('click', async () => {
         // Visualize new results
         if (data.points && data.points.length > 0) {
             points = data.points;
+
+            // Extract unique pathogens from results
+            if (points.length > 0 && points[0].pathogen_survival) {
+                pathogens = points[0].pathogen_survival.map(p => ({
+                    name: p.pathogen_name
+                }));
+                updatePathogenDropdown();
+                // Set default to first pathogen and default metric to uv_dose
+                if (pathogens.length > 0) {
+                    selectedPathogen = pathogens[0].name;
+                    pathogenSelect.value = selectedPathogen;
+                    selectedMetric = 'uv_dose';
+                    metricSelect.value = 'uv_dose';
+                }
+            }
 
             // Determine min and max intensity for color scaling
             let minIntensity = Infinity, maxIntensity = -Infinity;
@@ -439,7 +749,10 @@ runSimulationBtn.addEventListener('click', async () => {
                 }
             });
 
-            resultDiv.textContent = `Simulation complete! Plotted ${pointMeshes.length} intensity points`;
+            // Update color legend for UV dose
+            updateColorLegend('uv_dose', minIntensity, maxIntensity);
+
+            resultDiv.textContent = `Simulation complete! Plotted ${pointMeshes.length} UV dose points`;
             resultDiv.style.color = '#4CAF50';
         } else {
             resultDiv.textContent = 'Simulation complete but no results returned';

@@ -95,9 +95,27 @@
         <button id="run-simulation-btn" style="background: #4CAF50;">Run Simulation</button>
         <button id="clear-lights-btn" style="background: #f44336; margin-top: 10px;">Clear All Lights</button>
 
+        <div style="margin-bottom: 20px; margin-top: 20px;">
+            <h4>Metric</h4>
+            <select id="metric-select" style="display: none; margin: 10px 0; padding: 5px; width: 100%;">
+                <option value="uv_dose">UV Light Dose</option>
+                <option value="survival_rate">Survival Rate</option>
+                <option value="ech_uv">eACH-UV</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4>Pathogen Selection</h4>
+            <select id="pathogen-select" style="display: none; margin: 10px 0; padding: 5px; width: 100%;">
+                <option value="">-- Select a pathogen --</option>
+            </select>
+            <div id="pathogen-message" style="color: #999; font-size: 12px; margin-top: 5px;">Run a simulation to see available pathogens</div>
+        </div>
+
         <div id="result"></div>
     </div>
     <div id="canvas-container"></div>
+    <div id="color-legend" style="position: absolute; right: 20px; top: 20px; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 8px; color: white; z-index: 1000; min-width: 180px; backdrop-filter: blur(10px);"></div>
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
     {
