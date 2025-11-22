@@ -1,0 +1,19 @@
+{
+  "name": "caustic",
+  "version": "0.1.0",
+  "description": "UV light simulator for pathogen survival rates",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node src/examples/run_simple_simulation.ts",
+    "test:compile": "tsc && node dist/examples/run_simple_simulation.js"
+  },
+  "keywords": ["UV", "simulation", "raytracing"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
