@@ -9415,30 +9415,30 @@
         "z": 7.0
       },
       "intensity": {
-        "direct_intensity": 0.8258351135943094,
-        "total_intensity": 0.8258351135943094
+        "direct_intensity": 0,
+        "total_intensity": 0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 49.550106815658566,
-          "survival_rate": 0.9516574724162419,
-          "log_reduction": 0.02151933796775722
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 49.550106815658566,
-          "survival_rate": 0.861870440682618,
-          "log_reduction": 0.06455801390327168
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 49.550106815658566,
-          "survival_rate": 0.9056519448056702,
-          "log_reduction": 0.04303867593551444
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
         }
       ]
     },
