@@ -78,7 +78,9 @@ class SimulationResultsWriter:
         return [
             {
                 "name": pathogen.name,
-                "k_value": pathogen.k_value,
+                "k1": pathogen.k1,
+                "k2": pathogen.k2,
+                "percent_resistant": pathogen.percent_resistant,
             }
             for pathogen in pathogens
         ]
@@ -100,10 +102,12 @@ class SimulationResultsWriter:
                 "pathogen_survival": [
                     {
                         "pathogen_name": survival.pathogen_name,
-                        "k_value": survival.k_value,
-                        "dose": survival.dose,
+                        "k1": survival.k1,
+                        "k2": survival.k2,
+                        "percent_resistant": survival.percent_resistant,
+                        "fluence": survival.fluence,
                         "survival_rate": survival.survival_rate,
-                        "log_reduction": survival.log_reduction,
+                        "ech_uv": survival.ech_uv,
                     }
                     for survival in result.pathogen_survival
                 ],
@@ -190,6 +194,11 @@ class SimulationResultsReader:
     def _deserialize_pathogens(pathogen_data: List[Dict[str, Any]]) -> List[Pathogen]:
         """Deserialize pathogens from JSON format"""
         return [
-            Pathogen(pathogen["name"], pathogen["k_value"])
+            Pathogen(
+                name=pathogen["name"],
+                k1=pathogen["k1"],
+                k2=pathogen["k2"],
+                percent_resistant=pathogen["percent_resistant"],
+            )
             for pathogen in pathogen_data
         ]

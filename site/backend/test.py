@@ -99,7 +99,7 @@ def run_simulation(request: SimulationRequest):
 
     # Load pathogens from database
     pathogen_db = get_pathogen_database()
-    pathogen_names = ["E. coli", "COVID-19 (Omicron)", "Influenza A"]
+    pathogen_names = ["Escherichia coli", "Human coronavirus", "Influenza virus"]
     pathogens = pathogen_db.get_pathogens_by_names(pathogen_names)
 
     # Create simulator
@@ -137,10 +137,12 @@ def run_simulation(request: SimulationRequest):
             "pathogen_survival": [
                 {
                     "pathogen_name": survival.pathogen_name,
-                    "k_value": survival.k_value,
-                    "dose": survival.dose,
+                    "k1": survival.k1,
+                    "k2": survival.k2,
+                    "percent_resistant": survival.percent_resistant,
+                    "fluence": survival.fluence,
                     "survival_rate": survival.survival_rate,
-                    "log_reduction": survival.log_reduction,
+                    "ech_uv": survival.ech_uv,
                 }
                 for survival in result.pathogen_survival
             ],
