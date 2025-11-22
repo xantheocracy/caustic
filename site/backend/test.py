@@ -90,7 +90,7 @@ def run_simulation(request: SimulationRequest):
     simulator = UVLightSimulator(
         triangles,
         lights,
-        IntensityConfig(max_bounces=0, grid_cell_size=5),
+        IntensityConfig(max_bounces=0, grid_cell_size=5, photons_per_light=10, verbose=True)
     )
 
     # Generate test points on the floor
