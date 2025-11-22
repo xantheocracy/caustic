@@ -4,6 +4,7 @@ from typing import NamedTuple
 from ..core import Vector3, Triangle, Ray
 
 EPSILON = 1e-6
+EDGE_TOLERANCE = 1e-4  # Tolerance for edge hits (slightly larger than EPSILON)
 
 
 class IntersectionResult(NamedTuple):
@@ -18,6 +19,8 @@ def ray_triangle_intersection(ray: Ray, triangle: Triangle) -> IntersectionResul
     """
     Test if a ray intersects with a triangle using the Möller-Trumbore algorithm.
     Only returns true if the triangle is facing towards the ray (not away from it).
+
+    Includes a small tolerance (EDGE_TOLERANCE) for hits on or very close to triangle edges.
     """
     edge1 = triangle.v1.subtract(triangle.v0)
     edge2 = triangle.v2.subtract(triangle.v0)
@@ -33,15 +36,15 @@ def ray_triangle_intersection(ray: Ray, triangle: Triangle) -> IntersectionResul
     s = ray.origin.subtract(triangle.v0)
     u = f * s.dot(h)
 
-    # Check if intersection is outside the triangle
-    if u < 0.0 or u > 1.0:
+    # Check if intersection is outside the triangle (with tolerance for edges)
+    if u < -EDGE_TOLERANCE or u > 1.0 + EDGE_TOLERANCE:
         return IntersectionResult(False, 0, Vector3(0, 0, 0))
 
     q = s.cross(edge1)
     v = f * ray.direction.dot(q)
 
-    # Check if intersection is outside the triangle
-    if v < 0.0 or u + v > 1.0:
+    # Check if intersection is outside the triangle (with tolerance for edges)
+    if v < -EDGE_TOLERANCE or u + v > 1.0 + EDGE_TOLERANCE:
         return IntersectionResult(False, 0, Vector3(0, 0, 0))
 
     t = f * edge2.dot(q)
