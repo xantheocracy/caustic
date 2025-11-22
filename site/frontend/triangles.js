@@ -243,3 +243,34 @@ function animate() {
 }
 
 animate();
+
+// Backend communication for square calculator
+const calculateBtn = document.getElementById('calculate-btn');
+const numberSelect = document.getElementById('number-select');
+const resultDiv = document.getElementById('result');
+
+calculateBtn.addEventListener('click', async () => {
+    const selectedNumber = parseInt(numberSelect.value);
+
+    try {
+        resultDiv.textContent = 'Calculating...';
+
+        const response = await fetch('http://localhost:8000/square', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ number: selectedNumber })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        resultDiv.textContent = `${data.number}² = ${data.square}`;
+    } catch (error) {
+        console.error('Error:', error);
+        resultDiv.textContent = 'Error calculating square. Is the backend running?';
+    }
+});

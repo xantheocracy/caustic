@@ -14,9 +14,63 @@
             width: 100vw;
             height: 100vh;
         }
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1000;
+        }
+        #controls select {
+            margin: 10px 0;
+            padding: 5px;
+            width: 100%;
+        }
+        #controls button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            width: 100%;
+            background: #ff69b4;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #controls button:hover {
+            background: #ff1493;
+        }
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
+    <div id="controls">
+        <h3>Square Calculator</h3>
+        <label for="number-select">Select a number:</label>
+        <select id="number-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <button id="calculate-btn">Calculate Square</button>
+        <div id="result"></div>
+    </div>
     <div id="canvas-container"></div>
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
