@@ -39,8 +39,7 @@ const response = await fetch('simulation_results.json');
 const simulationResults = await response.json();
 const triangleData = simulationResults.triangles;
 const points = simulationResults.points;
-
-console.log(triangleData);
+const lights = simulationResults.lights;
 
 // Color map utility for total_intensity (green for low, yellow for mid, red for high)
 function getColorForIntensity(intensity, minI, maxI) {
@@ -177,9 +176,57 @@ function visualizePoints() {
     console.log(`Plotted ${plotted} points as spheres (coloured by total_intensity)`);
 }
 
-// Render the triangles and points
+// Visualize light sources
+function visualizeLights() {
+    if (!lights || lights.length === 0) {
+        console.warn("No lights found in simulation results to display.");
+        return;
+    }
+
+    // Geometry and material for the lights (larger yellow spheres by default)
+    const lightGeometry = new THREE.SphereGeometry(0.4, 32, 32);
+
+    let plotted = 0;
+    lights.forEach((light, idx) => {
+        if (
+            light &&
+            light.position &&
+            typeof light.position.x === 'number' &&
+            typeof light.position.y === 'number' &&
+            typeof light.position.z === 'number'
+        ) {
+            const color = new THREE.Color(0xFFFF00); // bright yellow
+            const lightMaterial = new THREE.MeshStandardMaterial({
+                color: color,
+                emissive: color.clone().multiplyScalar(0.7),
+                roughness: 0.1,
+                metalness: 0.5
+            });
+
+            const sphere = new THREE.Mesh(lightGeometry, lightMaterial);
+            sphere.position.set(
+                light.position.x,
+                light.position.y,
+                light.position.z
+            );
+            // Optionally, add a subtle glow effect by adding a point light at the same spot
+            // Note: Reduce intensity if too harsh visually
+            const lightObj = new THREE.PointLight(0xFFFF00, 0.5, 10);
+            lightObj.position.copy(sphere.position);
+            scene.add(lightObj);
+
+            scene.add(sphere);
+            plotted++;
+        }
+    });
+
+    console.log(`Plotted ${plotted} lights as yellow spheres`);
+}
+
+// Render the triangles, points, and lights
 visualizeTriangles();
 visualizePoints();
+visualizeLights();
 
 // Handle window resize
 window.addEventListener('resize', () => {
