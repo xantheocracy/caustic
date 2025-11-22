@@ -17,6 +17,7 @@ if src_path not in sys.path:
 from caustic import UVLightSimulator, IntensityConfig
 from caustic.core import Vector3, Light, Triangle
 from caustic.data import get_pathogen_database
+from caustic.spatial.mesh_sampler import MeshSampler
 
 app = FastAPI()
 
@@ -110,10 +111,11 @@ def run_simulation(request: SimulationRequest):
 
     # Generate test points on the floor
     test_points = []
-    floor_y = 0.1
-    for x in range(1, 20, 1):
-        for z in range(1, 20, 1):
-            test_points.append(Vector3(x/2, floor_y, z/2))
+    # floor_y = 0.1
+    # for x in range(1, 20, 1):
+    #     for z in range(1, 20, 1):
+    #         test_points.append(Vector3(x/2, floor_y, z/2))
+    test_points = MeshSampler.generate_measurement_points(triangles, 500, 0.5, 0.9, 10)
 
     # Run simulation with 60 second exposure
     exposure_time = 60
