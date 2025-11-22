@@ -2,7 +2,7 @@
 
 import json
 from typing import List, Dict, Any
-from ..core import Vector3, Triangle
+from ..core import Vector3, Triangle, Light
 from .. import PointResults, Pathogen
 
 
@@ -15,6 +15,7 @@ class SimulationResultsWriter:
         triangles: List[Triangle],
         results: List[PointResults],
         pathogens: List[Pathogen],
+        lights: List[Light] = None,
     ) -> None:
         """
         Write simulation results to a JSON file.
@@ -24,12 +25,16 @@ class SimulationResultsWriter:
             triangles: List of triangles in the scene
             results: List of point results from simulation
             pathogens: List of pathogens used in simulation
+            lights: List of lights in the scene (optional)
         """
         data = {
             "triangles": SimulationResultsWriter._serialize_triangles(triangles),
             "pathogens": SimulationResultsWriter._serialize_pathogens(pathogens),
             "points": SimulationResultsWriter._serialize_results(results),
         }
+
+        if lights is not None:
+            data["lights"] = SimulationResultsWriter._serialize_lights(lights)
 
         with open(filename, "w") as f:
             json.dump(data, f, indent=2)
@@ -50,6 +55,21 @@ class SimulationResultsWriter:
                 "reflectivity": tri.reflectivity,
             }
             for tri in triangles
+        ]
+
+    @staticmethod
+    def _serialize_lights(lights: List[Light]) -> List[Dict[str, Any]]:
+        """Serialize lights to JSON-compatible format"""
+        return [
+            {
+                "position": {
+                    "x": light.position.x,
+                    "y": light.position.y,
+                    "z": light.position.z,
+                },
+                "intensity": light.intensity,
+            }
+            for light in lights
         ]
 
     @staticmethod
@@ -104,12 +124,12 @@ class SimulationResultsReader:
             filename: Input file path
 
         Returns:
-            Dictionary containing triangles, pathogens, and point results
+            Dictionary containing triangles, pathogens, lights, and point results
         """
         with open(filename, "r") as f:
             data = json.load(f)
 
-        return {
+        result = {
             "triangles": SimulationResultsReader._deserialize_triangles(
                 data.get("triangles", [])
             ),
@@ -118,6 +138,13 @@ class SimulationResultsReader:
             ),
             "points": data.get("points", []),
         }
+
+        if "lights" in data:
+            result["lights"] = SimulationResultsReader._deserialize_lights(
+                data.get("lights", [])
+            )
+
+        return result
 
     @staticmethod
     def _deserialize_triangles(triangle_data: List[Dict[str, Any]]) -> List[Triangle]:
@@ -143,6 +170,21 @@ class SimulationResultsReader:
             triangles.append(Triangle(v0, v1, v2, reflectivity))
 
         return triangles
+
+    @staticmethod
+    def _deserialize_lights(light_data: List[Dict[str, Any]]) -> List[Light]:
+        """Deserialize lights from JSON format"""
+        lights = []
+        for light_dict in light_data:
+            pos = Vector3(
+                light_dict["position"]["x"],
+                light_dict["position"]["y"],
+                light_dict["position"]["z"],
+            )
+            intensity = light_dict["intensity"]
+            lights.append(Light(pos, intensity))
+
+        return lights
 
     @staticmethod
     def _deserialize_pathogens(pathogen_data: List[Dict[str, Any]]) -> List[Pathogen]:

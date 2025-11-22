@@ -1,7 +1,8 @@
 """Run a simple simulation on the test room"""
 
-from .. import UVLightSimulator, Pathogen, IntensityConfig
+from .. import UVLightSimulator, IntensityConfig
 from ..io import SimulationResultsWriter
+from ..data import get_pathogen_database
 from .simple_room import create_simple_room_environment, generate_floor_test_points
 
 
@@ -13,12 +14,10 @@ def run_simulation(output_file: str = "simulation_results.json"):
     triangles, lights = create_simple_room_environment()
     print(f"Room setup: {len(triangles)} triangles, {len(lights)} light(s)\n")
 
-    # Define some test pathogens
-    pathogens = [
-        Pathogen("E. coli", 0.001),
-        Pathogen("COVID-19 (Omicron)", 0.003),
-        Pathogen("Influenza A", 0.002),
-    ]
+    # Load pathogens from database
+    pathogen_db = get_pathogen_database()
+    pathogen_names = ["E. coli", "COVID-19 (Omicron)", "Influenza A"]
+    pathogens = pathogen_db.get_pathogens_by_names(pathogen_names)
 
     # Create simulator
     simulator = UVLightSimulator(
@@ -84,7 +83,7 @@ def run_simulation(output_file: str = "simulation_results.json"):
 
     # Save results to file
     print(f"\n\nSaving results to {output_file}...")
-    SimulationResultsWriter.write(output_file, triangles, results, pathogens)
+    SimulationResultsWriter.write(output_file, triangles, results, pathogens, lights)
     print(f"Results saved successfully!")
 
 

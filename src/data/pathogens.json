@@ -1,0 +1,49 @@
+{
+  "pathogens": [
+    {
+      "name": "E. coli",
+      "k_value": 0.001,
+      "description": "Gram-negative bacterium, common indicator organism"
+    },
+    {
+      "name": "COVID-19 (Omicron)",
+      "k_value": 0.003,
+      "description": "SARS-CoV-2 Omicron variant"
+    },
+    {
+      "name": "Influenza A",
+      "k_value": 0.002,
+      "description": "Seasonal influenza virus"
+    },
+    {
+      "name": "MRSA",
+      "k_value": 0.0008,
+      "description": "Methicillin-resistant Staphylococcus aureus"
+    },
+    {
+      "name": "Legionella pneumophila",
+      "k_value": 0.0015,
+      "description": "Causative agent of Legionnaires' disease"
+    },
+    {
+      "name": "Mycobacterium tuberculosis",
+      "k_value": 0.0005,
+      "description": "Highly UV-resistant bacterium causing tuberculosis"
+    },
+    {
+      "name": "Candida albicans",
+      "k_value": 0.0012,
+      "description": "Common fungal pathogen"
+    },
+    {
+      "name": "Norovirus",
+      "k_value": 0.0025,
+      "description": "Leading cause of viral gastroenteritis"
+    },
+    {
+      "name": "Rhinovirus",
+      "k_value": 0.0018,
+      "description": "Common cold virus"
+    }
+  ]
+}
