@@ -42,13 +42,17 @@ class UVLightSimulator:
     ) -> List[PointResults]:
         """
         Simulate UV exposure at specified points over a given time period.
+        Uses batch processing for efficiency: calculates all intensities at once
+        so photon tracing is only done once for all points.
         """
         results = []
-        for point in points:
-            # Stage 1: Calculate intensity
-            intensity = self.intensity_calculator.calculate_intensity(point, self.lights)
 
-            # Stage 2: Calculate pathogen survival
+        # Stage 1: Calculate intensities for all points at once
+        # This ensures photon tracing is only computed once and reused for all points
+        intensities = self.intensity_calculator.calculate_intensity_batch(points, self.lights)
+
+        # Stage 2: Calculate pathogen survival for each point
+        for point, intensity in zip(points, intensities):
             pathogen_survival = self.pathogen_calculator.calculate_multiple_survivals(
                 intensity.total_intensity, exposure_time, pathogens
             )

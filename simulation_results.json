@@ -3296,27 +3296,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3330,27 +3330,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3364,27 +3364,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3398,27 +3398,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3432,27 +3432,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3466,27 +3466,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3500,27 +3500,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3534,27 +3534,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3568,27 +3568,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3602,27 +3602,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3636,27 +3636,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3942,27 +3942,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -3976,27 +3976,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4010,27 +4010,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4044,27 +4044,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4078,27 +4078,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4112,27 +4112,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4146,27 +4146,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4180,27 +4180,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4214,27 +4214,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4248,27 +4248,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4282,27 +4282,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4588,27 +4588,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4622,27 +4622,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4656,27 +4656,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4690,27 +4690,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4724,27 +4724,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4758,27 +4758,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4792,27 +4792,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4826,27 +4826,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4860,27 +4860,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4894,27 +4894,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -4928,27 +4928,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5234,27 +5234,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5268,27 +5268,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5302,27 +5302,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5336,27 +5336,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5370,27 +5370,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5404,27 +5404,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5438,27 +5438,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5472,27 +5472,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5506,27 +5506,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5540,27 +5540,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5574,27 +5574,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5880,27 +5880,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5914,27 +5914,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5948,27 +5948,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -5982,27 +5982,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6016,27 +6016,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6050,27 +6050,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6084,27 +6084,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6118,27 +6118,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6152,27 +6152,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6186,27 +6186,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6220,27 +6220,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6526,27 +6526,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6560,27 +6560,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6594,27 +6594,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6628,27 +6628,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6662,27 +6662,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6696,27 +6696,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6730,27 +6730,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6764,27 +6764,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6798,27 +6798,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6832,27 +6832,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -6866,27 +6866,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7172,27 +7172,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7206,27 +7206,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7240,27 +7240,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7274,27 +7274,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7308,27 +7308,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7342,27 +7342,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7376,27 +7376,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7410,27 +7410,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7444,27 +7444,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7478,27 +7478,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7512,27 +7512,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7818,27 +7818,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7852,27 +7852,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7886,27 +7886,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7920,27 +7920,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7954,27 +7954,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -7988,27 +7988,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8022,27 +8022,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8056,27 +8056,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8090,27 +8090,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8124,27 +8124,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8158,27 +8158,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8464,27 +8464,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8498,27 +8498,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8532,27 +8532,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8566,27 +8566,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8600,27 +8600,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8634,27 +8634,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8668,27 +8668,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8702,27 +8702,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8736,27 +8736,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8770,27 +8770,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -8804,27 +8804,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9110,27 +9110,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9144,27 +9144,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9178,27 +9178,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9212,27 +9212,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9246,27 +9246,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9280,27 +9280,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9314,27 +9314,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9348,27 +9348,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9382,27 +9382,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9416,27 +9416,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9450,27 +9450,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9756,27 +9756,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9790,27 +9790,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9824,27 +9824,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9858,27 +9858,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9892,27 +9892,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9926,27 +9926,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9960,27 +9960,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -9994,27 +9994,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -10028,27 +10028,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -10062,27 +10062,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -10096,27 +10096,27 @@
       },
       "intensity": {
         "direct_intensity": 0,
-        "total_intensity": 0
+        "total_intensity": 0.0
       },
       "pathogen_survival": [
         {
           "pathogen_name": "E. coli",
           "k_value": 0.001,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "COVID-19 (Omicron)",
           "k_value": 0.003,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         },
         {
           "pathogen_name": "Influenza A",
           "k_value": 0.002,
-          "dose": 0,
+          "dose": 0.0,
           "survival_rate": 1.0,
           "log_reduction": 0.0
         }
@@ -12841,16 +12841,6 @@
           "log_reduction": 0.03218381819917873
         }
       ]
-    }
-  ],
-  "lights": [
-    {
-      "position": {
-        "x": 5,
-        "y": 9.5,
-        "z": 5
-      },
-      "intensity": 1000
     }
   ],
   "lights": [

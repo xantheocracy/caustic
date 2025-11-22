@@ -9,11 +9,12 @@ class Triangle:
     Vertices should be ordered counter-clockwise when viewed from the front (outward-facing side).
     """
 
-    def __init__(self, v0: Vector3, v1: Vector3, v2: Vector3, reflectivity: float = 0.5):
+    def __init__(self, v0: Vector3, v1: Vector3, v2: Vector3, reflectivity: float = 0.5, albedo: float = 0.05):
         self.v0 = v0
         self.v1 = v1
         self.v2 = v2
         self.reflectivity = reflectivity
+        self.albedo = albedo  # Diffuse reflectance for photon tracing (0.05 for UV surfaces)
 
         # Calculate normal using cross product
         edge1 = v1.subtract(v0)
