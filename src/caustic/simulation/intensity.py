@@ -22,6 +22,7 @@ class IntensityConfig(NamedTuple):
     grid_cell_size: float  # Cell size for spatial grid optimization
     photons_per_light: int = 10000  # Number of photons to emit per light for indirect calculation
     kernel_radius: float = 1.0  # Radius for kernel density estimate in photon tracing
+    verbose: bool = True  # Enable verbose logging for photon tracing
 
 
 class IntensityCalculator:
@@ -41,6 +42,7 @@ class IntensityCalculator:
                 max_bounces=config.max_bounces,
                 photons_per_light=config.photons_per_light,
                 kernel_radius=config.kernel_radius,
+                verbose=config.verbose,
             )
             self.photon_tracer = PhotonTracer(triangles, self.tracer, photon_config)
         else:

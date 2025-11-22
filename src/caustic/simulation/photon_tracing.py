@@ -15,11 +15,13 @@ class PhotonTracingConfig:
         photons_per_light: int = 10000,
         kernel_radius: float = 1.0,
         epsilon: float = 1e-6,
+        verbose: bool = False,
     ):
         self.max_bounces = max_bounces
         self.photons_per_light = photons_per_light
         self.kernel_radius = kernel_radius
         self.epsilon = epsilon
+        self.verbose = verbose
 
 
 class PhotonTracer:
@@ -37,6 +39,7 @@ class PhotonTracer:
     ) -> Dict[int, float]:
         """
         Compute indirect exposure at sample points using forward photon tracing.
+        Uses a gather-based approach: trace each photon once, then update all sample points.
 
         Args:
             sample_points: List of points at which to compute indirect exposure
@@ -48,11 +51,18 @@ class PhotonTracer:
         # Initialize indirect exposure for all points to zero
         indirect_exposure = {i: 0.0 for i in range(len(sample_points))}
 
+        if self.config.verbose:
+            print(f"Starting photon tracing for {len(lights)} light(s)")
+            print(f"Tracing {self.config.photons_per_light} photons per light (max bounces: {self.config.max_bounces})")
+
         # Trace photons from each light
-        for light in lights:
+        for light_idx, light in enumerate(lights):
             power_per_photon = light.intensity / self.config.photons_per_light
 
-            for _ in range(self.config.photons_per_light):
+            if self.config.verbose:
+                print(f"\n  Light {light_idx + 1}/{len(lights)}: Tracing {self.config.photons_per_light} photons")
+
+            for photon_idx in range(self.config.photons_per_light):
                 # Sample initial direction uniformly from sphere
                 initial_direction = sample_uniform_sphere()
 
@@ -64,6 +74,12 @@ class PhotonTracer:
                     sample_points,
                     indirect_exposure,
                 )
+
+                if self.config.verbose and (photon_idx + 1) % max(1, self.config.photons_per_light // 10) == 0:
+                    print(f"    Photons traced: {photon_idx + 1}/{self.config.photons_per_light}")
+
+        if self.config.verbose:
+            print("\nPhoton tracing complete!")
 
         return indirect_exposure
 
@@ -135,7 +151,7 @@ class PhotonTracer:
     ) -> None:
         """
         Trace a photon after it has bounced at least once.
-        Deposits flux into sample points along the path.
+        Deposits flux into all sample points based on proximity to the hit point.
 
         Args:
             origin: Starting position
@@ -155,7 +171,7 @@ class PhotonTracer:
         if not hit.hit:
             return  # Photon escaped
 
-        # DEPOSIT FLUX into sample points
+        # DEPOSIT FLUX into all sample points based on proximity
         hit_point = hit.point
         for i, sample_point in enumerate(sample_points):
             distance = hit_point.subtract(sample_point).length()
