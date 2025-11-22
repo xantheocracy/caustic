@@ -1,0 +1,1422 @@
+{
+  "triangles": [
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 0,
+        "z": 10
+      },
+      "v2": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "normal": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "v2": {
+        "x": 10,
+        "y": 0,
+        "z": 10
+      },
+      "normal": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "v1": {
+        "x": 0,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 10,
+        "y": 10,
+        "z": 0
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "v2": {
+        "x": 10,
+        "y": 10,
+        "z": 0
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 10,
+        "z": 0
+      },
+      "v2": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 10,
+        "y": 0,
+        "z": 10
+      },
+      "v1": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 0,
+        "y": 10,
+        "z": 10
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 10,
+        "y": 0,
+        "z": 10
+      },
+      "v1": {
+        "x": 0,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "v1": {
+        "x": 0,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "normal": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "v1": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "v2": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "normal": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 10,
+        "z": 0
+      },
+      "v2": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "normal": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "v1": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "v2": {
+        "x": 10,
+        "y": 0,
+        "z": 10
+      },
+      "normal": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 4,
+        "y": 4,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 4,
+        "z": 6
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 4,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 4,
+        "z": 4
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 6,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "v2": {
+        "x": 4,
+        "y": 6,
+        "z": 6
+      },
+      "normal": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 6,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 6,
+        "z": 4
+      },
+      "v2": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "normal": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 4,
+        "z": 4
+      },
+      "v2": {
+        "x": 6,
+        "y": 6,
+        "z": 4
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 6,
+        "z": 4
+      },
+      "v2": {
+        "x": 4,
+        "y": 6,
+        "z": 4
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 6
+      },
+      "v1": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 4,
+        "z": 6
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 6
+      },
+      "v1": {
+        "x": 4,
+        "y": 6,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "normal": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 4,
+        "y": 6,
+        "z": 4
+      },
+      "v2": {
+        "x": 4,
+        "y": 6,
+        "z": 6
+      },
+      "normal": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 4,
+        "y": 6,
+        "z": 6
+      },
+      "v2": {
+        "x": 4,
+        "y": 4,
+        "z": 6
+      },
+      "normal": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 6,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 6,
+        "z": 4
+      },
+      "normal": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    },
+    {
+      "v0": {
+        "x": 6,
+        "y": 4,
+        "z": 4
+      },
+      "v1": {
+        "x": 6,
+        "y": 4,
+        "z": 6
+      },
+      "v2": {
+        "x": 6,
+        "y": 6,
+        "z": 6
+      },
+      "normal": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reflectivity": 0.5
+    }
+  ],
+  "pathogens": [
+    {
+      "name": "E. coli",
+      "k_value": 0.001
+    },
+    {
+      "name": "COVID-19 (Omicron)",
+      "k_value": 0.003
+    },
+    {
+      "name": "Influenza A",
+      "k_value": 0.002
+    }
+  ],
+  "points": [
+    {
+      "position": {
+        "x": 1,
+        "y": 0.1,
+        "z": 1
+      },
+      "intensity": {
+        "direct_intensity": 0.6611621098865708,
+        "total_intensity": 0.6611621098865708
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9611068147610918,
+          "log_reduction": 0.017228343358034946
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.8877996509194341,
+          "log_reduction": 0.05168503007410484
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9237263093802117,
+          "log_reduction": 0.03445668671606989
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0.1,
+        "z": 3
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0.1,
+        "z": 5
+      },
+      "intensity": {
+        "direct_intensity": 0.7625284739933659,
+        "total_intensity": 0.7625284739933659
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9552791204907364,
+          "log_reduction": 0.019869714512965563
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.8717477928255689,
+          "log_reduction": 0.059609143538896694
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9125581980455548,
+          "log_reduction": 0.039739429025931125
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0.1,
+        "z": 7
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0.1,
+        "z": 9
+      },
+      "intensity": {
+        "direct_intensity": 0.6611621098865708,
+        "total_intensity": 0.6611621098865708
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9611068147610918,
+          "log_reduction": 0.017228343358034946
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.8877996509194341,
+          "log_reduction": 0.05168503007410484
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9237263093802117,
+          "log_reduction": 0.03445668671606989
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0.1,
+        "z": 1
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0.1,
+        "z": 3
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0.1,
+        "z": 5
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0.1,
+        "z": 7
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0.1,
+        "z": 9
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0.1,
+        "z": 1
+      },
+      "intensity": {
+        "direct_intensity": 0.7625284739933659,
+        "total_intensity": 0.7625284739933659
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9552791204907364,
+          "log_reduction": 0.019869714512965563
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.8717477928255689,
+          "log_reduction": 0.059609143538896694
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9125581980455548,
+          "log_reduction": 0.039739429025931125
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0.1,
+        "z": 3
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0.1,
+        "z": 5
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0.1,
+        "z": 7
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0.1,
+        "z": 9
+      },
+      "intensity": {
+        "direct_intensity": 0.7625284739933659,
+        "total_intensity": 0.7625284739933659
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9552791204907364,
+          "log_reduction": 0.019869714512965563
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.8717477928255689,
+          "log_reduction": 0.059609143538896694
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9125581980455548,
+          "log_reduction": 0.039739429025931125
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0.1,
+        "z": 1
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0.1,
+        "z": 3
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0.1,
+        "z": 5
+      },
+      "intensity": {
+        "direct_intensity": 0,
+        "total_intensity": 0
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 0,
+          "survival_rate": 1.0,
+          "log_reduction": 0.0
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0.1,
+        "z": 7
+      },
+      "intensity": {
+        "direct_intensity": 0.8258351135943094,
+        "total_intensity": 0.8258351135943094
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 49.550106815658566,
+          "survival_rate": 0.9516574724162419,
+          "log_reduction": 0.02151933796775722
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 49.550106815658566,
+          "survival_rate": 0.861870440682618,
+          "log_reduction": 0.06455801390327168
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 49.550106815658566,
+          "survival_rate": 0.9056519448056702,
+          "log_reduction": 0.04303867593551444
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0.1,
+        "z": 9
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 0.1,
+        "z": 1
+      },
+      "intensity": {
+        "direct_intensity": 0.6611621098865708,
+        "total_intensity": 0.6611621098865708
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9611068147610918,
+          "log_reduction": 0.017228343358034946
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.8877996509194341,
+          "log_reduction": 0.05168503007410484
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9237263093802117,
+          "log_reduction": 0.03445668671606989
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 0.1,
+        "z": 3
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 0.1,
+        "z": 5
+      },
+      "intensity": {
+        "direct_intensity": 0.7625284739933659,
+        "total_intensity": 0.7625284739933659
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9552791204907364,
+          "log_reduction": 0.019869714512965563
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.8717477928255689,
+          "log_reduction": 0.059609143538896694
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 45.751708439601956,
+          "survival_rate": 0.9125581980455548,
+          "log_reduction": 0.039739429025931125
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 0.1,
+        "z": 7
+      },
+      "intensity": {
+        "direct_intensity": 0.7343805052228466,
+        "total_intensity": 0.7343805052228466
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.9568938336448365,
+          "log_reduction": 0.01913624406213627
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.8761758283080607,
+          "log_reduction": 0.05740873218640881
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 44.062830313370796,
+          "survival_rate": 0.915645808867512,
+          "log_reduction": 0.03827248812427254
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 0.1,
+        "z": 9
+      },
+      "intensity": {
+        "direct_intensity": 0.6611621098865708,
+        "total_intensity": 0.6611621098865708
+      },
+      "pathogen_survival": [
+        {
+          "pathogen_name": "E. coli",
+          "k_value": 0.001,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9611068147610918,
+          "log_reduction": 0.017228343358034946
+        },
+        {
+          "pathogen_name": "COVID-19 (Omicron)",
+          "k_value": 0.003,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.8877996509194341,
+          "log_reduction": 0.05168503007410484
+        },
+        {
+          "pathogen_name": "Influenza A",
+          "k_value": 0.002,
+          "dose": 39.66972659319425,
+          "survival_rate": 0.9237263093802117,
+          "log_reduction": 0.03445668671606989
+        }
+      ]
+    }
+  ]
+}
