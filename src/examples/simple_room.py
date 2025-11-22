@@ -229,8 +229,8 @@ def generate_floor_test_points() -> List[Vector3]:
     floor_y = 0.1  # Slightly above the floor
 
     # Create a grid of test points
-    for x in range(1, 10, 2):
-        for z in range(1, 10, 2):
-            points.append(Vector3(x, floor_y, z))
+    for x in range(1, 20, 1):
+        for z in range(1, 20, 1):
+            points.append(Vector3(x/2, floor_y, z/2))
 
     return points
