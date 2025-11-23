@@ -63,6 +63,9 @@ class SimulationRequest(BaseModel):
     settings_file: str = "room.json"
     num_points: int = 500
     max_bounces: int = 0
+    sampling_mode: str = "pruned"  # "pruned", "random", or "cross_section"
+    cross_section_x: Optional[float] = None  # X coordinate for cross-section mode
+    grid_size: int = 10  # N for NxN grid in cross-section mode
 
 @app.get("/")
 def read_root():
@@ -237,9 +240,38 @@ def run_simulation(request: SimulationRequest):
     # ==================== PHASE 7: Generate Test Points ====================
     phase7_start = time.time()
     print(f"\n[7] Generating test measurement points...")
+    print(f"    Mode: {request.sampling_mode}")
 
     points_gen_start = time.time()
-    test_points = MeshSampler.generate_measurement_points(triangles, request.num_points, 0.5, 0.9, 10)
+
+    if request.sampling_mode == "random":
+        print(f"    Sampling {request.num_points} random points on surface...")
+        test_points = MeshSampler.sample_random_points_on_surface(
+            triangles,
+            request.num_points,
+            surface_offset=0.01
+        )
+    elif request.sampling_mode == "cross_section":
+        if request.cross_section_x is None:
+            raise ValueError("cross_section_x must be provided for cross_section mode")
+        grid_size = request.grid_size
+        print(f"    Sampling {grid_size}x{grid_size} grid at X={request.cross_section_x}...")
+        test_points = MeshSampler.sample_vertical_cross_section(
+            triangles,
+            request.cross_section_x,
+            grid_size=grid_size,
+            surface_offset=0.01
+        )
+    else:  # default to "pruned"
+        print(f"    Using pruned sampling (default)...")
+        test_points = MeshSampler.generate_measurement_points(
+            triangles,
+            request.num_points,
+            0.5,
+            0.9,
+            10
+        )
+
     points_gen_time = time.time() - points_gen_start
     print(f"    ✓ Test points generated: {len(test_points)} points ({points_gen_time:.3f}s, {len(test_points)/points_gen_time:.0f} pts/s)")
 
