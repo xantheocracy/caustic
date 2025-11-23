@@ -35,6 +35,21 @@ controls.dampingFactor = 0.05;
 controls.enableZoom = true;
 controls.zoomSpeed = 1.0;
 
+// Keyboard movement configuration
+const movementConfig = {
+    speed: 0.15,  // Units per frame at 60fps
+    keys: {}
+};
+
+// Track keyboard input
+document.addEventListener('keydown', (e) => {
+    movementConfig.keys[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener('keyup', (e) => {
+    movementConfig.keys[e.key.toLowerCase()] = false;
+});
+
 // Initialize room data
 let triangleData = [];
 let roomMesh = null;
@@ -360,9 +375,51 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// Calculate keyboard-based movement
+function updateCameraMovement() {
+    const keys = movementConfig.keys;
+    const speed = movementConfig.speed;
+
+    // Get camera direction (where the camera is looking)
+    const cameraDir = new THREE.Vector3();
+    camera.getWorldDirection(cameraDir);
+
+    // Get camera right vector (perpendicular to camera direction)
+    const rightDir = new THREE.Vector3();
+    camera.getWorldDirection(rightDir);
+    rightDir.cross(camera.up).normalize();
+
+    // Create forward and right vectors in the X-Z plane (horizontal movement)
+    const forwardDir = new THREE.Vector3(cameraDir.x, 0, cameraDir.z).normalize();
+    const strafeDir = new THREE.Vector3(rightDir.x, 0, rightDir.z).normalize();
+
+    // Handle WASD movement - move both camera AND target together
+    if (keys['w'] || keys['arrowup']) {
+        const offset = forwardDir.multiplyScalar(speed);
+        camera.position.add(offset);
+        controls.target.add(offset);
+    }
+    if (keys['s'] || keys['arrowdown']) {
+        const offset = forwardDir.multiplyScalar(-speed);
+        camera.position.add(offset);
+        controls.target.add(offset);
+    }
+    if (keys['a'] || keys['arrowleft']) {
+        const offset = strafeDir.multiplyScalar(-speed);
+        camera.position.add(offset);
+        controls.target.add(offset);
+    }
+    if (keys['d'] || keys['arrowright']) {
+        const offset = strafeDir.multiplyScalar(speed);
+        camera.position.add(offset);
+        controls.target.add(offset);
+    }
+}
+
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
+    updateCameraMovement();
     controls.update();
     renderer.render(scene, camera);
 }
