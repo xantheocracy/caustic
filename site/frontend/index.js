@@ -180,7 +180,7 @@ async function loadRoomSettings(settingsFile) {
     }
 }
 
-// Color map utility for total_intensity using log scale (dark blue → cyan → yellow)
+// Color map utility for total_intensity using log scale (black → purple)
 function getColorForIntensity(intensity, minI, maxI) {
     // Clamp between minI and maxI
     if (intensity < minI) intensity = minI;
@@ -195,26 +195,15 @@ function getColorForIntensity(intensity, minI, maxI) {
     let norm = (logIntensity - logMin) / (logMax - logMin);
     norm = Math.max(0, Math.min(1, norm)); // Clamp to [0, 1]
 
-    // Interpolate dark blue (0, 0.196, 0.588) → cyan (0, 0.784, 0.784) → yellow (1, 1, 0)
-    let r, g, b;
-    if (norm < 0.5) {
-        // First half: dark blue to cyan
-        const t = norm * 2; // 0 to 1
-        r = 0.0;
-        g = 0.196 + t * (0.784 - 0.196);
-        b = 0.588 + t * (0.784 - 0.588);
-    } else {
-        // Second half: cyan to yellow
-        const t = (norm - 0.5) * 2; // 0 to 1
-        r = t;
-        g = 0.784 + t * (1.0 - 0.784);
-        b = 0.784 * (1.0 - t);
-    }
+    // Interpolate black (0, 0, 0) → purple (0.627, 0.125, 0.941)
+    const r = norm * 0.627;
+    const g = norm * 0.125;
+    const b = norm * 0.941;
 
     return new THREE.Color(r, g, b);
 }
 
-// Color map utility for survival rate (green → yellow → orange → red)
+// Color map utility for survival rate (black → red)
 function getColorForSurvivalRate(survivalRate, minRate, maxRate) {
     // Clamp between minRate and maxRate
     if (survivalRate < minRate) survivalRate = minRate;
@@ -223,29 +212,15 @@ function getColorForSurvivalRate(survivalRate, minRate, maxRate) {
     // Normalize 0 ... 1 (linear scale)
     let norm = (survivalRate - minRate) / (maxRate - minRate);
 
-    // Traffic light gradient: green (good) → yellow → orange → red (bad)
-    // Low survival (0.0) = green (0, 0.784, 0.196) - Good! Pathogens killed
-    // Mid survival (0.5) = orange (1, 0.588, 0)
-    // High survival (1.0) = red (1, 0, 0) - Bad! Pathogens survive
-    let r, g, b;
-    if (norm < 0.5) {
-        // First half: green to orange
-        const t = norm * 2; // 0 to 1
-        r = t;
-        g = 0.784 + t * (0.588 - 0.784);
-        b = 0.196 * (1.0 - t);
-    } else {
-        // Second half: orange to red
-        const t = (norm - 0.5) * 2; // 0 to 1
-        r = 1.0;
-        g = 0.588 * (1.0 - t);
-        b = 0.0;
-    }
+    // Interpolate black (0, 0, 0) → red (1, 0, 0)
+    const r = norm * 1.0;
+    const g = 0.0;
+    const b = 0.0;
 
     return new THREE.Color(r, g, b);
 }
 
-// Color map utility for eACH-UV (purple → magenta → orange)
+// Color map utility for eACH-UV (brown → bright blue)
 function getColorForEchUV(echUV, minUV, maxUV) {
     // Clamp between minUV and maxUV
     if (echUV < minUV) echUV = minUV;
@@ -254,21 +229,10 @@ function getColorForEchUV(echUV, minUV, maxUV) {
     // Normalize 0 ... 1 (linear scale)
     let norm = (echUV - minUV) / (maxUV - minUV);
 
-    // Interpolate purple (0.392, 0, 0.588) → magenta (1, 0, 0.784) → orange (1, 0.588, 0)
-    let r, g, b;
-    if (norm < 0.5) {
-        // First half: purple to magenta
-        const t = norm * 2; // 0 to 1
-        r = 0.392 + t * (1.0 - 0.392);
-        g = 0.0;
-        b = 0.588 + t * (0.784 - 0.588);
-    } else {
-        // Second half: magenta to orange
-        const t = (norm - 0.5) * 2; // 0 to 1
-        r = 1.0;
-        g = t * 0.588;
-        b = 0.784 * (1.0 - t);
-    }
+    // Interpolate brown (0.647, 0.165, 0.165) → bright blue (0, 0.5, 1.0)
+    const r = 0.647 + norm * (0.0 - 0.647);
+    const g = 0.165 + norm * (0.5 - 0.165);
+    const b = 0.165 + norm * (1.0 - 0.165);
 
     return new THREE.Color(r, g, b);
 }
