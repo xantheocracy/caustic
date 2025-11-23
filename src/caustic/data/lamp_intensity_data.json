@@ -1,0 +1,59 @@
+{
+  "ushio_b1": {
+    "name": "USHIO B1",
+    "wavelength_nm": 222.0,
+    "intensity_units": "mW/sr",
+    "max_intensity": 122.9926,
+    "forward_intensity": 121.3792,
+    "intensity_samples_at_phi_0deg": {
+      "0": 121.3792,
+      "10": 119.2845,
+      "20": 105.9792,
+      "30": 60.3568,
+      "40": 12.9086,
+      "50": 1.5613,
+      "60": 0.7066,
+      "70": 0.4286,
+      "80": 0.0,
+      "90": 0.0
+    }
+  },
+  "aerolamp": {
+    "name": "AEROLAMP",
+    "wavelength_nm": 222.0,
+    "intensity_units": "mW/sr",
+    "max_intensity": 94.7925,
+    "forward_intensity": 94.52,
+    "intensity_samples_at_angle_deg": {
+      "0": 94.52,
+      "10": 91.2874,
+      "20": 83.2107,
+      "30": 52.861,
+      "40": 10.0582,
+      "50": 1.4634,
+      "60": 0.6616,
+      "70": 0.4671,
+      "80": 0.2728,
+      "90": 0.0
+    }
+  },
+  "beacon": {
+    "name": "BEACON",
+    "wavelength_nm": 254.0,
+    "intensity_units": "mW/sr",
+    "max_intensity": 9.0349,
+    "forward_intensity": 9.0065,
+    "intensity_samples_at_phi_0deg": {
+      "0": 9.0065,
+      "10": 8.8653,
+      "20": 8.3548,
+      "30": 7.5293,
+      "40": 6.4269,
+      "50": 5.0558,
+      "60": 3.4974,
+      "70": 1.8685,
+      "80": 0.3209,
+      "90": 0.0
+    }
+  }
+}

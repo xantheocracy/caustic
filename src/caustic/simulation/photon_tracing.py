@@ -1,9 +1,11 @@
 """Forward photon tracing for indirect UV light exposure"""
 
+import math
 from typing import List, Dict
 from ..core import Vector3, Light, Triangle
+from ..core.lamp_profiles import get_lamp_manager
 from ..raytracing import Tracer
-from ..utils import sample_uniform_sphere, sample_cosine_weighted_hemisphere
+from ..utils import sample_uniform_sphere, sample_cosine_weighted_hemisphere, sample_biased_cone
 
 
 class PhotonTracingConfig:
@@ -63,14 +65,16 @@ class PhotonTracer:
                 print(f"\n  Light {light_idx + 1}/{len(lights)}: Tracing {self.config.photons_per_light} photons")
 
             for photon_idx in range(self.config.photons_per_light):
-                # Sample initial direction uniformly from sphere
-                initial_direction = sample_uniform_sphere()
+                # Sample initial direction from biased cone around light direction
+                # Only sample directions within 90 degrees of the light direction
+                initial_direction = sample_biased_cone(light.direction, max_angle_degrees=90.0)
 
                 # Trace first photon bounce (no energy deposit yet)
                 self._trace_photon_from_light(
                     light.position,
                     initial_direction,
                     power_per_photon,
+                    light,
                     sample_points,
                     indirect_exposure,
                 )
@@ -88,6 +92,7 @@ class PhotonTracer:
         origin: Vector3,
         direction: Vector3,
         flux: float,
+        light: Light,
         sample_points: List[Vector3],
         indirect_exposure: Dict[int, float],
     ) -> None:
@@ -99,6 +104,7 @@ class PhotonTracer:
             origin: Starting position
             direction: Ray direction
             flux: Photon energy/power
+            light: The light source (for angular intensity)
             sample_points: Points at which to accumulate exposure
             indirect_exposure: Dictionary to accumulate indirect exposure
         """
@@ -117,9 +123,36 @@ class PhotonTracer:
         if tri is None:
             return
 
-        # Compute reflected flux
+        # Compute reflected flux with angle-dependent intensity from lamp
+        # Calculate angle between photon direction and light direction
+        cos_angle = light.direction.dot(direction)
+        cos_angle = max(-1.0, min(1.0, cos_angle))
+        angle_rad = math.acos(cos_angle)
+        angle_deg = math.degrees(angle_rad)
+
+        # Get intensity multiplier based on lamp type and angle
+        lamp_manager = get_lamp_manager()
+        try:
+            intensity_at_angle = lamp_manager.get_intensity_at_angle(light.lamp_type, angle_deg)
+        except (ValueError, KeyError):
+            intensity_at_angle = light.intensity
+
+        lamp_profile = lamp_manager.get_profile(light.lamp_type)
+        if lamp_profile is not None:
+            forward_intensity = lamp_profile.forward_intensity
+        else:
+            forward_intensity = light.intensity
+
+        if forward_intensity > 0:
+            intensity_multiplier = intensity_at_angle / forward_intensity
+        else:
+            intensity_multiplier = 1.0
+
+        # Apply angle-dependent intensity to the flux
+        angle_adjusted_flux = flux * intensity_multiplier
+
         rho = tri.albedo
-        reflected_flux = flux * rho
+        reflected_flux = angle_adjusted_flux * rho
 
         if reflected_flux < self.config.epsilon:
             return
@@ -136,6 +169,7 @@ class PhotonTracer:
             new_direction,
             reflected_flux,
             1,  # Starting at bounce 1
+            light,
             sample_points,
             indirect_exposure,
         )
@@ -146,6 +180,7 @@ class PhotonTracer:
         direction: Vector3,
         flux: float,
         bounce: int,
+        light: Light,
         sample_points: List[Vector3],
         indirect_exposure: Dict[int, float],
     ) -> None:
@@ -158,6 +193,7 @@ class PhotonTracer:
             direction: Ray direction
             flux: Current photon energy/power
             bounce: Current bounce number (1 or higher)
+            light: The light source (for angular intensity)
             sample_points: Points at which to accumulate exposure
             indirect_exposure: Dictionary to accumulate indirect exposure
         """
@@ -203,6 +239,7 @@ class PhotonTracer:
             new_direction,
             new_flux,
             bounce + 1,
+            light,
             sample_points,
             indirect_exposure,
         )

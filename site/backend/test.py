@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import os
 import sys
 import json
@@ -16,6 +16,7 @@ if src_path not in sys.path:
 # Import caustic simulation modules
 from caustic import UVLightSimulator, IntensityConfig
 from caustic.core import Vector3, Light, Triangle
+from caustic.core.lamp_profiles import get_lamp_manager
 from caustic.data import get_pathogen_database
 from caustic.spatial.mesh_sampler import MeshSampler
 
@@ -35,9 +36,15 @@ class Position(BaseModel):
     y: float
     z: float
 
+class Direction(BaseModel):
+    x: float
+    y: float
+    z: float
+
 class LightInput(BaseModel):
     position: Position
-    intensity: float
+    lamp_type: str = "ushio_b1"  # Default lamp type
+    direction: Optional[Direction] = None  # Default will be set in backend
 
 class SimulationRequest(BaseModel):
     lights: List[LightInput]
@@ -92,10 +99,33 @@ def run_simulation(request: SimulationRequest):
         triangles.append(Triangle(v0, v1, v2, reflectivity))
 
     # Convert user lights to Light objects
+    lamp_manager = get_lamp_manager()
     lights = []
     for light_input in request.lights:
         pos = Vector3(light_input.position.x, light_input.position.y, light_input.position.z)
-        lights.append(Light(pos, light_input.intensity))
+
+        # Set direction, defaulting to downward if not provided
+        if light_input.direction is not None:
+            direction = Vector3(light_input.direction.x, light_input.direction.y, light_input.direction.z)
+            # Normalize the direction
+            direction = direction.normalize()
+        else:
+            direction = Vector3(0, -1, 0)  # Default: pointing downward
+
+        # Get intensity from lamp profile (forward intensity in mW/sr)
+        lamp_profile = lamp_manager.get_profile(light_input.lamp_type)
+        if lamp_profile is not None:
+            intensity = lamp_profile.forward_intensity
+        else:
+            intensity = 100.0  # Fallback default
+
+        # Create light with lamp type and direction
+        lights.append(Light(
+            pos,
+            intensity,
+            lamp_type=light_input.lamp_type,
+            direction=direction
+        ))
 
     # Load pathogens from database
     pathogen_db = get_pathogen_database()
