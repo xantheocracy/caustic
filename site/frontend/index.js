@@ -126,7 +126,7 @@ function updateLightInputBounds() {
 // Load room triangles from settings file
 async function loadRoomSettings(settingsFile) {
     try {
-        const roomResponse = await fetch(`/static/settings/${settingsFile}`);
+        const roomResponse = await fetch(`${config.backendUrl}/settings/${settingsFile}`);
         const roomData = await roomResponse.json();
         triangleData = roomData.triangles;
 
