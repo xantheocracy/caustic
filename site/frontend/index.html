@@ -84,6 +84,18 @@
         </div>
 
         <div style="margin-bottom: 20px;">
+            <h4>Simulation Parameters</h4>
+            <label for="num-points">Number of Measurement Points:</label>
+            <input type="number" id="num-points" min="10" max="2000" step="10" value="500" style="width: 100%; margin: 5px 0;">
+
+            <label for="max-bounces" style="margin-top: 10px; display: block;">Max Light Bounces:</label>
+            <select id="max-bounces" style="width: 100%; margin: 5px 0; padding: 5px;">
+                <option value="0">0 (Direct light only)</option>
+                <option value="1">1 (Include reflections)</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 20px;">
             <h4>Add Light</h4>
             <label for="lamp-type">Lamp Type:</label>
             <select id="lamp-type" style="width: 100%; margin: 5px 0; padding: 5px;">
@@ -135,6 +147,12 @@
                 <input type="checkbox" id="solid-color-toggle" style="margin-right: 8px;">
                 <span>Solid Color (Hide Structure)</span>
             </label>
+
+            <label for="sphere-scale" style="margin-top: 12px; display: block;">Sphere Scale:</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="range" id="sphere-scale" min="0.1" max="3.0" step="0.1" value="1.0" style="flex: 1;">
+                <span id="sphere-scale-label" style="width: 40px; text-align: right;">1.0x</span>
+            </div>
         </div>
 
         <div id="result"></div>

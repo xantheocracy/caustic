@@ -61,6 +61,8 @@ class LightInput(BaseModel):
 class SimulationRequest(BaseModel):
     lights: List[LightInput]
     settings_file: str = "room.json"
+    num_points: int = 500
+    max_bounces: int = 0
 
 @app.get("/")
 def read_root():
@@ -223,7 +225,7 @@ def run_simulation(request: SimulationRequest):
         triangles,
         lights,
         IntensityConfig(
-            max_bounces=0,
+            max_bounces=request.max_bounces,
             grid_cell_size=optimal_grid_size,
             photons_per_light=500,
             verbose=False  # Disable verbose photon logging for cleaner console
@@ -237,7 +239,7 @@ def run_simulation(request: SimulationRequest):
     print(f"\n[7] Generating test measurement points...")
 
     points_gen_start = time.time()
-    test_points = MeshSampler.generate_measurement_points(triangles, 500, 0.5, 0.9, 10)
+    test_points = MeshSampler.generate_measurement_points(triangles, request.num_points, 0.5, 0.9, 10)
     points_gen_time = time.time() - points_gen_start
     print(f"    ✓ Test points generated: {len(test_points)} points ({points_gen_time:.3f}s, {len(test_points)/points_gen_time:.0f} pts/s)")
 
