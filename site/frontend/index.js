@@ -45,6 +45,23 @@ const movementConfig = {
 // Track keyboard input
 document.addEventListener('keydown', (e) => {
     movementConfig.keys[e.key.toLowerCase()] = true;
+
+    // Toggle between translation and rotation modes with spacebar
+    if (e.key === ' ' && selectedLightIndex !== null) {
+        gizmoMode = gizmoMode === 'translate' ? 'rotate' : 'translate';
+
+        if (gizmoMode === 'translate') {
+            // Switch to translation mode - show translation arrows
+            rotationGizmoObjects.forEach(obj => scene.remove(obj));
+            rotationGizmoObjects.length = 0;
+            createGizmo(selectedLightIndex);
+        } else {
+            // Switch to rotation mode - show rotation circles
+            gizmoObjects.forEach(obj => scene.remove(obj));
+            gizmoObjects.length = 0;
+            createRotationGizmo(selectedLightIndex);
+        }
+    }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -238,10 +255,12 @@ function visualizeTriangles() {
         color: 0xff69b4,
         transparent: true,
         opacity: 0.3,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        depthWrite: false  // Don't write to depth buffer so gizmos can render on top
     });
 
     roomMesh = new THREE.Mesh(geometry, material);
+    roomMesh.renderOrder = 0; // Render before gizmos
     scene.add(roomMesh);
 
     // Create edges
@@ -375,110 +394,254 @@ const mouse = new THREE.Vector2();
 let mouseDownTime = 0;
 const clickDurationThreshold = 200; // milliseconds - max duration to consider as a quick click
 
+// Helper function to calculate angle on a rotation circle
+function calculateAngleOnCircle(point, center, axis) {
+    // Get vector from center to point
+    const vec = new THREE.Vector3().subVectors(point, center);
+
+    // Project vector onto the plane perpendicular to the rotation axis
+    let rotationAxis = new THREE.Vector3();
+    if (typeof axis === 'string') {
+        if (axis === 'x') rotationAxis.set(1, 0, 0);
+        else if (axis === 'y') rotationAxis.set(0, 1, 0);
+        else if (axis === 'z') rotationAxis.set(0, 0, 1);
+    } else {
+        rotationAxis.copy(axis);
+    }
+
+    // Remove component along rotation axis
+    const projected = vec.clone().sub(rotationAxis.clone().multiplyScalar(vec.dot(rotationAxis)));
+
+    // Choose reference vectors in the plane
+    let refX, refY;
+    if (Math.abs(rotationAxis.x) > 0.9) {
+        // X-axis: use Y and Z
+        refX = new THREE.Vector3(0, 1, 0);
+        refY = new THREE.Vector3(0, 0, 1);
+    } else if (Math.abs(rotationAxis.y) > 0.9) {
+        // Y-axis: use X and Z
+        refX = new THREE.Vector3(1, 0, 0);
+        refY = new THREE.Vector3(0, 0, 1);
+    } else {
+        // Z-axis: use X and Y
+        refX = new THREE.Vector3(1, 0, 0);
+        refY = new THREE.Vector3(0, 1, 0);
+    }
+
+    // Calculate angle using atan2
+    const x = projected.dot(refX);
+    const y = projected.dot(refY);
+    return Math.atan2(y, x);
+}
+
 // Track mouse down time and gizmo interactions
 window.addEventListener('mousedown', (event) => {
     mouseDownTime = Date.now();
 
-    // Check if clicking on gizmo
-    if (selectedLightIndex !== null && gizmoObjects.length > 0) {
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouse.x = (event.clientX - rect.left) / rect.width * 2 - 1;
-        mouse.y = -(event.clientY - rect.top) / rect.height * 2 + 1;
+    // Check if clicking on gizmo (translation or rotation)
+    if (selectedLightIndex !== null) {
+        const gizmoList = gizmoMode === 'translate' ? gizmoObjects : rotationGizmoObjects;
 
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(gizmoObjects, true);
+        if (gizmoList.length > 0) {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = (event.clientX - rect.left) / rect.width * 2 - 1;
+            mouse.y = -(event.clientY - rect.top) / rect.height * 2 + 1;
 
-        if (intersects.length > 0) {
-            // Find which axis was clicked
-            const clickedObject = intersects[0].object;
-            let parent = clickedObject;
-            while (parent && !parent.userData.axis) {
-                parent = parent.parent;
-            }
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(gizmoList, true);
 
-            if (parent && parent.userData.axis) {
-                activeAxis = parent.userData.axis;
-                const lightSphere = lightMeshes[selectedLightIndex * 2];
-                gizmoStartPos = lightSphere.position.clone();
-                gizmoStartMousePos = { x: event.clientX, y: event.clientY };
-                // Disable OrbitControls temporarily
-                controls.enabled = false;
+            if (intersects.length > 0) {
+                // Find which axis was clicked
+                const clickedObject = intersects[0].object;
+                let parent = clickedObject;
+                while (parent && !parent.userData.axis) {
+                    parent = parent.parent;
+                }
+
+                if (parent && parent.userData.axis) {
+                    activeAxis = parent.userData.axis;
+                    const lightSphere = lightMeshes[selectedLightIndex * 2];
+                    gizmoStartPos = lightSphere.position.clone();
+                    gizmoStartMousePos = { x: event.clientX, y: event.clientY };
+
+                    // For rotation mode, store starting direction and calculate starting angle
+                    if (gizmoMode === 'rotate') {
+                        const light = lightsArray[selectedLightIndex];
+                        rotationStartDirection = new THREE.Vector3(
+                            light.direction.x,
+                            light.direction.y,
+                            light.direction.z
+                        );
+
+                        // Calculate initial angle on the circle
+                        rotationStartAngle = calculateAngleOnCircle(
+                            intersects[0].point,
+                            lightSphere.position,
+                            activeAxis
+                        );
+                    }
+
+                    // Disable OrbitControls temporarily
+                    controls.enabled = false;
+                }
             }
         }
     }
 });
 
-// Handle gizmo dragging
+// Handle gizmo dragging (translation and rotation)
 window.addEventListener('mousemove', (event) => {
     if (activeAxis && selectedLightIndex !== null) {
-        const lightSphere = lightMeshes[selectedLightIndex * 2];
         const lightIndex = selectedLightIndex;
 
-        // Calculate movement from the original mouse position, not accumulated
+        // Calculate movement from the original mouse position
         const deltaX = event.clientX - gizmoStartMousePos.x;
         const deltaY = event.clientY - gizmoStartMousePos.y;
 
-        // Get camera right and up vectors for screen-aligned movement
-        const cameraRight = new THREE.Vector3();
-        const cameraUp = new THREE.Vector3();
-        camera.matrix.extractBasis(cameraRight, cameraUp, new THREE.Vector3());
+        if (gizmoMode === 'translate') {
+            // ===== TRANSLATION MODE =====
+            const lightSphere = lightMeshes[lightIndex * 2];
 
-        // Scale movement based on camera distance (zoom level)
-        // Use a fixed pixel-to-world ratio that's zoom-aware
-        const distance = camera.position.distanceTo(gizmoStartPos);
-        const moveScale = distance * 0.0013; // Constant ratio
+            // Get camera right and up vectors for screen-aligned movement
+            const cameraRight = new THREE.Vector3();
+            const cameraUp = new THREE.Vector3();
+            camera.matrix.extractBasis(cameraRight, cameraUp, new THREE.Vector3());
 
-        // Convert screen space movement to world space vectors
-        const screenMovement = cameraRight.clone().multiplyScalar(deltaX * moveScale)
-            .add(cameraUp.clone().multiplyScalar(-deltaY * moveScale));
+            // Scale movement based on camera distance (zoom level)
+            const distance = camera.position.distanceTo(gizmoStartPos);
+            const moveScale = distance * 0.0013;
 
-        // Project screen movement onto the selected axis to determine movement amount
-        let worldDelta = new THREE.Vector3();
+            // Convert screen space movement to world space vectors
+            const screenMovement = cameraRight.clone().multiplyScalar(deltaX * moveScale)
+                .add(cameraUp.clone().multiplyScalar(-deltaY * moveScale));
 
-        if (activeAxis === 'x') {
-            // Project movement onto X-axis
-            const xAxis = new THREE.Vector3(1, 0, 0);
-            const projection = screenMovement.dot(xAxis);
-            worldDelta = xAxis.clone().multiplyScalar(projection);
-        } else if (activeAxis === 'y') {
-            // Project movement onto Y-axis
-            const yAxis = new THREE.Vector3(0, 1, 0);
-            const projection = screenMovement.dot(yAxis);
-            worldDelta = yAxis.clone().multiplyScalar(projection);
-        } else if (activeAxis === 'z') {
-            // Project movement onto Z-axis
-            const zAxis = new THREE.Vector3(0, 0, 1);
-            const projection = screenMovement.dot(zAxis);
-            worldDelta = zAxis.clone().multiplyScalar(projection);
+            // Project screen movement onto the selected axis
+            let worldDelta = new THREE.Vector3();
+
+            if (typeof activeAxis === 'string') {
+                if (activeAxis === 'x') {
+                    const xAxis = new THREE.Vector3(1, 0, 0);
+                    const projection = screenMovement.dot(xAxis);
+                    worldDelta = xAxis.clone().multiplyScalar(projection);
+                } else if (activeAxis === 'y') {
+                    const yAxis = new THREE.Vector3(0, 1, 0);
+                    const projection = screenMovement.dot(yAxis);
+                    worldDelta = yAxis.clone().multiplyScalar(projection);
+                } else if (activeAxis === 'z') {
+                    const zAxis = new THREE.Vector3(0, 0, 1);
+                    const projection = screenMovement.dot(zAxis);
+                    worldDelta = zAxis.clone().multiplyScalar(projection);
+                }
+            }
+
+            // Update light position
+            const newPos = gizmoStartPos.clone().add(worldDelta);
+            lightSphere.position.copy(newPos);
+            lightsArray[lightIndex].position = {
+                x: newPos.x,
+                y: newPos.y,
+                z: newPos.z
+            };
+
+            // Update all gizmo positions
+            gizmoObjects.forEach(gizmo => {
+                gizmo.position.copy(newPos);
+            });
+            rotationGizmoObjects.forEach(gizmo => {
+                gizmo.position.copy(newPos);
+            });
+
+            // Update point light position
+            const pointLight = lightMeshes[lightIndex * 2 + 1];
+            if (pointLight && pointLight instanceof THREE.Light) {
+                pointLight.position.copy(newPos);
+            }
+
+            // Update outline position
+            if (lightOutlineMeshes[lightIndex]) {
+                lightOutlineMeshes[lightIndex].position.copy(newPos);
+            }
+
+            // Update light cone position
+            const light = lightsArray[lightIndex];
+            updateLightCone(lightIndex, newPos, light.direction);
+
+            // Update info box
+            updateLightInfoBox(light);
+
+            updateLightsDisplay();
+        } else {
+            // ===== ROTATION MODE =====
+            const light = lightsArray[lightIndex];
+            const lightSphere = lightMeshes[lightIndex * 2];
+
+            // Determine rotation axis
+            let rotationAxis = new THREE.Vector3();
+            if (typeof activeAxis === 'string') {
+                if (activeAxis === 'x') rotationAxis.set(1, 0, 0);
+                else if (activeAxis === 'y') rotationAxis.set(0, 1, 0);
+                else if (activeAxis === 'z') rotationAxis.set(0, 0, 1);
+            }
+
+            // Project light position to screen space
+            const lightScreenPos = lightSphere.position.clone().project(camera);
+
+            // Convert mouse positions to normalized device coordinates (NDC)
+            const rect = renderer.domElement.getBoundingClientRect();
+            const startMouseNDC = new THREE.Vector2(
+                (gizmoStartMousePos.x - rect.left) / rect.width * 2 - 1,
+                -((gizmoStartMousePos.y - rect.top) / rect.height * 2 - 1)
+            );
+            const currentMouseNDC = new THREE.Vector2(
+                (event.clientX - rect.left) / rect.width * 2 - 1,
+                -((event.clientY - rect.top) / rect.height * 2 - 1)
+            );
+
+            // Calculate vectors from light center to mouse positions (in screen space)
+            const startVector = new THREE.Vector2(
+                startMouseNDC.x - lightScreenPos.x,
+                startMouseNDC.y - lightScreenPos.y
+            );
+            const currentVector = new THREE.Vector2(
+                currentMouseNDC.x - lightScreenPos.x,
+                currentMouseNDC.y - lightScreenPos.y
+            );
+
+            // Calculate the angle between start and current positions
+            // Using atan2 to get signed angle
+            const startAngle = Math.atan2(startVector.y, startVector.x);
+            const currentAngle = Math.atan2(currentVector.y, currentVector.x);
+            let rotationAmount = -(currentAngle - startAngle);
+
+            // Determine if the rotation axis points toward or away from camera
+            const cameraDir = new THREE.Vector3();
+            camera.getWorldDirection(cameraDir);
+            const axisTowardCamera = rotationAxis.dot(cameraDir);
+
+            // If axis points away from camera, flip rotation direction
+            if (axisTowardCamera < 0) {
+                rotationAmount = -rotationAmount;
+            }
+
+            // Apply rotation to the starting direction
+            const rotationQuat = new THREE.Quaternion();
+            rotationQuat.setFromAxisAngle(rotationAxis, rotationAmount);
+
+            const dir = rotationStartDirection.clone();
+            dir.applyQuaternion(rotationQuat);
+
+            light.direction = {
+                x: dir.x,
+                y: dir.y,
+                z: dir.z
+            };
+
+            // Update light cone visualization (position and direction)
+            updateLightCone(lightIndex, lightSphere.position, light.direction);
+
+            // Update info box
+            updateLightInfoBox(light);
         }
-
-        // Update light position from the original starting position
-        const newPos = gizmoStartPos.clone().add(worldDelta);
-        lightSphere.position.copy(newPos);
-        lightsArray[lightIndex].position = {
-            x: newPos.x,
-            y: newPos.y,
-            z: newPos.z
-        };
-
-        // Update all gizmo positions
-        gizmoObjects.forEach(gizmo => {
-            gizmo.position.copy(newPos);
-        });
-
-        // Update point light position
-        const pointLight = lightMeshes[lightIndex * 2 + 1];
-        if (pointLight && pointLight instanceof THREE.Light) {
-            pointLight.position.copy(newPos);
-        }
-
-        // Update outline position
-        if (lightOutlineMeshes[lightIndex]) {
-            lightOutlineMeshes[lightIndex].position.copy(newPos);
-        }
-
-        // Update the lights list display
-        updateLightsDisplay();
     }
 });
 
@@ -590,13 +753,13 @@ function selectLight(index) {
             transparent: true,
             opacity: 1.0,
             fog: false,
-            depthTest: false,
+            depthTest: false,   // Disable depth test to render in front of all facets
             depthWrite: false
         });
         const outlineMesh = new THREE.Mesh(outlineGeometry, outlineMaterial);
         outlineMesh.position.copy(lightSphere.position);
-        // Render in front of facets but allow depth-based ordering with arrows
-        outlineMesh.renderOrder = 1000;
+        // Render in front of facets
+        outlineMesh.renderOrder = 1001;
         scene.add(outlineMesh);
         lightOutlineMeshes[index] = outlineMesh;
 
@@ -606,7 +769,15 @@ function selectLight(index) {
     // Update info box
     updateLightInfoBox(lightsArray[index]);
 
-    // Create gizmo for light manipulation
+    // Add highlight to light cone
+    const selectedLight = lightsArray[index];
+    const selectedLightSphere = lightMeshes[index * 2];
+    addLightConeHighlight(index, selectedLightSphere.position, selectedLight.direction);
+
+    // Reset gizmo mode to translation when selecting a new light
+    gizmoMode = 'translate';
+
+    // Create gizmo for light manipulation (translation by default)
     createGizmo(index);
 }
 
@@ -698,6 +869,256 @@ function createArrow(direction, color, length, offset) {
     return group;
 }
 
+// Create a translucent light cone to visualize light direction
+function createLightCone(lightIndex, position, direction) {
+    // Remove old cone if it exists
+    if (lightCones[lightIndex]) {
+        scene.remove(lightCones[lightIndex]);
+    }
+
+    const coneHeight = 2.0;
+    const coneRadius = 0.6;
+    const coneGroup = new THREE.Group();
+
+    // Create solid translucent cone
+    const coneGeometry = new THREE.ConeGeometry(coneRadius, coneHeight, 16);
+    const coneMaterial = new THREE.MeshBasicMaterial({
+        color: 0xFFFF00,
+        transparent: true,
+        opacity: 0.15,
+        depthTest: false,
+        depthWrite: false
+    });
+    const cone = new THREE.Mesh(coneGeometry, coneMaterial);
+    cone.renderOrder = 500; // Render behind selection highlights
+    coneGroup.add(cone);
+
+    // Position cone at the light location
+    coneGroup.position.copy(position);
+
+    // Orient the cone along the light direction
+    // The cone points along +Y by default (tip at top), we want the tip to point along the direction vector
+    const dir = new THREE.Vector3(direction.x, direction.y, direction.z).normalize();
+
+    // Use quaternion to align cone's +Y axis with the direction vector
+    const quaternion = new THREE.Quaternion();
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    quaternion.setFromUnitVectors(yAxis, dir.clone().negate());
+    coneGroup.setRotationFromQuaternion(quaternion);
+
+    // Now offset the cone along its direction so the tip stays at the light position
+    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    coneGroup.position.add(offset);
+
+    scene.add(coneGroup);
+    lightCones[lightIndex] = coneGroup;
+}
+
+// Update light cone position and direction (for dynamic movement)
+function updateLightCone(lightIndex, position, direction) {
+    if (!lightCones[lightIndex]) {
+        createLightCone(lightIndex, position, direction);
+        return;
+    }
+
+    const coneGroup = lightCones[lightIndex];
+    const coneHeight = 2.0;
+
+    // Position cone at the light location
+    coneGroup.position.copy(position);
+
+    // Orient the cone along the light direction
+    const dir = new THREE.Vector3(direction.x, direction.y, direction.z).normalize();
+
+    // Use quaternion to align cone's +Y axis with the direction vector
+    const quaternion = new THREE.Quaternion();
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    quaternion.setFromUnitVectors(yAxis, dir.clone().negate());
+    coneGroup.setRotationFromQuaternion(quaternion);
+
+    // Now offset the cone along its direction so the tip stays at the light position
+    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    coneGroup.position.add(offset);
+
+    // Also update highlight if it exists
+    if (lightConeHighlights[lightIndex]) {
+        updateLightConeHighlight(lightIndex, position, direction);
+    }
+}
+
+// Add highlight to light cone when light is selected
+function addLightConeHighlight(lightIndex, position, direction) {
+    // Remove old highlight if it exists
+    if (lightConeHighlights[lightIndex]) {
+        scene.remove(lightConeHighlights[lightIndex]);
+    }
+
+    const coneHeight = 2.0;
+    const coneRadius = 0.6;
+    const coneGroup = new THREE.Group();
+
+    // Create wireframe highlight for the cone
+    const coneGeometry = new THREE.ConeGeometry(coneRadius, coneHeight, 16);
+    const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: 0xFFFFFF,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.8,
+        depthTest: false,
+        depthWrite: false
+    });
+    const highlight = new THREE.Mesh(coneGeometry, highlightMaterial);
+    highlight.renderOrder = 1000; // Render in front like light highlight
+    coneGroup.add(highlight);
+
+    // Position cone at the light location
+    coneGroup.position.copy(position);
+
+    // Orient the cone along the light direction
+    const dir = new THREE.Vector3(direction.x, direction.y, direction.z).normalize();
+
+    // Use quaternion to align cone's +Y axis with the direction vector
+    const quaternion = new THREE.Quaternion();
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    quaternion.setFromUnitVectors(yAxis, dir.clone().negate());
+    coneGroup.setRotationFromQuaternion(quaternion);
+
+    // Now offset the cone along its direction so the tip stays at the light position
+    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    coneGroup.position.add(offset);
+
+    scene.add(coneGroup);
+    lightConeHighlights[lightIndex] = coneGroup;
+}
+
+// Update light cone highlight position and direction
+function updateLightConeHighlight(lightIndex, position, direction) {
+    if (!lightConeHighlights[lightIndex]) {
+        return;
+    }
+
+    const coneGroup = lightConeHighlights[lightIndex];
+    const coneHeight = 2.0;
+
+    // Position cone at the light location
+    coneGroup.position.copy(position);
+
+    // Orient the cone along the light direction
+    const dir = new THREE.Vector3(direction.x, direction.y, direction.z).normalize();
+
+    // Use quaternion to align cone's +Y axis with the direction vector
+    const quaternion = new THREE.Quaternion();
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    quaternion.setFromUnitVectors(yAxis, dir.clone().negate());
+    coneGroup.setRotationFromQuaternion(quaternion);
+
+    // Now offset the cone along its direction so the tip stays at the light position
+    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    coneGroup.position.add(offset);
+}
+
+// Remove light cone highlight
+function removeLightConeHighlight(lightIndex) {
+    if (lightConeHighlights[lightIndex]) {
+        scene.remove(lightConeHighlights[lightIndex]);
+        lightConeHighlights[lightIndex] = null;
+    }
+}
+
+// Create rotation circles (gyroscope-like gizmo) for light rotation
+function createRotationGizmo(lightIndex) {
+    // Remove old rotation gizmo if it exists
+    if (rotationGizmoObjects.length > 0) {
+        rotationGizmoObjects.forEach(obj => scene.remove(obj));
+        rotationGizmoObjects.length = 0;
+    }
+
+    const lightSphere = lightMeshes[lightIndex * 2];
+    if (!lightSphere) return;
+
+    const lightPos = lightSphere.position;
+
+    // Base circle size (will be scaled in animation loop)
+    const circleRadius = 2.0;
+
+    // X-axis rotation circle (red)
+    const xCircle = createRotationCircle(new THREE.Vector3(1, 0, 0), 0xff0000, circleRadius);
+    xCircle.position.copy(lightPos);
+    xCircle.userData.axis = 'x';
+    xCircle.userData.type = 'rotation';
+    scene.add(xCircle);
+    rotationGizmoObjects.push(xCircle);
+
+    // Y-axis rotation circle (green)
+    const yCircle = createRotationCircle(new THREE.Vector3(0, 1, 0), 0x00ff00, circleRadius);
+    yCircle.position.copy(lightPos);
+    yCircle.userData.axis = 'y';
+    yCircle.userData.type = 'rotation';
+    scene.add(yCircle);
+    rotationGizmoObjects.push(yCircle);
+
+    // Z-axis rotation circle (blue)
+    const zCircle = createRotationCircle(new THREE.Vector3(0, 0, 1), 0x0000ff, circleRadius);
+    zCircle.position.copy(lightPos);
+    zCircle.userData.axis = 'z';
+    zCircle.userData.type = 'rotation';
+    scene.add(zCircle);
+    rotationGizmoObjects.push(zCircle);
+}
+
+// Create a rotation circle mesh for a given axis and color
+function createRotationCircle(axis, color, radius) {
+    const group = new THREE.Group();
+
+    // Create circle geometry (torus - a ring/circle in 3D)
+    const circleGeometry = new THREE.TorusGeometry(radius, 0.08, 8, 32);
+    // Use MeshBasicMaterial with depth test enabled for proper overlap between circles
+    const circleMaterial = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.7,
+        depthTest: true,   // Enable depth test so circles depth-sort among themselves
+        depthWrite: true,  // Enable depth write for proper depth sorting
+        fog: false,
+        polygonOffset: true,      // Enable polygon offset
+        polygonOffsetFactor: -1,  // Negative value pulls geometry toward camera
+        polygonOffsetUnits: -1
+    });
+    const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+    circle.renderOrder = 1001; // Render in front of outline and facets
+
+    // Rotate circle to face the correct direction
+    // A torus lies in XY plane by default (normal points along Z)
+    // We need to rotate it so the circle lies in the plane perpendicular to the rotation axis
+    if (axis.x === 1) {
+        // X-axis circle - should be in YZ plane (normal pointing along X)
+        // Rotate 90° around Y to move from XY plane to YZ plane
+        circle.rotation.y = Math.PI / 2;
+    } else if (axis.y === 1) {
+        // Y-axis circle - should be in XZ plane (normal pointing along Y)
+        // Rotate 90° around X to move from XY plane to XZ plane
+        circle.rotation.x = Math.PI / 2;
+    } else if (axis.z === 1) {
+        // Z-axis circle - should be in XY plane (normal pointing along Z) - default, no rotation
+        // No rotation needed
+    }
+
+    group.add(circle);
+    group.userData.axis = axis;
+
+    return group;
+}
+
+// Update rotation gizmo for selected light when it rotates
+function updateRotationGizmoPosition(lightIndex) {
+    if (rotationGizmoObjects.length > 0) {
+        const lightSphere = lightMeshes[lightIndex * 2];
+        rotationGizmoObjects.forEach(gizmo => {
+            gizmo.position.copy(lightSphere.position);
+        });
+    }
+}
+
 // Deselect the currently selected light
 function deselectLight() {
     if (selectedLightIndex !== null) {
@@ -712,13 +1133,23 @@ function deselectLight() {
             scene.remove(lightOutlineMeshes[selectedLightIndex]);
             lightOutlineMeshes[selectedLightIndex] = null;
         }
+
+        // Remove light cone highlight
+        removeLightConeHighlight(selectedLightIndex);
+
         selectedLightIndex = null;
     }
 
     // Remove gizmo
     gizmoObjects.forEach(obj => scene.remove(obj));
     gizmoObjects.length = 0;
+
+    // Remove rotation gizmo
+    rotationGizmoObjects.forEach(obj => scene.remove(obj));
+    rotationGizmoObjects.length = 0;
+
     activeAxis = null;
+    gizmoMode = 'translate'; // Reset to translation mode
 
     // Clear info box
     clearLightInfoBox();
@@ -824,6 +1255,13 @@ const gizmoObjects = []; // Store gizmo meshes for axis manipulation
 let activeAxis = null; // 'x', 'y', 'z', or null
 let gizmoStartPos = null;
 let gizmoStartMousePos = null;
+let gizmoMode = 'translate'; // 'translate' or 'rotate'
+const rotationGizmoObjects = []; // Store rotation circle meshes
+const lightCones = []; // Store light cone meshes for visualization
+const lightConeHighlights = []; // Store highlight meshes for selected light cones
+const rotationCircleScalar = 1.8; // Scalar to adjust rotation circle size
+let rotationStartAngle = 0; // Starting angle on the rotation circle
+let rotationStartDirection = null; // Starting light direction for rotation
 
 // Animation loop
 function animate() {
@@ -832,19 +1270,29 @@ function animate() {
     controls.update();
 
     // Update gizmo size based on current zoom level
-    if (selectedLightIndex !== null && gizmoObjects.length > 0) {
+    if (selectedLightIndex !== null) {
         const lightSphere = lightMeshes[selectedLightIndex * 2];
         const cameraDistance = camera.position.distanceTo(lightSphere.position);
         let scale = cameraDistance * 0.05; // Smaller multiplier for reasonable arrow size
 
-        // Enforce minimum scale so arrows stay visible and outside highlight sphere (radius 0.75)
-        const minScale = 1.2; // Ensures arrows extend beyond the 0.75 radius highlight
+        // Enforce minimum scale so gizmos stay visible and outside highlight sphere (radius 0.75)
+        const minScale = 1.2; // Ensures gizmos extend beyond the 0.75 radius highlight
         scale = Math.max(scale, minScale);
 
-        // Update each gizmo's scale
-        gizmoObjects.forEach(gizmo => {
-            gizmo.scale.set(scale, scale, scale);
-        });
+        // Update translation gizmo (arrows) scale
+        if (gizmoObjects.length > 0) {
+            gizmoObjects.forEach(gizmo => {
+                gizmo.scale.set(scale, scale, scale);
+            });
+        }
+
+        // Update rotation gizmo (circles) scale with scalar
+        if (rotationGizmoObjects.length > 0) {
+            const rotationScale = scale * rotationCircleScalar;
+            rotationGizmoObjects.forEach(gizmo => {
+                gizmo.scale.set(rotationScale, rotationScale, rotationScale);
+            });
+        }
     }
 
     renderer.render(scene, camera);
@@ -932,6 +1380,9 @@ addLightBtn.addEventListener('click', () => {
     scene.add(lightObj);
     lightMeshes.push(lightObj);
 
+    // Create light cone visualization
+    createLightCone(lightIndex, sphere.position, newLight.direction);
+
     updateLightsDisplay();
     resultDiv.textContent = `${lamp} light added at (${x}, ${y}, ${z})`;
     resultDiv.style.color = '#4CAF50';
@@ -939,6 +1390,11 @@ addLightBtn.addEventListener('click', () => {
 
 // Remove light
 window.removeLight = (index) => {
+    // If this is the selected light, deselect it first to clean up gizmos
+    if (selectedLightIndex === index) {
+        deselectLight();
+    }
+
     lightsArray.splice(index, 1);
 
     // Remove visual representation (sphere and point light)
@@ -947,18 +1403,31 @@ window.removeLight = (index) => {
     if (lightMeshes[meshIndex + 1]) scene.remove(lightMeshes[meshIndex + 1]);
     lightMeshes.splice(meshIndex, 2);
 
+    // Remove light cone
+    if (lightCones[index]) {
+        scene.remove(lightCones[index]);
+        lightCones.splice(index, 1);
+    }
+
+    // Remove light cone highlight if it exists
+    if (lightConeHighlights[index]) {
+        scene.remove(lightConeHighlights[index]);
+        lightConeHighlights.splice(index, 1);
+    }
+
     // Remove outline if this light was selected
     if (lightOutlineMeshes[index]) {
         scene.remove(lightOutlineMeshes[index]);
         lightOutlineMeshes.splice(index, 1);
     }
 
-    // Clear selection if this was the selected light
-    if (selectedLightIndex === index) {
-        selectedLightIndex = null;
-        clearLightInfoBox();
-    } else if (selectedLightIndex > index) {
-        // Adjust selected light index if necessary
+    // Remove original material reference
+    if (originalLightMaterials[index]) {
+        originalLightMaterials.splice(index, 1);
+    }
+
+    // Adjust selected light index if necessary
+    if (selectedLightIndex !== null && selectedLightIndex > index) {
         selectedLightIndex--;
     }
 
@@ -1211,11 +1680,28 @@ function visualizePointsByPathogen(pathogenName, metric) {
 
 // Clear all lights
 clearLightsBtn.addEventListener('click', () => {
+    // Deselect current light first to clean up gizmos
+    if (selectedLightIndex !== null) {
+        deselectLight();
+    }
+
     lightsArray.length = 0;
 
     // Remove all light meshes
     lightMeshes.forEach(mesh => scene.remove(mesh));
     lightMeshes.length = 0;
+
+    // Remove all light cones
+    lightCones.forEach(cone => {
+        if (cone) scene.remove(cone);
+    });
+    lightCones.length = 0;
+
+    // Remove all light cone highlights
+    lightConeHighlights.forEach(highlight => {
+        if (highlight) scene.remove(highlight);
+    });
+    lightConeHighlights.length = 0;
 
     // Remove all outline meshes
     lightOutlineMeshes.forEach(mesh => {
@@ -1223,12 +1709,12 @@ clearLightsBtn.addEventListener('click', () => {
     });
     lightOutlineMeshes.length = 0;
 
+    // Remove all original material references
+    originalLightMaterials.length = 0;
+
     // Remove all point meshes from previous simulation
     pointMeshes.forEach(mesh => scene.remove(mesh));
     pointMeshes.length = 0;
-
-    selectedLightIndex = null;
-    clearLightInfoBox();
 
     updateLightsDisplay();
     resultDiv.textContent = 'All lights cleared';
