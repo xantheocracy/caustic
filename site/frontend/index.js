@@ -872,6 +872,26 @@ pathogenSelect.addEventListener('change', (event) => {
     visualizePointsByPathogen(selectedPathogen, selectedMetric);
 });
 
+// Handle solid color toggle
+const solidColorToggle = document.getElementById('solid-color-toggle');
+solidColorToggle.addEventListener('change', (event) => {
+    const isSolid = event.target.checked;
+    if (roomMesh) {
+        if (isSolid) {
+            // Solid: 100% opacity, hide edges
+            roomMesh.material.transparent = false;
+            roomMesh.material.opacity = 1.0;
+            if (roomEdges) roomEdges.visible = false;
+        } else {
+            // Translucent: 30% opacity, show edges
+            roomMesh.material.transparent = true;
+            roomMesh.material.opacity = 0.3;
+            if (roomEdges) roomEdges.visible = true;
+        }
+        roomMesh.material.needsUpdate = true;
+    }
+});
+
 // Run simulation
 runSimulationBtn.addEventListener('click', async () => {
     if (lightsArray.length === 0) {
