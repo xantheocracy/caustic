@@ -3,7 +3,7 @@
 Script to download large data files from Google Drive.
 
 This script downloads half_plane_interior_triangles.json from Google Drive
-to the frontend/settings directory. The file is too large to commit to git.
+to the site/frontend/settings directory. The file is too large to commit to git.
 """
 
 import gdown
@@ -25,7 +25,7 @@ def download_half_plane_triangles():
     url = f"https://drive.google.com/uc?id={file_id}"
 
     # Set the output path
-    output_dir = Path("frontend/settings")
+    output_dir = Path("site/frontend/settings")
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "half_plane_interior_triangles.json"
 
