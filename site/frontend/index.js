@@ -1005,9 +1005,21 @@ settingsSelect.addEventListener('change', async () => {
     resultDiv.textContent = 'Loading settings...';
     resultDiv.style.color = '#2196F3';
 
+    // Clear all lights when changing room configuration
+    lightsArray.length = 0;
+    lightMeshes.forEach(mesh => scene.remove(mesh));
+    lightMeshes.length = 0;
+
+    // Clear all point meshes from previous simulation
+    pointMeshes.forEach(mesh => scene.remove(mesh));
+    pointMeshes.length = 0;
+
+    // Update lights display
+    updateLightsDisplay();
+
     const success = await loadRoomSettings(settingsFile);
     if (success) {
-        resultDiv.textContent = `Settings loaded: ${settingsFile}`;
+        resultDiv.textContent = `Settings loaded: ${settingsFile} - All lights cleared`;
         resultDiv.style.color = '#4CAF50';
     } else {
         resultDiv.textContent = `Error loading settings: ${settingsFile}`;
