@@ -180,7 +180,7 @@ async function loadRoomSettings(settingsFile) {
     }
 }
 
-// Color map utility for total_intensity using log scale (black to pink)
+// Color map utility for total_intensity using log scale (dark blue → cyan → yellow)
 function getColorForIntensity(intensity, minI, maxI) {
     // Clamp between minI and maxI
     if (intensity < minI) intensity = minI;
@@ -195,15 +195,26 @@ function getColorForIntensity(intensity, minI, maxI) {
     let norm = (logIntensity - logMin) / (logMax - logMin);
     norm = Math.max(0, Math.min(1, norm)); // Clamp to [0, 1]
 
-    // Interpolate black (0,0,0) to pink (1,0.75,1)
-    let r = norm;      // Black to full red
-    let g = norm * 0.75;  // Black to 75% green
-    let b = norm;      // Black to full blue
+    // Interpolate dark blue (0, 0.196, 0.588) → cyan (0, 0.784, 0.784) → yellow (1, 1, 0)
+    let r, g, b;
+    if (norm < 0.5) {
+        // First half: dark blue to cyan
+        const t = norm * 2; // 0 to 1
+        r = 0.0;
+        g = 0.196 + t * (0.784 - 0.196);
+        b = 0.588 + t * (0.784 - 0.588);
+    } else {
+        // Second half: cyan to yellow
+        const t = (norm - 0.5) * 2; // 0 to 1
+        r = t;
+        g = 0.784 + t * (1.0 - 0.784);
+        b = 0.784 * (1.0 - t);
+    }
 
     return new THREE.Color(r, g, b);
 }
 
-// Color map utility for survival rate (black for low survival, red for high survival)
+// Color map utility for survival rate (green → yellow → orange → red)
 function getColorForSurvivalRate(survivalRate, minRate, maxRate) {
     // Clamp between minRate and maxRate
     if (survivalRate < minRate) survivalRate = minRate;
@@ -212,17 +223,29 @@ function getColorForSurvivalRate(survivalRate, minRate, maxRate) {
     // Normalize 0 ... 1 (linear scale)
     let norm = (survivalRate - minRate) / (maxRate - minRate);
 
-    // Interpolate black (0,0,0) to red (1,0,0)
-    // High survival (1.0) = red (bad - pathogens survive)
-    // Low survival (0.0) = black (good - pathogens killed)
-    let r = norm;  // Black to red
-    let g = 0.0;
-    let b = 0.0;
+    // Traffic light gradient: green (good) → yellow → orange → red (bad)
+    // Low survival (0.0) = green (0, 0.784, 0.196) - Good! Pathogens killed
+    // Mid survival (0.5) = orange (1, 0.588, 0)
+    // High survival (1.0) = red (1, 0, 0) - Bad! Pathogens survive
+    let r, g, b;
+    if (norm < 0.5) {
+        // First half: green to orange
+        const t = norm * 2; // 0 to 1
+        r = t;
+        g = 0.784 + t * (0.588 - 0.784);
+        b = 0.196 * (1.0 - t);
+    } else {
+        // Second half: orange to red
+        const t = (norm - 0.5) * 2; // 0 to 1
+        r = 1.0;
+        g = 0.588 * (1.0 - t);
+        b = 0.0;
+    }
 
     return new THREE.Color(r, g, b);
 }
 
-// Color map utility for eACH-UV (brown for low, bright blue for high)
+// Color map utility for eACH-UV (purple → magenta → orange)
 function getColorForEchUV(echUV, minUV, maxUV) {
     // Clamp between minUV and maxUV
     if (echUV < minUV) echUV = minUV;
@@ -231,10 +254,21 @@ function getColorForEchUV(echUV, minUV, maxUV) {
     // Normalize 0 ... 1 (linear scale)
     let norm = (echUV - minUV) / (maxUV - minUV);
 
-    // Interpolate brown (0.6, 0.3, 0.0) to bright blue (0.0, 0.7, 1.0)
-    let r = 0.6 * (1.0 - norm);      // Brown red component fades
-    let g = 0.3 + 0.4 * norm;        // Green increases slightly
-    let b = norm;                     // Blue increases
+    // Interpolate purple (0.392, 0, 0.588) → magenta (1, 0, 0.784) → orange (1, 0.588, 0)
+    let r, g, b;
+    if (norm < 0.5) {
+        // First half: purple to magenta
+        const t = norm * 2; // 0 to 1
+        r = 0.392 + t * (1.0 - 0.392);
+        g = 0.0;
+        b = 0.588 + t * (0.784 - 0.588);
+    } else {
+        // Second half: magenta to orange
+        const t = (norm - 0.5) * 2; // 0 to 1
+        r = 1.0;
+        g = t * 0.588;
+        b = 0.784 * (1.0 - t);
+    }
 
     return new THREE.Color(r, g, b);
 }
@@ -338,7 +372,7 @@ function visualizeTriangles() {
 
     // Create translucent material for faces
     const material = new THREE.MeshStandardMaterial({
-        color: 0xff69b4,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.3,
         side: THREE.DoubleSide,
@@ -1578,29 +1612,29 @@ function updateColorLegend(metric, minValue, maxValue) {
     if (metric === 'uv_dose') {
         title = 'UV Light Dose';
         isLogScale = true;
-        // Log scale: black to pink
+        // Log scale: dark blue → cyan → yellow
         colorStops = [
-            { pos: 0, color: 'rgb(0, 0, 0)', label: 'Low' },
-            { pos: 0.5, color: 'rgb(128, 96, 128)', label: 'Mid' },
-            { pos: 1, color: 'rgb(255, 191, 255)', label: 'High' }
+            { pos: 0, color: 'rgb(0, 50, 150)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(0, 200, 200)', label: 'Mid' },
+            { pos: 1, color: 'rgb(255, 255, 0)', label: 'High' }
         ];
     } else if (metric === 'survival_rate') {
         title = 'Survival Rate';
         isLogScale = false;
-        // Linear scale: black to red
+        // Linear scale: green → yellow → orange → red (traffic light)
         colorStops = [
-            { pos: 0, color: 'rgb(0, 0, 0)', label: 'Low' },
-            { pos: 0.5, color: 'rgb(128, 0, 0)', label: 'Mid' },
+            { pos: 0, color: 'rgb(0, 200, 50)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(255, 150, 0)', label: 'Mid' },
             { pos: 1, color: 'rgb(255, 0, 0)', label: 'High' }
         ];
     } else if (metric === 'ech_uv') {
         title = 'eACH-UV';
         isLogScale = false;
-        // Linear scale: brown to blue
+        // Linear scale: purple → magenta → orange
         colorStops = [
-            { pos: 0, color: 'rgb(153, 76, 0)', label: 'Low' },
-            { pos: 0.5, color: 'rgb(76, 115, 128)', label: 'Mid' },
-            { pos: 1, color: 'rgb(0, 179, 255)', label: 'High' }
+            { pos: 0, color: 'rgb(100, 0, 150)', label: 'Low' },
+            { pos: 0.5, color: 'rgb(255, 0, 200)', label: 'Mid' },
+            { pos: 1, color: 'rgb(255, 150, 0)', label: 'High' }
         ];
     }
 

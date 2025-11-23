@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UV Light Simulator</title>
+    <title>Far-UVC Simulator</title>
     <style>
         body {
             margin: 0;
@@ -65,8 +65,9 @@
             font-size: 16px;
         }
         #subtitle {
-            font-size: 5px;
+            font-size: 12px;
             color: #999;
+            font-style: italic;
         }
     </style>
 </head>
@@ -75,8 +76,8 @@
         <h3>Far-UVC Simulator</h3>
 
         <div style="margin-bottom: 20px;">
-            <h4>Settings</h4>
             <label>Room Configuration:</label>
+            <div id="subtitle">Choose a room layout to simulate.</div>
             <select id="settings-select" style="width: 100%; margin: 5px 0; padding: 5px;">
                 <option value="room.json">Room</option>
             </select>
