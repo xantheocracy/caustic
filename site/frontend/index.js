@@ -140,6 +140,15 @@ function updateLightInputBounds() {
     if (labelX) labelX.textContent = `Position X (${roomBounds.min.x.toFixed(1)}-${roomBounds.max.x.toFixed(1)}):`;
     if (labelY) labelY.textContent = `Position Y (${roomBounds.min.y.toFixed(1)}-${roomBounds.max.y.toFixed(1)}):`;
     if (labelZ) labelZ.textContent = `Position Z (${roomBounds.min.z.toFixed(1)}-${roomBounds.max.z.toFixed(1)}):`;
+
+    // Update cross-section X bounds
+    crossSectionXInput.min = roomBounds.min.x;
+    crossSectionXInput.max = roomBounds.max.x;
+    crossSectionXInput.step = (roomBounds.max.x - roomBounds.min.x) / 20;
+    crossSectionXInput.value = (roomBounds.min.x + roomBounds.max.x) / 2;
+
+    const labelCrossX = document.querySelector('label[for="cross-section-x"]');
+    if (labelCrossX) labelCrossX.textContent = `X Coordinate (${roomBounds.min.x.toFixed(1)}-${roomBounds.max.x.toFixed(1)}):`;
 }
 
 // Load room triangles from settings file
@@ -1406,9 +1415,16 @@ const pathogenSelect = document.getElementById('pathogen-select');
 const pathogenMessage = document.getElementById('pathogen-message');
 const colorLegend = document.getElementById('color-legend');
 const numPointsInput = document.getElementById('num-points');
+const numPointsRandomInput = document.getElementById('num-points-random');
 const maxBouncesSelect = document.getElementById('max-bounces');
 const sphereScaleSlider = document.getElementById('sphere-scale');
 const sphereScaleLabel = document.getElementById('sphere-scale-label');
+const samplingModeSelect = document.getElementById('sampling-mode');
+const randomModeControls = document.getElementById('random-mode-controls');
+const crossSectionModeControls = document.getElementById('cross-section-mode-controls');
+const prunedModeControls = document.getElementById('pruned-mode-controls');
+const crossSectionXInput = document.getElementById('cross-section-x');
+const gridSizeInput = document.getElementById('grid-size');
 
 // Update lights display
 function updateLightsDisplay() {
@@ -1857,6 +1873,28 @@ sphereScaleSlider.addEventListener('input', (event) => {
     rescaleAllSpheres(sphereScale);
 });
 
+// Handle sampling mode changes
+samplingModeSelect.addEventListener('change', (event) => {
+    const mode = event.target.value;
+
+    // Hide all control panels
+    randomModeControls.style.display = 'none';
+    crossSectionModeControls.style.display = 'none';
+    prunedModeControls.style.display = 'none';
+
+    // Show the appropriate control panel
+    if (mode === 'random') {
+        randomModeControls.style.display = 'block';
+    } else if (mode === 'cross_section') {
+        crossSectionModeControls.style.display = 'block';
+    } else {
+        prunedModeControls.style.display = 'block';
+    }
+
+    resultDiv.textContent = `Sampling mode changed to: ${mode}`;
+    resultDiv.style.color = '#2196F3';
+});
+
 // Run simulation
 runSimulationBtn.addEventListener('click', async () => {
     if (lightsArray.length === 0) {
@@ -1869,17 +1907,32 @@ runSimulationBtn.addEventListener('click', async () => {
         resultDiv.textContent = 'Running simulation...';
         resultDiv.style.color = '#2196F3';
 
+        // Build simulation request based on sampling mode
+        const samplingMode = samplingModeSelect.value;
+        const simRequest = {
+            lights: lightsArray,
+            settings_file: settingsSelect.value,
+            max_bounces: parseInt(maxBouncesSelect.value),
+            sampling_mode: samplingMode
+        };
+
+        // Add mode-specific parameters
+        if (samplingMode === 'random') {
+            simRequest.num_points = parseInt(numPointsRandomInput.value);
+        } else if (samplingMode === 'cross_section') {
+            simRequest.cross_section_x = parseFloat(crossSectionXInput.value);
+            simRequest.grid_size = parseInt(gridSizeInput.value);
+        } else {
+            // pruned mode
+            simRequest.num_points = parseInt(numPointsInput.value);
+        }
+
         const response = await fetch(`${config.backendUrl}/simulate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                lights: lightsArray,
-                settings_file: settingsSelect.value,
-                num_points: parseInt(numPointsInput.value),
-                max_bounces: parseInt(maxBouncesSelect.value)
-            })
+            body: JSON.stringify(simRequest)
         });
 
         if (!response.ok) {

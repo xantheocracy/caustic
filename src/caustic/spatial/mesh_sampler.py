@@ -105,6 +105,135 @@ class MeshSampler:
         return normal_dot >= normal_threshold
 
     @staticmethod
+    def sample_random_points_on_surface(
+        triangles: List[Triangle],
+        num_points: int = 100,
+        seed: int = None,
+        surface_offset: float = 0.01
+    ) -> List[Vector3]:
+        """
+        Generate N random points uniformly sampled on the mesh surfaces.
+
+        Simple random sampling without pruning - points are uniformly distributed
+        based on triangle areas.
+
+        Args:
+            triangles: List of triangles representing the mesh
+            num_points: Number of points to generate
+            seed: Random seed for reproducibility (None for random)
+            surface_offset: Distance to offset points above the surface along the normal
+
+        Returns:
+            List of Vector3 points uniformly sampled on the mesh surface
+        """
+        if not triangles:
+            raise ValueError("Cannot generate points on empty triangle list")
+
+        if num_points <= 0:
+            raise ValueError("num_points must be positive")
+
+        # Set random seed if provided
+        if seed is not None:
+            random.seed(seed)
+
+        # Calculate triangle areas and cumulative distribution
+        triangle_areas = [MeshSampler.calculate_triangle_area(tri) for tri in triangles]
+        total_area = sum(triangle_areas)
+
+        if total_area == 0:
+            raise ValueError("Total mesh area is zero - degenerate triangles")
+
+        # Create cumulative distribution for weighted sampling
+        cumulative_areas = []
+        cumulative_sum = 0.0
+        for area in triangle_areas:
+            cumulative_sum += area
+            cumulative_areas.append(cumulative_sum)
+
+        # Normalize to [0, 1]
+        max_cumulative = cumulative_areas[-1]
+        cumulative_areas = [a / max_cumulative for a in cumulative_areas]
+
+        # Generate random points
+        points: List[Vector3] = []
+        for _ in range(num_points):
+            # Select triangle based on area-weighted distribution
+            rand_val = random.random()
+            triangle_idx = bisect.bisect_right(cumulative_areas, rand_val)
+            triangle_idx = min(triangle_idx, len(triangles) - 1)
+
+            selected_triangle = triangles[triangle_idx]
+            point = MeshSampler.sample_point_on_triangle(selected_triangle, offset=surface_offset)
+            points.append(point)
+
+        return points
+
+    @staticmethod
+    def sample_vertical_cross_section(
+        triangles: List[Triangle],
+        x_coordinate: float,
+        grid_size: int = 10,
+        seed: int = None,
+        surface_offset: float = 0.01
+    ) -> List[Vector3]:
+        """
+        Generate a regular NxN grid of points on a vertical cross-section parallel to the Y-Z plane.
+
+        The cross-section is defined by a fixed X coordinate, and points are placed
+        on a regular NxN grid within the Y-Z bounds of all triangles.
+
+        Args:
+            triangles: List of triangles representing the mesh
+            x_coordinate: The X coordinate of the cross-section plane (all points will have this X)
+            grid_size: N for NxN grid sampling (default: 10)
+            seed: Random seed for reproducibility (unused, kept for API compatibility)
+            surface_offset: Distance to offset points above the surface along the normal
+
+        Returns:
+            List of Vector3 points placed on a regular grid at the specified X coordinate
+        """
+        if not triangles:
+            raise ValueError("Cannot generate points on empty triangle list")
+
+        if grid_size <= 0:
+            raise ValueError("grid_size must be positive")
+
+        # Find the Y-Z bounds of all triangles
+        min_y = float('inf')
+        max_y = float('-inf')
+        min_z = float('inf')
+        max_z = float('-inf')
+
+        for tri in triangles:
+            for vertex in [tri.v0, tri.v1, tri.v2]:
+                if vertex.y < min_y:
+                    min_y = vertex.y
+                if vertex.y > max_y:
+                    max_y = vertex.y
+                if vertex.z < min_z:
+                    min_z = vertex.z
+                if vertex.z > max_z:
+                    max_z = vertex.z
+
+        if min_y == max_y or min_z == max_z:
+            raise ValueError("Triangles have no extent in Y or Z directions")
+
+        # Generate regular grid points
+        points: List[Vector3] = []
+
+        for i in range(grid_size):
+            for j in range(grid_size):
+                # Create a regular grid with points at cell centers
+                y = min_y + (i + 0.5) * (max_y - min_y) / grid_size
+                z = min_z + (j + 0.5) * (max_z - min_z) / grid_size
+
+                # Create point with exact x coordinate and grid-based y, z
+                point = Vector3(x_coordinate, y, z)
+                points.append(point)
+
+        return points
+
+    @staticmethod
     def generate_measurement_points(
         triangles: List[Triangle],
         num_points: int = 100,
