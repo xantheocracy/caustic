@@ -364,7 +364,80 @@ function visualizeTriangles() {
     console.log('Triangles rendered successfully');
 }
 
-// Visualize points as projected circles with color mapped to total_intensity
+// Apply heatmap colors to mesh vertices using interpolation
+// valueExtractor: function(point) => number to get the value from each point
+// colorFunction: function(value, minValue, maxValue) => THREE.Color
+function applyHeatmapToMesh(intensityPoints, minValue, maxValue, valueExtractor, colorFunction) {
+    if (!roomMesh || !intensityPoints || intensityPoints.length === 0) {
+        console.warn("Cannot apply heatmap: mesh or points not available");
+        return;
+    }
+
+    const geometry = roomMesh.geometry;
+    const positionAttribute = geometry.attributes.position;
+    const vertexCount = positionAttribute.count;
+
+    // Create or update color attribute
+    let colorAttribute = geometry.attributes.color;
+    if (!colorAttribute) {
+        const colors = new Float32Array(vertexCount * 3);
+        colorAttribute = new THREE.Float32BufferAttribute(colors, 3);
+        geometry.setAttribute('color', colorAttribute);
+    }
+
+    // For each vertex, interpolate color from nearby points
+    const vertex = new THREE.Vector3();
+    const maxInfluenceDistance = 2.0; // Points within this distance influence the vertex
+
+    for (let i = 0; i < vertexCount; i++) {
+        vertex.fromBufferAttribute(positionAttribute, i);
+
+        let totalWeight = 0;
+        let totalValue = 0;
+
+        // Find nearby points and weight by inverse distance
+        intensityPoints.forEach(point => {
+            if (point && point.position) {
+                const value = valueExtractor(point);
+                if (typeof value === 'number' && isFinite(value)) {
+                    const dx = vertex.x - point.position.x;
+                    const dy = vertex.y - point.position.y;
+                    const dz = vertex.z - point.position.z;
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (distance < maxInfluenceDistance) {
+                        // Inverse distance weighting (avoid division by zero)
+                        const weight = 1.0 / (distance + 0.01);
+                        totalWeight += weight;
+                        totalValue += value * weight;
+                    }
+                }
+            }
+        });
+
+        // Calculate interpolated color
+        let color;
+        if (totalWeight > 0) {
+            const interpolatedValue = totalValue / totalWeight;
+            color = colorFunction(interpolatedValue, minValue, maxValue);
+        } else {
+            // No nearby points, use dark color
+            color = new THREE.Color(0x000000);
+        }
+
+        colorAttribute.setXYZ(i, color.r, color.g, color.b);
+    }
+
+    colorAttribute.needsUpdate = true;
+
+    // Update material to use vertex colors
+    if (roomMesh.material) {
+        roomMesh.material.vertexColors = true;
+        roomMesh.material.needsUpdate = true;
+    }
+}
+
+// Visualize points as smooth heatmap on mesh
 function visualizePoints() {
     if (!points || points.length === 0) {
         console.warn("No points found in simulation results to display.");
@@ -380,39 +453,17 @@ function visualizePoints() {
             if (value > maxIntensity) maxIntensity = value;
         }
     });
-    // If all intensity is equal or undefined, fall back to green
+
     if (!isFinite(minIntensity) || !isFinite(maxIntensity) || minIntensity === maxIntensity) {
         minIntensity = 0;
         maxIntensity = 1;
     }
 
-    let plotted = 0;
-    points.forEach((point, idx) => {
-        if (
-            point &&
-            point.position &&
-            typeof point.position.x === 'number' &&
-            typeof point.position.y === 'number' &&
-            typeof point.position.z === 'number'
-        ) {
-            // Get color based on total_intensity
-            let color;
-            if (point.intensity && typeof point.intensity.total_intensity === 'number') {
-                color = getColorForIntensity(point.intensity.total_intensity, minIntensity, maxIntensity);
-            } else {
-                color = new THREE.Color(0x00ff8a); // fallback
-            }
+    // Apply heatmap to mesh
+    const valueExtractor = (point) => point.intensity?.total_intensity;
+    applyHeatmapToMesh(points, minIntensity, maxIntensity, valueExtractor, getColorForIntensity);
 
-            // Create projected circle instead of sphere
-            const circle = createProjectedCircle(point.position, color, 0.2);
-            if (circle) {
-                scene.add(circle);
-                plotted++;
-            }
-        }
-    });
-
-    console.log(`Plotted ${plotted} points as projected circles (coloured by total_intensity)`);
+    console.log(`Applied heatmap with ${points.length} intensity points`);
 }
 
 // Visualize light sources
@@ -746,34 +797,11 @@ function visualizePointsByPathogen(pathogenName, metric) {
             maxValue = 1;
         }
 
-        let plotted = 0;
+        // Apply heatmap to mesh for UV dose
+        const valueExtractor = (point) => point.intensity?.total_intensity;
+        applyHeatmapToMesh(points, minValue, maxValue, valueExtractor, getColorForIntensity);
 
-        points.forEach((point) => {
-            if (
-                point &&
-                point.position &&
-                typeof point.position.x === 'number' &&
-                typeof point.position.y === 'number' &&
-                typeof point.position.z === 'number'
-            ) {
-                let color;
-                if (point.intensity && typeof point.intensity.total_intensity === 'number') {
-                    color = getColorForIntensity(point.intensity.total_intensity, minValue, maxValue);
-                } else {
-                    color = new THREE.Color(0x000000);
-                }
-
-                // Create projected circle instead of sphere
-                const circle = createProjectedCircle(point.position, color, 0.2);
-                if (circle) {
-                    scene.add(circle);
-                    pointMeshes.push(circle);
-                    plotted++;
-                }
-            }
-        });
-
-        console.log(`Plotted ${plotted} points colored by UV dose (fluence)`);
+        console.log(`Applied heatmap colored by UV dose (fluence)`);
         updateColorLegend('uv_dose', minValue, maxValue);
         return;
     }
@@ -809,37 +837,16 @@ function visualizePointsByPathogen(pathogenName, metric) {
         maxValue = 1;
     }
 
-    let plotted = 0;
+    // Apply heatmap to mesh for pathogen metrics
+    const valueExtractor = (point) => {
+        const survivalData = point.pathogen_survival?.find(p => p.pathogen_name === pathogenName);
+        return survivalData?.[metricKey];
+    };
 
-    points.forEach((point) => {
-        if (
-            point &&
-            point.position &&
-            typeof point.position.x === 'number' &&
-            typeof point.position.y === 'number' &&
-            typeof point.position.z === 'number'
-        ) {
-            const survivalData = point.pathogen_survival.find(p => p.pathogen_name === pathogenName);
-            if (survivalData) {
-                let color;
-                if (metric === 'survival_rate') {
-                    color = getColorForSurvivalRate(survivalData.survival_rate, minValue, maxValue);
-                } else {
-                    color = getColorForEchUV(survivalData.ech_uv, minValue, maxValue);
-                }
+    const colorFunction = metric === 'survival_rate' ? getColorForSurvivalRate : getColorForEchUV;
+    applyHeatmapToMesh(points, minValue, maxValue, valueExtractor, colorFunction);
 
-                // Create projected circle instead of sphere
-                const circle = createProjectedCircle(point.position, color, 0.2);
-                if (circle) {
-                    scene.add(circle);
-                    pointMeshes.push(circle);
-                    plotted++;
-                }
-            }
-        }
-    });
-
-    console.log(`Plotted ${plotted} points colored by ${pathogenName} ${metric}`);
+    console.log(`Applied heatmap colored by ${pathogenName} ${metric}`);
     updateColorLegend(metric, minValue, maxValue);
 }
 
@@ -939,34 +946,14 @@ runSimulationBtn.addEventListener('click', async () => {
                 maxIntensity = 1;
             }
 
-            points.forEach((point) => {
-                if (
-                    point &&
-                    point.position &&
-                    typeof point.position.x === 'number' &&
-                    typeof point.position.y === 'number' &&
-                    typeof point.position.z === 'number'
-                ) {
-                    let color;
-                    if (point.intensity && typeof point.intensity.total_intensity === 'number') {
-                        color = getColorForIntensity(point.intensity.total_intensity, minIntensity, maxIntensity);
-                    } else {
-                        color = new THREE.Color(0x00ff8a);
-                    }
-
-                    // Create projected circle instead of sphere
-                    const circle = createProjectedCircle(point.position, color, 0.2);
-                    if (circle) {
-                        scene.add(circle);
-                        pointMeshes.push(circle);
-                    }
-                }
-            });
+            // Apply heatmap to mesh
+            const valueExtractor = (point) => point.intensity?.total_intensity;
+            applyHeatmapToMesh(points, minIntensity, maxIntensity, valueExtractor, getColorForIntensity);
 
             // Update color legend for UV dose
             updateColorLegend('uv_dose', minIntensity, maxIntensity);
 
-            resultDiv.textContent = `Simulation complete! Plotted ${pointMeshes.length} UV dose points`;
+            resultDiv.textContent = `Simulation complete! Applied heatmap with ${points.length} intensity points`;
             resultDiv.style.color = '#4CAF50';
         } else {
             resultDiv.textContent = 'Simulation complete but no results returned';
