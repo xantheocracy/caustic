@@ -1,0 +1,183 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║            UV LIGHT SIMULATOR - LARGE SCALE BENCHMARKING QUICK START        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+1. RUN THE BENCHMARK SUITE (15-20 minutes)
+   ════════════════════════════════════════════════════════════════════════
+   
+   $ cd /home/samdower/caustic
+   $ python site/backend/benchmark.py
+   
+   This will:
+   • Test grid_cell_size values (Phase 1)
+   • Verify scaling with more points (Phase 2)
+   • Test multiple lights (Phase 3)
+   • Measure reflection overhead (Phase 4)
+   • Estimate full workload (Phase 5)
+
+
+2. FIND YOUR OPTIMAL GRID_CELL_SIZE
+   ════════════════════════════════════════════════════════════════════════
+   
+   From Phase 1 output, look for the FASTEST timing:
+   
+   Config           Grid     Time (s)   ← Find lowest value
+   ====================================================
+   Phase1: grid=0.5   0.5      2.45
+   Phase1: grid=1.0   1.0      1.89
+   Phase1: grid=2.0   2.0      1.52
+   Phase1: grid=5.0   5.0      1.45  ✓ BEST
+   Phase1: grid=10.0  10.0     2.10
+   
+   → Use 5.0 in your configs
+
+
+3. UPDATE YOUR CONFIGURATION
+   ════════════════════════════════════════════════════════════════════════
+   
+   Edit: site/backend/test.py (line 182)
+   
+   Before:
+   IntensityConfig(max_bounces=0, grid_cell_size=5, photons_per_light=10, verbose=True)
+   
+   After (using Phase 1 result):
+   IntensityConfig(max_bounces=0, grid_cell_size=5.0, photons_per_light=10, verbose=True)
+
+
+4. SCALE UP GRADUALLY
+   ════════════════════════════════════════════════════════════════════════
+   
+   Configuration Progression:
+   
+   Step 1: Interactive Preview (fast)
+   ├─ max_bounces=0
+   ├─ points=50
+   ├─ lights=1-2
+   ├─ photons=10
+   └─ Estimated: 10-30 seconds
+   
+   Step 2: Medium Quality (moderate)
+   ├─ max_bounces=0
+   ├─ points=100-500
+   ├─ lights=5-10
+   ├─ photons=10
+   └─ Estimated: 1-5 minutes
+   
+   Step 3: Production Quality (slow)
+   ├─ max_bounces=1
+   ├─ points=500-1000
+   ├─ lights=10
+   ├─ photons=100-200
+   └─ Estimated: 5-15 minutes
+   
+   Step 4: High Quality (very slow)
+   ├─ max_bounces=1
+   ├─ points=1000
+   ├─ lights=10
+   ├─ photons=500-1000
+   └─ Estimated: 15-30 minutes
+
+
+5. OPTIMIZE IF NEEDED
+   ════════════════════════════════════════════════════════════════════════
+   
+   If too slow:
+   • Reduce photons_per_light (50→100 is usually enough)
+   • Disable reflections (max_bounces=0 for preview)
+   • Reduce point count (500 instead of 1000)
+   
+   If too noisy:
+   • Increase photons_per_light (100→500)
+   • Add more bounce (max_bounces=0→1)
+   • Keep fewer, better-placed points
+
+
+6. MONITOR PERFORMANCE
+   ════════════════════════════════════════════════════════════════════════
+   
+   Running simulation with verbose=True shows:
+   
+   Starting photon tracing for 10 light(s)
+   Tracing 500 photons per light (max bounces: 1)
+   
+     Light 1/10: Tracing 500 photons
+       Photons traced: 50/500
+       Photons traced: 100/500
+       ...
+   
+   Results show:
+   • Direct intensity: Fast (mostly flat line)
+   • Indirect intensity: Time increases with photons
+
+
+7. USEFUL COMMANDS
+   ════════════════════════════════════════════════════════════════════════
+   
+   Get auto-calculated grid size:
+   $ python -c "
+   from caustic.spatial.grid import calculate_optimal_cell_size
+   from site.backend.benchmark import load_airplane_triangles
+   
+   t = load_airplane_triangles('site/backend/settings/half_plane_interior_triangles.json')
+   print(f'Optimal grid_cell_size: {calculate_optimal_cell_size(t):.2f}')
+   "
+   
+   Quick 50-point test (5 seconds):
+   $ python site/backend/test.py  # Check metrics
+   
+   Run only Phase 1 of benchmark (5 minutes):
+   # Edit benchmark.py, comment out phases 2-5
+   $ python site/backend/benchmark.py
+
+
+8. EXPECTED RESULTS
+   ════════════════════════════════════════════════════════════════════════
+   
+   Airplane Interior (400k+ triangles):
+   
+   Config                           Estimated Time
+   ────────────────────────────────────────────────────────────
+   50 pts, 1 light, direct             10-15 seconds
+   100 pts, 5 lights, direct           50-100 seconds
+   500 pts, 10 lights, direct          5-10 minutes
+   1000 pts, 10 lights, 1 bounce       10-20 minutes
+   1000 pts, 10 lights, 2 bounces      30-60 minutes
+
+
+9. TROUBLESHOOTING
+   ════════════════════════════════════════════════════════════════════════
+   
+   Problem: Benchmark takes too long
+   Solution: 
+   • Skip phases 4-5 (edit benchmark.py)
+   • Extrapolate from earlier phases
+   
+   Problem: Memory issues with large point sets
+   Solution:
+   • Reduce photons_per_light
+   • Enable clustering_distance
+   • Process in batches
+   
+   Problem: Simulation crashes
+   Solution:
+   • Check error message (usually out of memory)
+   • Reduce problem size
+   • Profile with: python -m cProfile -s cumulative site/backend/test.py
+
+
+10. DOCUMENTATION
+    ════════════════════════════════════════════════════════════════════════
+    
+    Full guides available:
+    • BENCHMARK_GUIDE.md      - Detailed benchmark explanation
+    • OPTIMIZATION_SUMMARY.md - Technical details of all optimizations
+    • QUICK_START.txt         - This file
+
+
+════════════════════════════════════════════════════════════════════════════
+Ready to benchmark? Run:
+
+  python site/backend/benchmark.py
+
+Good luck! 🚀
+════════════════════════════════════════════════════════════════════════════

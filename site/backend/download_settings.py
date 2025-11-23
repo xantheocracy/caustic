@@ -16,7 +16,7 @@ def download_large_settings():
     settings_dir.mkdir(exist_ok=True)
 
     # Download half_plane_interior_triangles.json
-    file_id = "1clgwknd1vSkORCYDqzDfcLOVVTMA0BOy"
+    file_id = "1jVitc2cdeJRDSkNHvkMqvjEIwOLWckSL"
     url = f"https://drive.google.com/uc?id={file_id}"
     output_path = settings_dir / "half_plane_interior_triangles.json"
 
