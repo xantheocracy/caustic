@@ -245,6 +245,64 @@ function rescaleAllSpheres(scale) {
             lightMeshes[i].scale.set(scale, scale, scale);
         }
     }
+
+    // Rescale selection highlights (outline meshes)
+    lightOutlineMeshes.forEach(mesh => {
+        if (mesh instanceof THREE.Mesh) {
+            mesh.scale.set(scale, scale, scale);
+        }
+    });
+
+    // Rescale light cones and reposition them to maintain tip at light center
+    lightCones.forEach((cone, index) => {
+        if (cone && lightsArray[index]) {
+            cone.scale.set(scale, scale, scale);
+            // Reposition cone to maintain tip at light center
+            const light = lightsArray[index];
+            const lightSphere = lightMeshes[index * 2];
+            if (lightSphere) {
+                updateLightCone(index, lightSphere.position, light.direction);
+            }
+        }
+    });
+
+    // Rescale light cone highlights and reposition them
+    lightConeHighlights.forEach((highlight, index) => {
+        if (highlight && lightsArray[index]) {
+            highlight.scale.set(scale, scale, scale);
+            // Reposition highlight to maintain tip at light center
+            const light = lightsArray[index];
+            const lightSphere = lightMeshes[index * 2];
+            if (lightSphere) {
+                updateLightConeHighlight(index, lightSphere.position, light.direction);
+            }
+        }
+    });
+
+    // Rescale gizmos if a light is selected
+    if (selectedLightIndex !== null) {
+        const lightSphere = lightMeshes[selectedLightIndex * 2];
+        const cameraDistance = camera.position.distanceTo(lightSphere.position);
+        let gizmoScale = cameraDistance * 0.03; // Reduced from 0.05 for smaller gizmos
+        const minScale = 0.8; // Reduced from 1.2 for smaller minimum size
+        gizmoScale = Math.max(gizmoScale, minScale);
+
+        // Apply sphere scale to gizmos as well
+        const finalGizmoScale = gizmoScale * scale;
+
+        if (gizmoObjects.length > 0) {
+            gizmoObjects.forEach(gizmo => {
+                gizmo.scale.set(finalGizmoScale, finalGizmoScale, finalGizmoScale);
+            });
+        }
+
+        if (rotationGizmoObjects.length > 0) {
+            const rotationScale = finalGizmoScale * rotationCircleScalar;
+            rotationGizmoObjects.forEach(gizmo => {
+                gizmo.scale.set(rotationScale, rotationScale, rotationScale);
+            });
+        }
+    }
 }
 
 
@@ -777,6 +835,7 @@ function selectLight(index) {
         });
         const outlineMesh = new THREE.Mesh(outlineGeometry, outlineMaterial);
         outlineMesh.position.copy(lightSphere.position);
+        outlineMesh.scale.set(sphereScale, sphereScale, sphereScale); // Scale with sphere scale
         // Render in front of facets
         outlineMesh.renderOrder = 1001;
         scene.add(outlineMesh);
@@ -912,6 +971,9 @@ function createLightCone(lightIndex, position, direction) {
     cone.renderOrder = 500; // Render behind selection highlights
     coneGroup.add(cone);
 
+    // Scale cone with sphere scale first (before positioning)
+    coneGroup.scale.set(sphereScale, sphereScale, sphereScale);
+
     // Position cone at the light location
     coneGroup.position.copy(position);
 
@@ -926,7 +988,8 @@ function createLightCone(lightIndex, position, direction) {
     coneGroup.setRotationFromQuaternion(quaternion);
 
     // Now offset the cone along its direction so the tip stays at the light position
-    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    // Apply sphere scale to the offset since the cone is scaled
+    const offset = dir.clone().multiplyScalar((coneHeight / 2) * sphereScale);
     coneGroup.position.add(offset);
 
     scene.add(coneGroup);
@@ -956,7 +1019,8 @@ function updateLightCone(lightIndex, position, direction) {
     coneGroup.setRotationFromQuaternion(quaternion);
 
     // Now offset the cone along its direction so the tip stays at the light position
-    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    // Apply sphere scale to the offset since the cone is scaled
+    const offset = dir.clone().multiplyScalar((coneHeight / 2) * sphereScale);
     coneGroup.position.add(offset);
 
     // Also update highlight if it exists
@@ -990,6 +1054,9 @@ function addLightConeHighlight(lightIndex, position, direction) {
     highlight.renderOrder = 1000; // Render in front like light highlight
     coneGroup.add(highlight);
 
+    // Scale cone highlight with sphere scale first (before positioning)
+    coneGroup.scale.set(sphereScale, sphereScale, sphereScale);
+
     // Position cone at the light location
     coneGroup.position.copy(position);
 
@@ -1003,7 +1070,8 @@ function addLightConeHighlight(lightIndex, position, direction) {
     coneGroup.setRotationFromQuaternion(quaternion);
 
     // Now offset the cone along its direction so the tip stays at the light position
-    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    // Apply sphere scale to the offset since the cone is scaled
+    const offset = dir.clone().multiplyScalar((coneHeight / 2) * sphereScale);
     coneGroup.position.add(offset);
 
     scene.add(coneGroup);
@@ -1032,7 +1100,8 @@ function updateLightConeHighlight(lightIndex, position, direction) {
     coneGroup.setRotationFromQuaternion(quaternion);
 
     // Now offset the cone along its direction so the tip stays at the light position
-    const offset = dir.clone().multiplyScalar(coneHeight / 2);
+    // Apply sphere scale to the offset since the cone is scaled
+    const offset = dir.clone().multiplyScalar((coneHeight / 2) * sphereScale);
     coneGroup.position.add(offset);
 }
 
@@ -1091,20 +1160,18 @@ function createRotationCircle(axis, color, radius) {
 
     // Create circle geometry (torus - a ring/circle in 3D)
     const circleGeometry = new THREE.TorusGeometry(radius, 0.08, 8, 32);
-    // Use MeshBasicMaterial with depth test enabled for proper overlap between circles
+    // Use MeshBasicMaterial with depth test enabled so circles depth-sort among themselves,
+    // but use renderOrder to render after facets (like arrows)
     const circleMaterial = new THREE.MeshBasicMaterial({
         color: color,
         transparent: true,
         opacity: 0.7,
         depthTest: true,   // Enable depth test so circles depth-sort among themselves
-        depthWrite: true,  // Enable depth write for proper depth sorting
-        fog: false,
-        polygonOffset: true,      // Enable polygon offset
-        polygonOffsetFactor: -1,  // Negative value pulls geometry toward camera
-        polygonOffsetUnits: -1
+        depthWrite: true,  // Enable depth write so circles depth-sort among themselves
+        fog: false
     });
     const circle = new THREE.Mesh(circleGeometry, circleMaterial);
-    circle.renderOrder = 1001; // Render in front of outline and facets
+    circle.renderOrder = 1001; // Render after facets (renderOrder 0) but depth-sort among circles
 
     // Rotate circle to face the correct direction
     // A torus lies in XY plane by default (normal points along Z)
@@ -1292,22 +1359,25 @@ function animate() {
     if (selectedLightIndex !== null) {
         const lightSphere = lightMeshes[selectedLightIndex * 2];
         const cameraDistance = camera.position.distanceTo(lightSphere.position);
-        let scale = cameraDistance * 0.05; // Smaller multiplier for reasonable arrow size
+        let scale = cameraDistance * 0.03; // Reduced from 0.05 for smaller gizmos
 
-        // Enforce minimum scale so gizmos stay visible and outside highlight sphere (radius 0.75)
-        const minScale = 1.2; // Ensures gizmos extend beyond the 0.75 radius highlight
+        // Enforce minimum scale so gizmos stay visible
+        const minScale = 0.8; // Reduced from 1.2 for smaller minimum size
         scale = Math.max(scale, minScale);
+
+        // Apply sphere scale to gizmos
+        const finalScale = scale * sphereScale;
 
         // Update translation gizmo (arrows) scale
         if (gizmoObjects.length > 0) {
             gizmoObjects.forEach(gizmo => {
-                gizmo.scale.set(scale, scale, scale);
+                gizmo.scale.set(finalScale, finalScale, finalScale);
             });
         }
 
         // Update rotation gizmo (circles) scale with scalar
         if (rotationGizmoObjects.length > 0) {
-            const rotationScale = scale * rotationCircleScalar;
+            const rotationScale = finalScale * rotationCircleScalar;
             rotationGizmoObjects.forEach(gizmo => {
                 gizmo.scale.set(rotationScale, rotationScale, rotationScale);
             });
@@ -1764,14 +1834,16 @@ solidColorToggle.addEventListener('change', (event) => {
     const isSolid = event.target.checked;
     if (roomMesh) {
         if (isSolid) {
-            // Solid: 100% opacity, hide edges
+            // Solid: 100% opacity, hide edges, enable depth write for proper rendering
             roomMesh.material.transparent = false;
             roomMesh.material.opacity = 1.0;
+            roomMesh.material.depthWrite = true;  // Enable depth write for solid mode
             if (roomEdges) roomEdges.visible = false;
         } else {
-            // Translucent: 30% opacity, show edges
+            // Translucent: 30% opacity, show edges, disable depth write so gizmos render on top
             roomMesh.material.transparent = true;
             roomMesh.material.opacity = 0.3;
+            roomMesh.material.depthWrite = false;  // Disable depth write for translucent mode
             if (roomEdges) roomEdges.visible = true;
         }
         roomMesh.material.needsUpdate = true;
