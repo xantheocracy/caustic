@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
 import { config } from './config.js';
 
 // Scene setup
@@ -211,6 +212,105 @@ function getColorForEchUV(echUV, minUV, maxUV) {
     return new THREE.Color(r, g, b);
 }
 
+// Helper function to find which triangle a point is on and get its normal
+function getTriangleNormalForPoint(position) {
+    // For simplicity, we'll check which triangle the point is closest to
+    let closestTriangle = null;
+    let minDistance = Infinity;
+
+    triangleData.forEach(triangle => {
+        // Calculate triangle center
+        const center = new THREE.Vector3(
+            (triangle.v0.x + triangle.v1.x + triangle.v2.x) / 3,
+            (triangle.v0.y + triangle.v1.y + triangle.v2.y) / 3,
+            (triangle.v0.z + triangle.v1.z + triangle.v2.z) / 3
+        );
+
+        const distance = new THREE.Vector3(position.x, position.y, position.z).distanceTo(center);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestTriangle = triangle;
+        }
+    });
+
+    if (!closestTriangle) {
+        // Default to facing upward
+        return new THREE.Vector3(0, 1, 0);
+    }
+
+    // Calculate normal from triangle vertices
+    const v0 = new THREE.Vector3(closestTriangle.v0.x, closestTriangle.v0.y, closestTriangle.v0.z);
+    const v1 = new THREE.Vector3(closestTriangle.v1.x, closestTriangle.v1.y, closestTriangle.v1.z);
+    const v2 = new THREE.Vector3(closestTriangle.v2.x, closestTriangle.v2.y, closestTriangle.v2.z);
+
+    const edge1 = new THREE.Vector3().subVectors(v1, v0);
+    const edge2 = new THREE.Vector3().subVectors(v2, v0);
+    const normal = new THREE.Vector3().crossVectors(edge1, edge2).normalize();
+
+    return normal;
+}
+
+// Create a projected circle (decal) on a surface, clipped to mesh geometry
+function createProjectedCircle(position, color, radius = 0.2) {
+    if (!roomMesh) {
+        console.warn("Room mesh not available for decal projection");
+        return null;
+    }
+
+    // Get the normal of the triangle this point is on
+    const normal = getTriangleNormalForPoint(position);
+
+    // DecalGeometry projects along -Z in local space
+    // Orient Z axis to point along the normal (away from surface)
+    // Then -Z will point back toward surface, which is what we want
+    const orientation = new THREE.Euler();
+    const zAxis = new THREE.Vector3(0, 0, 1);
+    const quaternion = new THREE.Quaternion().setFromUnitVectors(zAxis, normal);
+    orientation.setFromQuaternion(quaternion);
+
+    // Position at the exact point location
+    const decalPosition = new THREE.Vector3(position.x, position.y, position.z);
+
+    // Create size vector (width, height, depth of projection volume)
+    // Make depth larger to ensure we capture the surface
+    const size = new THREE.Vector3(radius * 2, radius * 2, radius * 2);
+
+    // Create decal geometry - this will be clipped to the mesh
+    let decalGeometry;
+    try {
+        decalGeometry = new DecalGeometry(
+            roomMesh,
+            decalPosition,
+            orientation,
+            size
+        );
+
+        // Check if geometry has vertices
+        if (!decalGeometry.attributes.position || decalGeometry.attributes.position.count === 0) {
+            console.warn('DecalGeometry created but has no vertices at position:', position);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error creating DecalGeometry:', error, 'at position:', position);
+        return null;
+    }
+
+    // Create material with the color
+    const decalMaterial = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,  // Render both sides since normals might be inconsistent
+        depthTest: true,
+        depthWrite: false,
+        polygonOffset: true,
+        polygonOffsetFactor: -4  // Push decal slightly forward to prevent z-fighting
+    });
+
+    const decal = new THREE.Mesh(decalGeometry, decalMaterial);
+    return decal;
+}
+
 // Visualize triangles
 function visualizeTriangles() {
     const triangles = triangleData;
@@ -261,7 +361,7 @@ function visualizeTriangles() {
     console.log('Triangles rendered successfully');
 }
 
-// Visualize points as small spheres with color mapped to total_intensity
+// Visualize points as projected circles with color mapped to total_intensity
 function visualizePoints() {
     if (!points || points.length === 0) {
         console.warn("No points found in simulation results to display.");
@@ -283,8 +383,6 @@ function visualizePoints() {
         maxIntensity = 1;
     }
 
-    const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-
     let plotted = 0;
     points.forEach((point, idx) => {
         if (
@@ -301,24 +399,17 @@ function visualizePoints() {
             } else {
                 color = new THREE.Color(0x00ff8a); // fallback
             }
-            const sphereMaterial = new THREE.MeshStandardMaterial({
-                color: color,
-                emissive: color.clone().multiplyScalar(0.1),
-                roughness: 0.3,
-                metalness: 0.2
-            });
-            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-            sphere.position.set(
-                point.position.x,
-                point.position.y,
-                point.position.z
-            );
-            scene.add(sphere);
-            plotted++;
+
+            // Create projected circle instead of sphere
+            const circle = createProjectedCircle(point.position, color, 0.2);
+            if (circle) {
+                scene.add(circle);
+                plotted++;
+            }
         }
     });
 
-    console.log(`Plotted ${plotted} points as spheres (coloured by total_intensity)`);
+    console.log(`Plotted ${plotted} points as projected circles (coloured by total_intensity)`);
 }
 
 // Visualize light sources
@@ -652,7 +743,6 @@ function visualizePointsByPathogen(pathogenName, metric) {
             maxValue = 1;
         }
 
-        const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
         let plotted = 0;
 
         points.forEach((point) => {
@@ -670,22 +760,13 @@ function visualizePointsByPathogen(pathogenName, metric) {
                     color = new THREE.Color(0x000000);
                 }
 
-                const sphereMaterial = new THREE.MeshStandardMaterial({
-                    color: color,
-                    emissive: color.clone().multiplyScalar(0.1),
-                    roughness: 0.3,
-                    metalness: 0.2
-                });
-
-                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-                sphere.position.set(
-                    point.position.x,
-                    point.position.y,
-                    point.position.z
-                );
-                scene.add(sphere);
-                pointMeshes.push(sphere);
-                plotted++;
+                // Create projected circle instead of sphere
+                const circle = createProjectedCircle(point.position, color, 0.2);
+                if (circle) {
+                    scene.add(circle);
+                    pointMeshes.push(circle);
+                    plotted++;
+                }
             }
         });
 
@@ -725,7 +806,6 @@ function visualizePointsByPathogen(pathogenName, metric) {
         maxValue = 1;
     }
 
-    const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
     let plotted = 0;
 
     points.forEach((point) => {
@@ -745,22 +825,13 @@ function visualizePointsByPathogen(pathogenName, metric) {
                     color = getColorForEchUV(survivalData.ech_uv, minValue, maxValue);
                 }
 
-                const sphereMaterial = new THREE.MeshStandardMaterial({
-                    color: color,
-                    emissive: color.clone().multiplyScalar(0.1),
-                    roughness: 0.3,
-                    metalness: 0.2
-                });
-
-                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-                sphere.position.set(
-                    point.position.x,
-                    point.position.y,
-                    point.position.z
-                );
-                scene.add(sphere);
-                pointMeshes.push(sphere);
-                plotted++;
+                // Create projected circle instead of sphere
+                const circle = createProjectedCircle(point.position, color, 0.2);
+                if (circle) {
+                    scene.add(circle);
+                    pointMeshes.push(circle);
+                    plotted++;
+                }
             }
         }
     });
@@ -865,8 +936,6 @@ runSimulationBtn.addEventListener('click', async () => {
                 maxIntensity = 1;
             }
 
-            const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-
             points.forEach((point) => {
                 if (
                     point &&
@@ -882,21 +951,12 @@ runSimulationBtn.addEventListener('click', async () => {
                         color = new THREE.Color(0x00ff8a);
                     }
 
-                    const sphereMaterial = new THREE.MeshStandardMaterial({
-                        color: color,
-                        emissive: color.clone().multiplyScalar(0.1),
-                        roughness: 0.3,
-                        metalness: 0.2
-                    });
-
-                    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-                    sphere.position.set(
-                        point.position.x,
-                        point.position.y,
-                        point.position.z
-                    );
-                    scene.add(sphere);
-                    pointMeshes.push(sphere);
+                    // Create projected circle instead of sphere
+                    const circle = createProjectedCircle(point.position, color, 0.2);
+                    if (circle) {
+                        scene.add(circle);
+                        pointMeshes.push(circle);
+                    }
                 }
             });
 
