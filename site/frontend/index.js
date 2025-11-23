@@ -235,7 +235,7 @@ function visualizeTriangles() {
 
     // Create translucent material for faces
     const material = new THREE.MeshStandardMaterial({
-        color: 0xff69b4,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.3,
         side: THREE.DoubleSide
