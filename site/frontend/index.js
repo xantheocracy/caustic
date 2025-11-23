@@ -80,6 +80,7 @@ let points = [];
 let pathogens = [];
 let selectedPathogen = null;
 let selectedMetric = 'uv_dose';
+let sphereScale = 1.0;  // Track current sphere scale factor
 
 // Calculate bounding box from triangles
 function calculateBounds(triangles) {
@@ -227,6 +228,23 @@ function getColorForEchUV(echUV, minUV, maxUV) {
     let b = norm;                     // Blue increases
 
     return new THREE.Color(r, g, b);
+}
+
+// Rescale all spheres in the scene (both measurement points and lights)
+function rescaleAllSpheres(scale) {
+    // Rescale measurement point spheres
+    pointMeshes.forEach(mesh => {
+        if (mesh instanceof THREE.Mesh) {
+            mesh.scale.set(scale, scale, scale);
+        }
+    });
+
+    // Rescale light spheres (every other mesh in lightMeshes array)
+    for (let i = 0; i < lightMeshes.length; i += 2) {
+        if (lightMeshes[i] instanceof THREE.Mesh) {
+            lightMeshes[i].scale.set(scale, scale, scale);
+        }
+    }
 }
 
 
@@ -1317,6 +1335,10 @@ const metricSelect = document.getElementById('metric-select');
 const pathogenSelect = document.getElementById('pathogen-select');
 const pathogenMessage = document.getElementById('pathogen-message');
 const colorLegend = document.getElementById('color-legend');
+const numPointsInput = document.getElementById('num-points');
+const maxBouncesSelect = document.getElementById('max-bounces');
+const sphereScaleSlider = document.getElementById('sphere-scale');
+const sphereScaleLabel = document.getElementById('sphere-scale-label');
 
 // Update lights display
 function updateLightsDisplay() {
@@ -1593,6 +1615,7 @@ function visualizePointsByPathogen(pathogenName, metric) {
                     point.position.y,
                     point.position.z
                 );
+                sphere.scale.set(sphereScale, sphereScale, sphereScale);
                 scene.add(sphere);
                 pointMeshes.push(sphere);
                 plotted++;
@@ -1668,6 +1691,7 @@ function visualizePointsByPathogen(pathogenName, metric) {
                     point.position.y,
                     point.position.z
                 );
+                sphere.scale.set(sphereScale, sphereScale, sphereScale);
                 scene.add(sphere);
                 pointMeshes.push(sphere);
                 plotted++;
@@ -1754,6 +1778,13 @@ solidColorToggle.addEventListener('change', (event) => {
     }
 });
 
+// Handle sphere scale slider
+sphereScaleSlider.addEventListener('input', (event) => {
+    sphereScale = parseFloat(event.target.value);
+    sphereScaleLabel.textContent = sphereScale.toFixed(1) + 'x';
+    rescaleAllSpheres(sphereScale);
+});
+
 // Run simulation
 runSimulationBtn.addEventListener('click', async () => {
     if (lightsArray.length === 0) {
@@ -1773,7 +1804,9 @@ runSimulationBtn.addEventListener('click', async () => {
             },
             body: JSON.stringify({
                 lights: lightsArray,
-                settings_file: settingsSelect.value
+                settings_file: settingsSelect.value,
+                num_points: parseInt(numPointsInput.value),
+                max_bounces: parseInt(maxBouncesSelect.value)
             })
         });
 
@@ -1849,6 +1882,7 @@ runSimulationBtn.addEventListener('click', async () => {
                         point.position.y,
                         point.position.z
                     );
+                    sphere.scale.set(sphereScale, sphereScale, sphereScale);
                     scene.add(sphere);
                     pointMeshes.push(sphere);
                 }
