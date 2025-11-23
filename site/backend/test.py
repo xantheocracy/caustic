@@ -225,7 +225,7 @@ def run_simulation(request: SimulationRequest):
         IntensityConfig(
             max_bounces=0,
             grid_cell_size=optimal_grid_size,
-            photons_per_light=10,
+            photons_per_light=500,
             verbose=False  # Disable verbose photon logging for cleaner console
         )
     )
@@ -237,7 +237,7 @@ def run_simulation(request: SimulationRequest):
     print(f"\n[7] Generating test measurement points...")
 
     points_gen_start = time.time()
-    test_points = MeshSampler.generate_measurement_points(triangles, 1000, 0.5, 0.9, 10)
+    test_points = MeshSampler.generate_measurement_points(triangles, 500, 0.5, 0.9, 10)
     points_gen_time = time.time() - points_gen_start
     print(f"    ✓ Test points generated: {len(test_points)} points ({points_gen_time:.3f}s, {len(test_points)/points_gen_time:.0f} pts/s)")
 
