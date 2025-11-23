@@ -304,10 +304,12 @@ function createProjectedCircle(position, color, radius = 0.2) {
         depthTest: true,
         depthWrite: false,
         polygonOffset: true,
-        polygonOffsetFactor: -4  // Push decal slightly forward to prevent z-fighting
+        polygonOffsetFactor: -10,  // Large negative value pushes decal forward
+        polygonOffsetUnits: -10    // Additional offset in depth units
     });
 
     const decal = new THREE.Mesh(decalGeometry, decalMaterial);
+    decal.renderOrder = 1;  // Render decals after the main mesh
     return decal;
 }
 
@@ -341,6 +343,7 @@ function visualizeTriangles() {
     });
 
     roomMesh = new THREE.Mesh(geometry, material);
+    roomMesh.renderOrder = 0;  // Render room before decals
     scene.add(roomMesh);
 
     // Create edges
