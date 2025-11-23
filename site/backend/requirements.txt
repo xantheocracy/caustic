@@ -1,0 +1,12 @@
+# Backend dependencies for UV Light Simulator
+
+# Web framework
+fastapi>=0.121.3
+uvicorn[standard]>=0.38.0
+pydantic>=2.0.0
+
+# For downloading large files from Google Drive
+gdown
+
+# Note: The caustic package is installed from the parent directory
+# Railway will need to install it with: pip install -e ../..
