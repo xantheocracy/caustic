@@ -11,9 +11,11 @@ from .photon_tracing import PhotonTracer, PhotonTracingConfig
 class IntensityResult(NamedTuple):
     """Results of intensity calculation at a point"""
 
-    direct_intensity: float  # Direct intensity from lights
-    indirect_intensity: float  # Indirect (reflected) intensity
-    total_intensity: float  # Total intensity (direct + indirect)
+    direct_intensity: float  # Direct intensity from lights (W/m²)
+    indirect_intensity: float  # Indirect (reflected) intensity (W/m²)
+    total_intensity: float  # Total intensity (direct + indirect) (W/m²)
+    # Wavelength-specific intensities for multi-wavelength calculations
+    intensity_by_wavelength: Dict[float, float] = {}  # wavelength_nm -> intensity (W/m²)
 
 
 class IntensityConfig(NamedTuple):
@@ -57,11 +59,21 @@ class IntensityCalculator:
         """
         Calculate light intensity at a given point from all lights.
         Includes both direct and indirect (reflected) components.
+        Also tracks intensity by wavelength for multi-wavelength calculations.
         """
-        # Calculate direct intensity
+        # Calculate direct intensity and track by wavelength
         direct_intensity = 0
+        intensity_by_wavelength: Dict[float, float] = {}
+
         for light in lights:
-            direct_intensity += self._calculate_direct_intensity(point, light)
+            light_intensity = self._calculate_direct_intensity(point, light)
+            direct_intensity += light_intensity
+
+            # Track intensity by wavelength
+            wavelength = light.wavelength_nm
+            if wavelength not in intensity_by_wavelength:
+                intensity_by_wavelength[wavelength] = 0.0
+            intensity_by_wavelength[wavelength] += light_intensity
 
         # Calculate indirect intensity if enabled
         indirect_intensity = 0
@@ -70,7 +82,7 @@ class IntensityCalculator:
 
         total_intensity = direct_intensity + indirect_intensity
 
-        return IntensityResult(direct_intensity, indirect_intensity, total_intensity)
+        return IntensityResult(direct_intensity, indirect_intensity, total_intensity, intensity_by_wavelength)
 
     def calculate_intensity_batch(
         self, points: List[Vector3], lights: List[Light]
@@ -78,15 +90,29 @@ class IntensityCalculator:
         """
         Calculate light intensity at multiple points at once.
         More efficient for photon tracing since it's computed once for all points.
+        Also tracks intensity by wavelength for multi-wavelength calculations.
         """
-        # Calculate direct intensity for each point
+        # Calculate direct intensity for each point and track by wavelength
         results = []
         direct_intensities = []
+        intensity_by_wavelength_list: List[Dict[float, float]] = []
+
         for point in points:
             direct_intensity = 0
+            intensity_by_wavelength: Dict[float, float] = {}
+
             for light in lights:
-                direct_intensity += self._calculate_direct_intensity(point, light)
+                light_intensity = self._calculate_direct_intensity(point, light)
+                direct_intensity += light_intensity
+
+                # Track intensity by wavelength
+                wavelength = light.wavelength_nm
+                if wavelength not in intensity_by_wavelength:
+                    intensity_by_wavelength[wavelength] = 0.0
+                intensity_by_wavelength[wavelength] += light_intensity
+
             direct_intensities.append(direct_intensity)
+            intensity_by_wavelength_list.append(intensity_by_wavelength)
 
         # Calculate indirect intensity for all points at once if enabled
         indirect_intensities = [0.0] * len(points)
@@ -105,7 +131,12 @@ class IntensityCalculator:
         for i in range(len(points)):
             total_intensity = direct_intensities[i] + indirect_intensities[i]
             results.append(
-                IntensityResult(direct_intensities[i], indirect_intensities[i], total_intensity)
+                IntensityResult(
+                    direct_intensities[i],
+                    indirect_intensities[i],
+                    total_intensity,
+                    intensity_by_wavelength_list[i],
+                )
             )
 
         return results
