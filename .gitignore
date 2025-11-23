@@ -206,3 +206,4 @@ __marimo__/
 # Large data files (downloaded programmatically)
 site/frontend/settings/half_plane_interior_triangles.json
 site/backend/settings/
+*.obj

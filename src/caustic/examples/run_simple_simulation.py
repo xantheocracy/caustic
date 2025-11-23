@@ -16,7 +16,7 @@ def run_simulation(output_file: str = "simulation_results.json"):
 
     # Load pathogens from database
     pathogen_db = get_pathogen_database()
-    pathogen_names = ["E. coli", "COVID-19 (Omicron)", "Influenza A"]
+    pathogen_names = ["Escherichia coli", "Human coronavirus", "Influenza virus"]
     pathogens = pathogen_db.get_pathogens_by_names(pathogen_names)
 
     # Create simulator
@@ -36,8 +36,8 @@ def run_simulation(output_file: str = "simulation_results.json"):
 
     # Display results
     print(f"Results for {exposure_time} second UV exposure:\n")
-    print("Position (x,y,z) | Intensity (W/m²) | E. coli | COVID-19 | Influenza A")
-    print("-" * 90)
+    print("Position (x,y,z) | Intensity (W/m²) | E. coli | Human coronavirus | Influenza virus")
+    print("-" * 100)
 
     for result in results:
         pos = result.position
@@ -46,7 +46,7 @@ def run_simulation(output_file: str = "simulation_results.json"):
 
         # Get survival rates for each pathogen
         survival_strs = [
-            f"{s.survival_rate * 100:.2f}%".ljust(9) for s in result.pathogen_survival
+            f"{s.survival_rate * 100:.2f}%".ljust(18) for s in result.pathogen_survival
         ]
 
         print(pos_str + " | " + intensity_str + " | " + " | ".join(survival_strs))

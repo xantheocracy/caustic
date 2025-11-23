@@ -17,6 +17,7 @@ if src_path not in sys.path:
 from caustic import UVLightSimulator, IntensityConfig
 from caustic.core import Vector3, Light, Triangle
 from caustic.data import get_pathogen_database
+from caustic.spatial.mesh_sampler import MeshSampler
 
 app = FastAPI()
 
@@ -141,7 +142,7 @@ def run_simulation(request: SimulationRequest):
 
     # Load pathogens from database
     pathogen_db = get_pathogen_database()
-    pathogen_names = ["E. coli", "COVID-19 (Omicron)", "Influenza A"]
+    pathogen_names = ["Escherichia coli", "Human coronavirus", "Influenza virus"]
     pathogens = pathogen_db.get_pathogens_by_names(pathogen_names)
 
     # Create simulator
@@ -153,10 +154,11 @@ def run_simulation(request: SimulationRequest):
 
     # Generate test points on the floor
     test_points = []
-    floor_y = 0.1
-    for x in range(1, 20, 1):
-        for z in range(1, 20, 1):
-            test_points.append(Vector3(x/2, floor_y, z/2))
+    # floor_y = 0.1
+    # for x in range(1, 20, 1):
+    #     for z in range(1, 20, 1):
+    #         test_points.append(Vector3(x/2, floor_y, z/2))
+    test_points = MeshSampler.generate_measurement_points(triangles, 500, 0.5, 0.9, 10)
 
     # Run simulation with 60 second exposure
     exposure_time = 60
@@ -178,10 +180,12 @@ def run_simulation(request: SimulationRequest):
             "pathogen_survival": [
                 {
                     "pathogen_name": survival.pathogen_name,
-                    "k_value": survival.k_value,
-                    "dose": survival.dose,
+                    "k1": survival.k1,
+                    "k2": survival.k2,
+                    "percent_resistant": survival.percent_resistant,
+                    "fluence": survival.fluence,
                     "survival_rate": survival.survival_rate,
-                    "log_reduction": survival.log_reduction,
+                    "ech_uv": survival.ech_uv,
                 }
                 for survival in result.pathogen_survival
             ],
