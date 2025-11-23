@@ -225,7 +225,7 @@ def run_simulation(request: SimulationRequest):
         IntensityConfig(
             max_bounces=0,
             grid_cell_size=optimal_grid_size,
-            photons_per_light=10,
+            photons_per_light=100000,
             verbose=False  # Disable verbose photon logging for cleaner console
         )
     )
