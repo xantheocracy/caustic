@@ -3,6 +3,7 @@
 import math
 from typing import List, NamedTuple, Optional, Dict
 from ..core import Vector3, Light, Triangle
+from ..core.lamp_profiles import get_lamp_manager
 from ..raytracing import Tracer
 from .photon_tracing import PhotonTracer, PhotonTracingConfig
 
@@ -125,7 +126,7 @@ class IntensityCalculator:
     def _calculate_direct_intensity(self, point: Vector3, light: Light) -> float:
         """
         Calculate intensity contribution from a single light at a point.
-        Uses inverse square law: intensity = lightIntensity / (4π × distance²)
+        Uses inverse square law with angular-dependent intensity based on lamp type.
         """
         direction = light.position.subtract(point)
         distance = direction.length()
@@ -137,9 +138,39 @@ class IntensityCalculator:
         if not self.tracer.is_path_clear(point, light.position):
             return 0  # Light is blocked
 
-        # Apply inverse square law
-        # Irradiance at distance d from point source of intensity I:
-        # E = I / (4π × d²)
-        intensity = light.intensity / (4 * math.pi * distance * distance)
+        # Calculate angle between light direction and vector from light to point
+        # direction is from point to light, so negate it to get light to point
+        to_point = direction.multiply(-1)
+        to_point_normalized = to_point.normalize()
+        cos_angle = light.direction.dot(to_point_normalized)
+        # Clamp to [-1, 1] to handle numerical errors
+        cos_angle = max(-1.0, min(1.0, cos_angle))
+        angle_rad = math.acos(cos_angle)
+        angle_deg = math.degrees(angle_rad)
+
+        # Get the intensity multiplier based on lamp type and angle
+        lamp_manager = get_lamp_manager()
+        try:
+            intensity_at_angle = lamp_manager.get_intensity_at_angle(light.lamp_type, angle_deg)
+        except (ValueError, KeyError):
+            # Fallback to forward intensity if lamp type is not recognized
+            intensity_at_angle = light.intensity
+
+        # Apply inverse square law with angle-dependent intensity
+        # Irradiance at distance d from directional point source:
+        # E = (intensity_at_angle / forward_intensity) × (I_forward / (4π × d²))
+        # light.intensity should equal the forward_intensity from the lamp profile
+        lamp_profile = lamp_manager.get_profile(light.lamp_type)
+        if lamp_profile is not None:
+            forward_intensity = lamp_profile.forward_intensity
+        else:
+            forward_intensity = light.intensity
+
+        if forward_intensity > 0:
+            intensity_multiplier = intensity_at_angle / forward_intensity
+        else:
+            intensity_multiplier = 1.0
+
+        intensity = intensity_multiplier * light.intensity / (4 * math.pi * distance * distance)
 
         return intensity

@@ -433,10 +433,10 @@ const pointMeshes = [];
 
 // UI elements
 const settingsSelect = document.getElementById('settings-select');
+const lampType = document.getElementById('lamp-type');
 const lightX = document.getElementById('light-x');
 const lightY = document.getElementById('light-y');
 const lightZ = document.getElementById('light-z');
-const lightIntensity = document.getElementById('light-intensity');
 const addLightBtn = document.getElementById('add-light-btn');
 const runSimulationBtn = document.getElementById('run-simulation-btn');
 const clearLightsBtn = document.getElementById('clear-lights-btn');
@@ -457,7 +457,7 @@ function updateLightsDisplay() {
     } else {
         lightsList.innerHTML = lightsArray.map((light, index) => `
             <div style="padding: 5px; margin: 3px 0; background: rgba(255,255,255,0.1); border-radius: 3px;">
-                Light ${index + 1}: (${light.position.x}, ${light.position.y}, ${light.position.z}) - ${light.intensity}W
+                Light ${index + 1} (${light.lamp_type}): (${light.position.x.toFixed(1)}, ${light.position.y.toFixed(1)}, ${light.position.z.toFixed(1)}) - ${light.intensity}W
                 <button onclick="removeLight(${index})" style="float: right; padding: 2px 6px; font-size: 11px;">Remove</button>
             </div>
         `).join('');
@@ -469,18 +469,20 @@ addLightBtn.addEventListener('click', () => {
     const x = parseFloat(lightX.value);
     const y = parseFloat(lightY.value);
     const z = parseFloat(lightZ.value);
-    const intensity = parseFloat(lightIntensity.value);
+    const lamp = lampType.value;
 
-    if (isNaN(x) || isNaN(y) || isNaN(z) || isNaN(intensity)) {
-        resultDiv.textContent = 'Please enter valid numbers for all fields';
+    if (isNaN(x) || isNaN(y) || isNaN(z)) {
+        resultDiv.textContent = 'Please enter valid numbers for all position fields';
         resultDiv.style.color = '#ff4444';
         return;
     }
 
-    // Add to lights array
+    // Add to lights array with lamp type and direction (pointing downward)
+    // Intensity is determined by lamp type, not user input
     const newLight = {
         position: { x, y, z },
-        intensity
+        lamp_type: lamp,
+        direction: { x: 0, y: -1, z: 0 }  // Pointing downward
     };
     lightsArray.push(newLight);
 
@@ -506,7 +508,7 @@ addLightBtn.addEventListener('click', () => {
     lightMeshes.push(lightObj);
 
     updateLightsDisplay();
-    resultDiv.textContent = `Light added at (${x}, ${y}, ${z}) with ${intensity}W`;
+    resultDiv.textContent = `${lamp} light added at (${x}, ${y}, ${z})`;
     resultDiv.style.color = '#4CAF50';
 });
 
