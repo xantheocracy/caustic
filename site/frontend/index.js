@@ -229,6 +229,7 @@ function getColorForEchUV(echUV, minUV, maxUV) {
     return new THREE.Color(r, g, b);
 }
 
+
 // Visualize triangles
 function visualizeTriangles() {
     const triangles = triangleData;
@@ -266,7 +267,7 @@ function visualizeTriangles() {
     // Create edges
     const edges = new THREE.EdgesGeometry(geometry);
     const edgeMaterial = new THREE.LineBasicMaterial({
-        color: 0xff69b4,
+        color: 0xffffff,
         linewidth: 2
     });
     roomEdges = new THREE.LineSegments(edges, edgeMaterial);
@@ -306,7 +307,7 @@ function visualizePoints() {
     const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
 
     let plotted = 0;
-    points.forEach((point, idx) => {
+    points.forEach((point) => {
         if (
             point &&
             point.position &&
@@ -1733,6 +1734,26 @@ pathogenSelect.addEventListener('change', (event) => {
     visualizePointsByPathogen(selectedPathogen, selectedMetric);
 });
 
+// Handle solid color toggle
+const solidColorToggle = document.getElementById('solid-color-toggle');
+solidColorToggle.addEventListener('change', (event) => {
+    const isSolid = event.target.checked;
+    if (roomMesh) {
+        if (isSolid) {
+            // Solid: 100% opacity, hide edges
+            roomMesh.material.transparent = false;
+            roomMesh.material.opacity = 1.0;
+            if (roomEdges) roomEdges.visible = false;
+        } else {
+            // Translucent: 30% opacity, show edges
+            roomMesh.material.transparent = true;
+            roomMesh.material.opacity = 0.3;
+            if (roomEdges) roomEdges.visible = true;
+        }
+        roomMesh.material.needsUpdate = true;
+    }
+});
+
 // Run simulation
 runSimulationBtn.addEventListener('click', async () => {
     if (lightsArray.length === 0) {
@@ -1816,14 +1837,12 @@ runSimulationBtn.addEventListener('click', async () => {
                     } else {
                         color = new THREE.Color(0x00ff8a);
                     }
-
                     const sphereMaterial = new THREE.MeshStandardMaterial({
                         color: color,
                         emissive: color.clone().multiplyScalar(0.1),
                         roughness: 0.3,
                         metalness: 0.2
                     });
-
                     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
                     sphere.position.set(
                         point.position.x,
@@ -1857,9 +1876,21 @@ settingsSelect.addEventListener('change', async () => {
     resultDiv.textContent = 'Loading settings...';
     resultDiv.style.color = '#2196F3';
 
+    // Clear all lights when changing room configuration
+    lightsArray.length = 0;
+    lightMeshes.forEach(mesh => scene.remove(mesh));
+    lightMeshes.length = 0;
+
+    // Clear all point meshes from previous simulation
+    pointMeshes.forEach(mesh => scene.remove(mesh));
+    pointMeshes.length = 0;
+
+    // Update lights display
+    updateLightsDisplay();
+
     const success = await loadRoomSettings(settingsFile);
     if (success) {
-        resultDiv.textContent = `Settings loaded: ${settingsFile}`;
+        resultDiv.textContent = `Settings loaded: ${settingsFile} - All lights cleared`;
         resultDiv.style.color = '#4CAF50';
     } else {
         resultDiv.textContent = `Error loading settings: ${settingsFile}`;

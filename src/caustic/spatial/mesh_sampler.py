@@ -2,6 +2,7 @@
 
 import random
 import math
+import bisect
 from typing import List, Tuple
 from ..core import Vector3, Triangle
 
@@ -120,7 +121,7 @@ class MeshSampler:
         1. Calculate areas for all triangles
         2. Generate points randomly on triangles (probability ∝ triangle area)
         3. Offset points slightly above the surface along the normal
-        4. Prune points that are too close together AND have similar normals
+        4. Prune points that are too close together AND have similar normals using spatial grid
         5. Return the pruned set of measurement points
 
         Args:
@@ -163,27 +164,26 @@ class MeshSampler:
             raise ValueError("Total mesh area is zero - degenerate triangles")
 
         # Create cumulative distribution for weighted sampling
+        # OPTIMIZATION: Use binary search for faster triangle selection
         cumulative_areas = []
-        cumulative_sum = 0
+        cumulative_sum = 0.0
         for area in triangle_areas:
             cumulative_sum += area
             cumulative_areas.append(cumulative_sum)
 
         # Normalize to [0, 1]
-        cumulative_areas = [a / total_area for a in cumulative_areas]
+        max_cumulative = cumulative_areas[-1]
+        cumulative_areas = [a / max_cumulative for a in cumulative_areas]
 
         # Step 2: Generate candidate points (more than needed, to account for pruning)
         max_attempts = num_points * max_attempts_multiplier
         candidate_points: List[Tuple[Vector3, Vector3]] = []  # (point, normal) pairs
 
         for _ in range(max_attempts):
-            # Select triangle with probability proportional to area
+            # OPTIMIZATION: Use binary search for triangle selection (O(log n) instead of O(n))
             rand_val = random.random()
-            triangle_idx = 0
-            for idx, cum_area in enumerate(cumulative_areas):
-                if rand_val <= cum_area:
-                    triangle_idx = idx
-                    break
+            triangle_idx = bisect.bisect_right(cumulative_areas, rand_val)
+            triangle_idx = min(triangle_idx, len(triangles) - 1)
 
             selected_triangle = triangles[triangle_idx]
 
@@ -193,8 +193,25 @@ class MeshSampler:
 
             candidate_points.append((point, normal))
 
-        # Step 3: Prune similar points
-        # Use a greedy approach: keep first point, discard similar ones, repeat
+        # Step 3: Prune similar points using spatial grid (O(n·k) instead of O(n²))
+        # where k is the number of nearby points (much smaller than n)
+
+        # Build spatial grid for fast spatial lookups
+        grid_cell_size = max(distance_threshold, 0.1)
+        spatial_grid: dict = {}  # cell -> list of (index, point, normal)
+
+        def point_to_cell(p: Vector3) -> Tuple[int, int, int]:
+            """Convert 3D point to grid cell"""
+            return (int(p.x // grid_cell_size), int(p.y // grid_cell_size), int(p.z // grid_cell_size))
+
+        # Add all candidate points to grid
+        for idx, (point, normal) in enumerate(candidate_points):
+            cell = point_to_cell(point)
+            if cell not in spatial_grid:
+                spatial_grid[cell] = []
+            spatial_grid[cell].append((idx, point, normal))
+
+        # Prune using grid-based approach
         pruned_points: List[Vector3] = []
         used_indices = set()
 
@@ -206,12 +223,22 @@ class MeshSampler:
             pruned_points.append(point)
             used_indices.add(i)
 
-            # Mark similar points for exclusion
-            for j in range(i + 1, len(candidate_points)):
-                if j in used_indices:
-                    continue
+            # Find nearby cells to check
+            cell = point_to_cell(point)
+            cells_to_check = []
+            search_range = 2  # Check adjacent cells
 
-                other_point, other_normal = candidate_points[j]
+            for dx in range(-search_range, search_range + 1):
+                for dy in range(-search_range, search_range + 1):
+                    for dz in range(-search_range, search_range + 1):
+                        nearby_cell = (cell[0] + dx, cell[1] + dy, cell[2] + dz)
+                        if nearby_cell in spatial_grid:
+                            cells_to_check.extend(spatial_grid[nearby_cell])
+
+            # Check only nearby points instead of all remaining points
+            for j, other_point, other_normal in cells_to_check:
+                if j in used_indices or j <= i:
+                    continue
 
                 if MeshSampler.points_are_similar(
                     point, normal,

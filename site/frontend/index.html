@@ -64,11 +64,15 @@
             border-radius: 4px;
             font-size: 16px;
         }
+        #subtitle {
+            font-size: 5px;
+            color: #999;
+        }
     </style>
 </head>
 <body>
     <div id="controls">
-        <h3>UV Light Simulator</h3>
+        <h3>Far-UVC Simulator</h3>
 
         <div style="margin-bottom: 20px;">
             <h4>Settings</h4>
@@ -122,6 +126,14 @@
                 <option value="">-- Select a pathogen --</option>
             </select>
             <div id="pathogen-message" style="color: #999; font-size: 12px; margin-top: 5px;">Run a simulation to see available pathogens</div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4>Display Options</h4>
+            <label style="display: flex; align-items: center; cursor: pointer;">
+                <input type="checkbox" id="solid-color-toggle" style="margin-right: 8px;">
+                <span>Solid Color (Hide Structure)</span>
+            </label>
         </div>
 
         <div id="result"></div>

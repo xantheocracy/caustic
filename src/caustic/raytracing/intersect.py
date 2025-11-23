@@ -22,6 +22,12 @@ def ray_triangle_intersection(ray: Ray, triangle: Triangle) -> IntersectionResul
 
     Includes a small tolerance (EDGE_TOLERANCE) for hits on or very close to triangle edges.
     """
+    # Quick facing check using dot product (avoid expensive normalize if not facing)
+    # If triangle is facing away from ray origin, reject early
+    facing_dot = triangle.normal.dot(ray.direction)
+    if facing_dot >= 0:  # Triangle facing away or parallel
+        return IntersectionResult(False, 0, Vector3(0, 0, 0))
+
     edge1 = triangle.v1.subtract(triangle.v0)
     edge2 = triangle.v2.subtract(triangle.v0)
 
@@ -51,14 +57,6 @@ def ray_triangle_intersection(ray: Ray, triangle: Triangle) -> IntersectionResul
 
     # Only consider intersections in front of the ray
     if t < EPSILON:
-        return IntersectionResult(False, 0, Vector3(0, 0, 0))
-
-    # Check if triangle is facing the ray (using normal direction)
-    ray_to_surface = triangle.get_center().subtract(ray.origin).normalize()
-    facing_dot = triangle.normal.dot(ray_to_surface)
-
-    # Only count as hit if triangle is facing towards the ray
-    if facing_dot < 0:
         return IntersectionResult(False, 0, Vector3(0, 0, 0))
 
     point = ray.get_point(t)
