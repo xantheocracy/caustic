@@ -336,7 +336,7 @@ function visualizeTriangles() {
 
     // Create translucent material for faces
     const material = new THREE.MeshStandardMaterial({
-        color: 0xff69b4,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.3,
         side: THREE.DoubleSide
@@ -349,7 +349,7 @@ function visualizeTriangles() {
     // Create edges
     const edges = new THREE.EdgesGeometry(geometry);
     const edgeMaterial = new THREE.LineBasicMaterial({
-        color: 0xff69b4,
+        color: 0xffffff,
         linewidth: 2
     });
     roomEdges = new THREE.LineSegments(edges, edgeMaterial);
