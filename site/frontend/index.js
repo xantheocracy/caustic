@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { config } from './config.js';
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -750,7 +751,7 @@ runSimulationBtn.addEventListener('click', async () => {
         resultDiv.textContent = 'Running simulation...';
         resultDiv.style.color = '#2196F3';
 
-        const response = await fetch('http://localhost:8000/simulate', {
+        const response = await fetch(`${config.backendUrl}/simulate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -875,7 +876,7 @@ settingsSelect.addEventListener('change', async () => {
 // Load available settings files
 async function loadAvailableSettings() {
     try {
-        const response = await fetch('http://localhost:8000/settings');
+        const response = await fetch(`${config.backendUrl}/settings`);
         const data = await response.json();
 
         if (data.settings && data.settings.length > 0) {
